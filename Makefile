@@ -20,6 +20,9 @@ SRC  := src
 # file which contains the main function
 MAINFILE := main.cpp
 
+# file which contains the main function
+TEST_MAINFILE := test_main.cpp
+
 # all object files will be put here
 ODIR := .objs
 
@@ -37,15 +40,24 @@ SUF := cpp cxx cc c
 
 # INITIALIZATION
 
-SOURCES := $(foreach suf,$(SUF), $(shell find $(SRC)/ -name "*.$(suf)" -not -name "$(MAINFILE)"))
+SOURCES := $(foreach suf,$(SUF), $(shell find $(SRC)/ -name "*.$(suf)" ! -name "$(MAINFILE)" ! -name "$(TEST_MAINFILE)" ! -name "*test.$(suf)"))
 DEPFILES := $(patsubst %,$(DDIR)/%.d,$(SOURCES))
 OBJS := $(patsubst %,$(ODIR)/%.o,$(SOURCES))
+TEST_SOURCES := $(foreach suf,$(SUF), $(shell find $(SRC)/ -name "*.$(suf)" ! -name "$(MAINFILE)" ! -name "$(TEST_MAINFILE)"))
+TEST_DEPFILES := $(patsubst %,$(DDIR)/%.d,$(TEST_SOURCES))
+TEST_OBJS := $(patsubst %,$(ODIR)/%.o,$(TEST_SOURCES))
 
 # MAIN TARGET
 
 all: $(OBJS) $(SRC)/$(MAINFILE) $(DEPFILES)
 	@mkdir -p $(BIN)
 	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(MAINFILE) -o $(BIN)/$(OUT) $(LIBS) $(FLAGS) 
+
+# TEST FILES
+
+tower_test: $(TEST_OBJS) $(SRC)/test/$(TEST_MAINFILE) $(TEST_DEPFILES)
+	@mkdir -p $(BIN)
+	$(CXX) $(CXXFLAGS) -I$(IDIR) $(TEST_OBJS) $(SRC)/test/$(TEST_MAINFILE) -o $(BIN)/tower_test $(LIBS) $(FLAGS) 
 
 # DEBUG TARGET
 debug: CXXFLAGS += -g -O0
@@ -74,10 +86,13 @@ $(ODIR)/%.o: % $(DDIR)/%.d
 
 # OTHERS
 
-.PHONY: clean reset sources objects clean-dep
+.PHONY: clean reset sources test_sources objects clean-dep
 
 sources:
 	@echo $(SOURCES) $(SRC)/$(MAINFILE)
+
+test_sources:
+	@echo $(TEST_SOURCES) $(SRC)/test/$(TEST_MAINFILE)
 
 objects:
 	@echo "$(OBJS)"

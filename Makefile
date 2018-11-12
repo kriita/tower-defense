@@ -17,6 +17,9 @@ IDIR := include
 # source directory, this is where I will look for sources
 SRC  := src
 
+# test source directory
+TEST_SRC  := test
+
 # file which contains the main function
 MAINFILE := main.cpp
 
@@ -33,7 +36,7 @@ BIN  := bin
 DDIR := .dependencies
 
 # all targets that do not have dependencies
-NODEPS := clean reset sources objects clean-dep
+NODEPS := clean reset sources test_sources objects clean-dep
 
 # suffix of sources I will look for
 SUF := cpp cxx cc c
@@ -43,7 +46,7 @@ SUF := cpp cxx cc c
 SOURCES := $(foreach suf,$(SUF), $(shell find $(SRC)/ -name "*.$(suf)" ! -name "$(MAINFILE)" ! -name "$(TEST_MAINFILE)" ! -name "*test.$(suf)"))
 DEPFILES := $(patsubst %,$(DDIR)/%.d,$(SOURCES))
 OBJS := $(patsubst %,$(ODIR)/%.o,$(SOURCES))
-TEST_SOURCES := $(foreach suf,$(SUF), $(shell find $(SRC)/ -name "*.$(suf)" ! -name "$(MAINFILE)" ! -name "$(TEST_MAINFILE)"))
+TEST_SOURCES := $(foreach suf,$(SUF), $(shell find $(SRC)/ -name "*.$(suf)" ! -name "$(MAINFILE)"))
 TEST_DEPFILES := $(patsubst %,$(DDIR)/%.d,$(TEST_SOURCES))
 TEST_OBJS := $(patsubst %,$(ODIR)/%.o,$(TEST_SOURCES))
 
@@ -55,9 +58,13 @@ all: $(OBJS) $(SRC)/$(MAINFILE) $(DEPFILES)
 
 # TEST FILES
 
-tower_test: $(TEST_OBJS) $(SRC)/test/$(TEST_MAINFILE) $(TEST_DEPFILES)
+all_tests: $(TEST_OBJS) $(TEST_DEPFILES)
 	@mkdir -p $(BIN)
-	$(CXX) $(CXXFLAGS) -I$(IDIR) $(TEST_OBJS) $(SRC)/test/$(TEST_MAINFILE) -o $(BIN)/tower_test $(LIBS) $(FLAGS) 
+	$(CXX) $(CXXFLAGS) -I$(IDIR) $(TEST_OBJS) -o $(BIN)/all_tests $(LIBS) $(FLAGS) 
+
+tower_test: $(SRC)/$(TEST_SRC)/tower_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
+	@mkdir -p $(BIN)
+	$(CXX) $(CXXFLAGS) -I$(IDIR) $(SRC)/$(TEST_SRC)/tower_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/tower_test $(LIBS) $(FLAGS) 
 
 # DEBUG TARGET
 debug: CXXFLAGS += -g -O0

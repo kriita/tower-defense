@@ -14,11 +14,13 @@ public:
     Map(std::string mapFileName);
     Map(Map const &m) = delete;
     ~Map() = default;
-    void operator = (Map const &m) = delete;
 
+    void render(sf::RenderWindow &window);
     Tile* getTile(int x, int y);
     Tile* getSpawnPoint();
     Tile* getEndPoint();
+
+    void operator = (Map const &m) = delete;
 
 private:
     std::string fileName {};

@@ -1,15 +1,20 @@
+#include <SFML/Graphics.hpp>
 #include "map.h"
 #include "tile.h"
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <stdlib.h>
 
 #include <iostream>
 
 using std::string;
 using std::vector;
 using std::ifstream;
+
+int xMax {20};  // temporära data
+int yMax {15};  // temporära data
 
 /*
  *  Map
@@ -21,29 +26,39 @@ Map::Map(string mapFileName)
     findPath();
 }
 
+void Map::render(sf::RenderWindow &window)
+{
+    for (int y {0}; y < yMax; ++y)
+    {
+        for (int x {0}; x < xMax; ++x)
+        {
+            mapTiles[x][y].render(window);
+        }
+    }
+}
+
 void Map::readMapData()
 {
-    int xMax {20};  // temporära data
-    int yMax {15};  // temporära data
-
     mapTiles.resize(xMax, vector<Tile>(yMax, Tile {}));
 
-    ifstream mapFile("resources/maps/map.dat");
+    string mapFolder {"resources/maps/"};
+
+    ifstream mapFile((mapFolder + fileName).c_str());
     string line {};
-    char c {};
+    char typeChar {};
     for (int y {0}; y < yMax; ++y)
     {
         std::getline(mapFile, line);
         std::istringstream iss(line);
         for (int x {0}; x < xMax; ++x)
         {
-            iss >> c;
-            mapTiles[x][y].setData(x, y, c - 48);
+            iss >> typeChar;
+            mapTiles[x][y].setData(x, y, typeChar);
 
-            if(y == 0 && c == 48)
+            if(typeChar == 'S')
                 spawnPoint = &mapTiles[x][y];
 
-            if(y == yMax-1 && c == 48)
+            if(typeChar == 'E')
                 endPoint = &mapTiles[x][y];
         }
     }
@@ -53,32 +68,36 @@ void Map::readMapData()
 void Map::findPath()
 {
     int x {spawnPoint->getX()};
-    int y {0};
+    int y {spawnPoint->getY()};
     int xDir {0};
     int yDir {1};
 
-    while (y != endPoint->getY())
+    while (getTile(x, y) != endPoint)
     {
-        if(x == 15) break;
-        if (getTile(x + xDir, y + yDir)->getType() == 0)
+        if (getTile(x + xDir, y + yDir)->getType() == '0' ||
+            getTile(x + xDir, y + yDir)->getType() == 'E')
         {
             getTile(x, y)->setNextTile(getTile(x + xDir, y + yDir));
             x += xDir;
             y += yDir;
         }
-        else if (getTile(x + (1 - xDir), y + (1 - yDir))->getType() == 0)
+        else if (getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == '0' ||
+                 getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == 'E')
         {
-            getTile(x, y)->setNextTile(getTile(x + (1 - xDir), y + (1 - yDir)));
-            x += (1 - xDir);
-            y += (1 - yDir);
+            getTile(x, y)->setNextTile(getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir))));
+            x += (1 - abs(xDir));
+            y += (1 - abs(yDir));
+            xDir = (1 - abs(xDir));
+            yDir = (1 - abs(yDir));
         }
         else 
         {
-            getTile(x, y)->setNextTile(getTile(x - (1 - xDir), y - (1 - yDir)));
-            x -= (1 - xDir);
-            y -= (1 - yDir);
+            getTile(x, y)->setNextTile(getTile(x - (1 - abs(xDir)), y - (1 - abs(yDir))));
+            x -= (1 - abs(xDir));
+            y -= (1 - abs(yDir));
+            xDir = abs(xDir) - 1;
+            yDir = abs(yDir) - 1;
         }
-        std::cout << "->" << x << ":" << y << "\n";
     }
 }
 

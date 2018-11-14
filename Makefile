@@ -62,9 +62,13 @@ all_tests: $(TEST_OBJS) $(TEST_DEPFILES)
 	@mkdir -p $(BIN)
 	$(CXX) $(CXXFLAGS) -I$(IDIR) $(TEST_OBJS) -o $(BIN)/all_tests $(LIBS) $(FLAGS) 
 
-tower_test: $(SRC)/$(TEST_SRC)/tower_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
+map_test: $(OBJS) $(SRC)/$(TEST_SRC)/map_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
 	@mkdir -p $(BIN)
-	$(CXX) $(CXXFLAGS) -I$(IDIR) $(SRC)/$(TEST_SRC)/tower_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/tower_test $(LIBS) $(FLAGS) 
+	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/map_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/map_test $(LIBS) $(FLAGS) 
+
+tower_test: $(OBJS) $(SRC)/$(TEST_SRC)/tower_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
+	@mkdir -p $(BIN)
+	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/tower_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/tower_test $(LIBS) $(FLAGS) 
 
 # DEBUG TARGET
 debug: CXXFLAGS += -g -O0

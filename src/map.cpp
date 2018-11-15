@@ -69,22 +69,26 @@ void Map::findPath()
 {
     int x {spawnPoint->getX()};
     int y {spawnPoint->getY()};
-    int xDir {0};
-    int yDir {1};
+    int xDir {(x == 0 ? 1 : (x == xMax-1 ? -1 : 0))};
+    int yDir {(y == 0 ? 1 : (y == yMax-1 ? -1 : 0))};
+
+    Tile* fromTile {spawnPoint};
 
     while (getTile(x, y) != endPoint)
     {
         if (getTile(x + xDir, y + yDir)->getType() == '0' ||
             getTile(x + xDir, y + yDir)->getType() == 'E')
         {
-            getTile(x, y)->setNextTile(getTile(x + xDir, y + yDir));
+            //getTile(x, y)->setNextTile(getTile(x + xDir, y + yDir));
             x += xDir;
             y += yDir;
         }
         else if (getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == '0' ||
                  getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == 'E')
         {
-            getTile(x, y)->setNextTile(getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir))));
+            //getTile(x, y)->setNextTile(getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir))));
+            fromTile->setNextTile(getTile(x, y));
+            fromTile = getTile(x, y);
             x += (1 - abs(xDir));
             y += (1 - abs(yDir));
             xDir = (1 - abs(xDir));
@@ -92,13 +96,16 @@ void Map::findPath()
         }
         else 
         {
-            getTile(x, y)->setNextTile(getTile(x - (1 - abs(xDir)), y - (1 - abs(yDir))));
+            //getTile(x, y)->setNextTile(getTile(x - (1 - abs(xDir)), y - (1 - abs(yDir))));
+            fromTile->setNextTile(getTile(x, y));
+            fromTile = getTile(x, y);
             x -= (1 - abs(xDir));
             y -= (1 - abs(yDir));
             xDir = abs(xDir) - 1;
             yDir = abs(yDir) - 1;
         }
     }
+    fromTile->setNextTile(endPoint);
 }
 
 Tile* Map::getTile(int x, int y)

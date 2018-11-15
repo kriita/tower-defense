@@ -19,8 +19,6 @@ int main()
 
     Map m {"map.dat"};
 
-    
-
     Clock clock;
     double const fps {60.0};
     auto const target {milliseconds (1000.0 / fps)};

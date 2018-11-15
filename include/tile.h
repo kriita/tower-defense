@@ -20,7 +20,6 @@ public:
     void setData(int x, int y, char type);
     void setNextTile(Tile* const tile);
     Tile* getNextTile();
-    bool checkOnPath() const;
 
     Tile& operator = (Tile const &t) = default;
 

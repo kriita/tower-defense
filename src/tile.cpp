@@ -68,8 +68,3 @@ Tile* Tile::getNextTile()
 {
     return nextTile;
 }
-
-bool Tile::checkOnPath() const
-{
-    return !(nextTile == nullptr);
-}

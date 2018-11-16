@@ -9,7 +9,7 @@
 class Tile
 {
 public:
-    Tile();
+    Tile() = default;
     Tile(Tile const&) = default;
     ~Tile() = default;
 
@@ -18,6 +18,7 @@ public:
     int getY() const;
     char getType() const;
     void setData(int x, int y, char type);
+    void setSprite(sf::Texture const& spriteSheet, int xOffset, int yOffset);
     void setNextTile(Tile* const tile);
     Tile* getNextTile();
 
@@ -29,7 +30,7 @@ private:
     char tileType {};
     Tile* nextTile {};
 
-    sf::RectangleShape tileRect {};
+    sf::Sprite tileSprite {};
 };
 
 #endif

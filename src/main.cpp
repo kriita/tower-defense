@@ -14,10 +14,18 @@ int main()
 
     RenderWindow window {
         VideoMode { width, height },
-        "SFML DEMO"
+        "SFML DEMO",
+        Style::Close
     };
 
     Map m {"map.dat"};
+
+    Texture gameOverlayTexture;
+    if(!gameOverlayTexture.loadFromFile("resources/images/overlay.png"))
+    {
+        //error
+    }
+    Sprite gameOverlay {gameOverlayTexture};
 
     Clock clock;
     double const fps {60.0};
@@ -47,7 +55,8 @@ int main()
 
         window.clear();
         m.render(window);
-        window.display ();
+        window.draw(gameOverlay);
+        window.display();
 
         auto wait_time {target - clock.getElapsedTime ()};
         sleep (wait_time);

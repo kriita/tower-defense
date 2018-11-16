@@ -5,14 +5,9 @@
  *  Tile
  */
 
-Tile::Tile()
-{
-
-}
-
 void Tile::render(sf::RenderWindow &window)
 {
-    window.draw (tileRect);
+    window.draw (tileSprite);
 }
 
 int Tile::getX() const
@@ -35,28 +30,24 @@ void Tile::setData(int x, int y, char type)
     xPos = x;
     yPos = y;
     tileType = type;
+}
 
-    //
-    // Temporärt
+void Tile::setSprite(sf::Texture const& spriteSheet, int xOffset, int yOffset)
+{
     float const w {32.0};
 
-    tileRect.setSize(sf::Vector2f(w, w));
-    tileRect.setPosition (150 + w*xPos, 100 + w*yPos);
-    tileRect.setOrigin (w/2, w/2);
+    tileSprite.setTexture(spriteSheet);
+    tileSprite.setPosition (28 + w*xPos, 28 + w*yPos);
+    tileSprite.setOrigin (w/2, w/2);
+
     if (tileType == '0' || tileType == 'S' || tileType == 'E')
     {
-        tileRect.setFillColor (sf::Color(150, 80, 0));
+        tileSprite.setTextureRect(sf::IntRect(96 + xOffset*32, 160 + yOffset*32, 32, 32));
     }
-    else if (tileType == '1')
+    else
     {
-        tileRect.setFillColor (sf::Color(0, 150, 0));
+        tileSprite.setTextureRect(sf::IntRect(32, 64, 32, 32));
     }
-    else if (tileType == '2')
-    {
-        tileRect.setFillColor (sf::Color(150, 150, 150));
-    }
-    //
-    //
 }
 
 void Tile::setNextTile(Tile* const tile)

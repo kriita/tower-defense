@@ -29,8 +29,11 @@ private:
     Tile* endPoint {};
     std::vector<std::vector<Tile>> mapTiles {};
 
+    sf::Texture mapSpriteSheet {};
+
     void readMapData();
     void findPath();
+    void setTileSprites();
 };
 
 #endif

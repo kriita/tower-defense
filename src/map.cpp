@@ -7,14 +7,12 @@
 #include <string>
 #include <stdlib.h>
 
-#include <iostream>
-
 using std::string;
 using std::vector;
 using std::ifstream;
 
-int xMax {20};  // temporära data
-int yMax {15};  // temporära data
+int xMax {18};  // temporära data
+int yMax {18};  // temporära data
 
 /*
  *  Map
@@ -24,6 +22,7 @@ Map::Map(string mapFileName)
 {
     readMapData();
     findPath();
+    setTileSprites();
 }
 
 void Map::render(sf::RenderWindow &window)
@@ -53,13 +52,19 @@ void Map::readMapData()
         for (int x {0}; x < xMax; ++x)
         {
             iss >> typeChar;
-            mapTiles[x][y].setData(x, y, typeChar);
-
+            
             if(typeChar == 'S')
+            {
                 spawnPoint = &mapTiles[x][y];
-
-            if(typeChar == 'E')
+                typeChar = '0';
+            }
+            else if(typeChar == 'E')
+            {
                 endPoint = &mapTiles[x][y];
+                typeChar = '0';
+            }
+
+            mapTiles[x][y].setData(x, y, typeChar);
         }
     }
     mapFile.close();
@@ -79,14 +84,12 @@ void Map::findPath()
         if (getTile(x + xDir, y + yDir)->getType() == '0' ||
             getTile(x + xDir, y + yDir)->getType() == 'E')
         {
-            //getTile(x, y)->setNextTile(getTile(x + xDir, y + yDir));
             x += xDir;
             y += yDir;
         }
         else if (getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == '0' ||
                  getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == 'E')
         {
-            //getTile(x, y)->setNextTile(getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir))));
             fromTile->setNextTile(getTile(x, y));
             fromTile = getTile(x, y);
             x += (1 - abs(xDir));
@@ -96,7 +99,6 @@ void Map::findPath()
         }
         else 
         {
-            //getTile(x, y)->setNextTile(getTile(x - (1 - abs(xDir)), y - (1 - abs(yDir))));
             fromTile->setNextTile(getTile(x, y));
             fromTile = getTile(x, y);
             x -= (1 - abs(xDir));
@@ -106,6 +108,53 @@ void Map::findPath()
         }
     }
     fromTile->setNextTile(endPoint);
+}
+
+void Map::setTileSprites()
+{
+    int binaryNeighbor {};
+    int xOffset {};
+    int yOffset {};
+    mapSpriteSheet.loadFromFile("resources/images/spritesheet.png");
+
+    for (int y {0}; y < yMax; ++y)
+    {
+        for (int x {0}; x < xMax; ++x)
+        {
+            // gör till egen funktion
+            binaryNeighbor = 0;
+
+            if (x != 0 && mapTiles[x-1][y].getType() == '0')
+                binaryNeighbor += 1;
+            if (x != xMax-1 && mapTiles[x+1][y].getType() == '0')
+                binaryNeighbor += 2;
+            if (y != 0 && mapTiles[x][y-1].getType() == '0')
+                binaryNeighbor += 4;
+            if( y != yMax-1 && mapTiles[x][y+1].getType() == '0')
+                binaryNeighbor += 8;
+
+            if (binaryNeighbor == 4 || binaryNeighbor == 6 || binaryNeighbor == 8 ||
+                binaryNeighbor == 10 || binaryNeighbor == 12)
+                xOffset = 0;
+            else if (binaryNeighbor == 15)
+                xOffset = 1;
+            else if (binaryNeighbor == 1 || binaryNeighbor == 3 ||
+                     binaryNeighbor == 5 || binaryNeighbor == 9)
+                xOffset = 2;
+
+            if (binaryNeighbor == 9 || binaryNeighbor == 10)
+                yOffset = 0;
+            else if (binaryNeighbor == 15)
+                yOffset = 1;
+            else if (binaryNeighbor == 5 || binaryNeighbor == 6)
+                yOffset = 2;
+            else if (binaryNeighbor == 1 || binaryNeighbor == 3 || binaryNeighbor == 4 ||
+                     binaryNeighbor == 8 || binaryNeighbor == 12)
+                yOffset = 3;
+
+            mapTiles[x][y].setSprite(mapSpriteSheet, xOffset, yOffset);
+        }
+    }
 }
 
 Tile* Map::getTile(int x, int y)

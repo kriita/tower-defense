@@ -11,9 +11,9 @@ class Monster
 {
 public:
     Monster() = default;
-    virtual ~Monster() = default;
     Monster(Monster const&) = default;
-    virtual void render(sf::RenderWindow &window);
+    virtual ~Monster() = default;
+    virtual void render(sf::RenderTarget &target) = 0;
     virtual void takeDamage() = 0;
     virtual void walk() = 0;
     virtual double die() = 0;           // Returns bounty
@@ -46,8 +46,9 @@ class Monster1 : public Monster
 {
 public:
     Monster1();
-    Monster1(Monster1 const&) = default;
     Monster1(double health, double speed);
+    Monster1(Monster1 const&) = default;
+    void render(sf::RenderTarget &target) override;
     void takeDamage() override;
     void walk() override;
     double die() override;

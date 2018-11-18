@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+#include "constants.h"
 #include "map.h"
 #include "tile.h"
 #include <vector>
@@ -11,9 +11,6 @@ using std::string;
 using std::vector;
 using std::ifstream;
 
-int xMax {18};  // temporära data
-int yMax {18};  // temporära data
-
 /*
  *  Map
  */
@@ -25,31 +22,31 @@ Map::Map(string mapFileName)
     setTileSprites();
 }
 
-void Map::render(sf::RenderWindow &window)
+void Map::render(sf::RenderTarget &target)
 {
-    for (int y {0}; y < yMax; ++y)
+    for (int y {0}; y < yTilesMax; ++y)
     {
-        for (int x {0}; x < xMax; ++x)
+        for (int x {0}; x < xTilesMax; ++x)
         {
-            mapTiles[x][y].render(window);
+            mapTiles[x][y].render(target);
         }
     }
 }
 
 void Map::readMapData()
 {
-    mapTiles.resize(xMax, vector<Tile>(yMax, Tile {}));
+    mapTiles.resize(xTilesMax, vector<Tile>(yTilesMax, Tile {}));
 
     string mapFolder {"resources/maps/"};
 
     ifstream mapFile((mapFolder + fileName).c_str());
     string line {};
     char typeChar {};
-    for (int y {0}; y < yMax; ++y)
+    for (int y {0}; y < yTilesMax; ++y)
     {
         std::getline(mapFile, line);
         std::istringstream iss(line);
-        for (int x {0}; x < xMax; ++x)
+        for (int x {0}; x < xTilesMax; ++x)
         {
             iss >> typeChar;
             
@@ -74,8 +71,8 @@ void Map::findPath()
 {
     int x {spawnPoint->getX()};
     int y {spawnPoint->getY()};
-    int xDir {(x == 0 ? 1 : (x == xMax-1 ? -1 : 0))};
-    int yDir {(y == 0 ? 1 : (y == yMax-1 ? -1 : 0))};
+    int xDir {(x == 0 ? 1 : (x == xTilesMax-1 ? -1 : 0))};
+    int yDir {(y == 0 ? 1 : (y == yTilesMax-1 ? -1 : 0))};
 
     Tile* fromTile {spawnPoint};
 
@@ -117,20 +114,20 @@ void Map::setTileSprites()
     int yOffset {};
     mapSpriteSheet.loadFromFile("resources/images/spritesheet.png");
 
-    for (int y {0}; y < yMax; ++y)
+    for (int y {0}; y < yTilesMax; ++y)
     {
-        for (int x {0}; x < xMax; ++x)
+        for (int x {0}; x < xTilesMax; ++x)
         {
             // gör till egen funktion
             binaryNeighbor = 0;
 
             if (x != 0 && mapTiles[x-1][y].getType() == '0')
                 binaryNeighbor += 1;
-            if (x != xMax-1 && mapTiles[x+1][y].getType() == '0')
+            if (x != xTilesMax-1 && mapTiles[x+1][y].getType() == '0')
                 binaryNeighbor += 2;
             if (y != 0 && mapTiles[x][y-1].getType() == '0')
                 binaryNeighbor += 4;
-            if( y != yMax-1 && mapTiles[x][y+1].getType() == '0')
+            if( y != yTilesMax-1 && mapTiles[x][y+1].getType() == '0')
                 binaryNeighbor += 8;
 
             if (binaryNeighbor == 4 || binaryNeighbor == 6 || binaryNeighbor == 8 ||

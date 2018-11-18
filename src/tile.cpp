@@ -1,13 +1,13 @@
-#include <SFML/Graphics.hpp>
 #include "tile.h"
+#include "constants.h"
 
 /*
  *  Tile
  */
 
-void Tile::render(sf::RenderWindow &window)
+void Tile::render(sf::RenderTarget &target)
 {
-    window.draw (tileSprite);
+    target.draw(tileSprite);
 }
 
 int Tile::getX() const
@@ -34,11 +34,9 @@ void Tile::setData(int x, int y, char type)
 
 void Tile::setSprite(sf::Texture const& spriteSheet, int xOffset, int yOffset)
 {
-    float const w {32.0};
-
     tileSprite.setTexture(spriteSheet);
-    tileSprite.setPosition (28 + w*xPos, 28 + w*yPos);
-    tileSprite.setOrigin (w/2, w/2);
+    tileSprite.setPosition (28 + tileWidth*xPos, 28 + tileWidth*yPos);
+    tileSprite.setOrigin (tileWidth/2, tileWidth/2);
 
     if (tileType == '0' || tileType == 'S' || tileType == 'E')
     {

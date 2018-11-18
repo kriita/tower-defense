@@ -13,7 +13,7 @@ public:
     Tile(Tile const&) = default;
     ~Tile() = default;
 
-    void render(sf::RenderWindow &window);
+    void render(sf::RenderTarget &target);
     int getX() const;
     int getY() const;
     char getType() const;

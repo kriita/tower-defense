@@ -15,7 +15,7 @@ public:
     Map(Map const &m) = delete;
     ~Map() = default;
 
-    void render(sf::RenderWindow &window);
+    void render(sf::RenderTarget &target);
     Tile* getTile(int x, int y);
     Tile* getSpawnPoint();
     Tile* getEndPoint();

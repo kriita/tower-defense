@@ -29,6 +29,8 @@ int const xTilesMax {18};
 int const yTilesMax {18};
 float const tileWidth {32};
 
+int const mapBorderOffset {(screen_height % (int)tileWidth) / 2};
+
 /*
  * Map data characters
  */
@@ -36,4 +38,4 @@ char const startChar {'S'};
 char const endChar {'E'};
 char const pathChar {'0'};
 char const fieldChar {'1'};
-char const placeableChar {'1'};
+char const placeableChar {'2'};

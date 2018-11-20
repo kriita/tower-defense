@@ -1,6 +1,7 @@
 #include "Game_State.h"
 #include "Events.h"
 #include "constants.h"
+#include "tower.h"
 
 using namespace sf;
 
@@ -11,6 +12,8 @@ Game_State::Game_State()
         //error
     }
     gameOverlay.setTexture(gameOverlayTexture);
+
+    //towers.push_back(Tower1 {2, 10});
 }
 
 /*
@@ -25,25 +28,32 @@ Game_State::Game_State()
  */
 void Game_State :: handle_event (Event event)
 {
-    /*
     if ( event.type == Event::MouseButtonReleased )
     {
-	if ( event.mouseButton.button == Mouse::Button::Left )
-	{
-	    balls.emplace_back (
-		sheet,
-                // get the coordinates of the mouse right now
-		event.mouseButton.x,
-		event.mouseButton.y);
-	}
+        auto mouse { event.mouseButton };
+        if ( mouse.button == Mouse::Button::Left )
+        {
+            Tile* tmpTile {gameMap.getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
+                                static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
+            if (tmpTile->checkPlaceable())
+            {
+                towers.push_back(Tower1 {tmpTile->getX(), tmpTile->getY()});
+                tmpTile->switchPlaceable();
+            }
+        }
     }
-    */
+
     // Send the event to the base class (see Go_Back_State.h)
     Go_Back_State::handle_event (event);
 }
 
 Game_Event Game_State :: update ()
 {
+    for (auto & t : towers)
+    {
+        t.update();
+    }
+
     // Iterate over all balls and let
     // the update themselves.
     //for ( auto & ball :  balls )
@@ -56,6 +66,12 @@ Game_Event Game_State :: update ()
 void Game_State :: render (RenderTarget & target)
 {
     gameMap.render(target);
+
+    for (auto & t : towers)
+    {
+        t.render(target);
+    }
+
     target.draw(gameOverlay);
 
     // Let each ball render itself onto the

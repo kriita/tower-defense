@@ -1,14 +1,19 @@
 #ifndef TOWER_H
 #define TOWER_H
 
+#include "Spritesheet.h"
+
 /*
  *  Tower
  */
 class Tower
 {
 public:
-    Tower() = default;
+    Tower(int x, int y);
     virtual ~Tower() = default;
+
+    void render(sf::RenderTarget &target);
+    void update();
 
     virtual void attack() = 0;
     virtual int getX() const = 0;
@@ -20,9 +25,12 @@ public:
 protected:
     int xPos {};
     int yPos {};
-    int angle {};
+    float angle {30};
     int fireRate {};
     int attackPower {};
+
+    Spritesheet towerSpriteSheet {"resources/images/spritesheet.png", 32, 32}; //temporär
+    sf::Sprite towerSprite {};
 };
 
 /*
@@ -31,9 +39,8 @@ protected:
 class Tower1 : public Tower
 {
 public:
-    ~Tower1() = default;
-
-    void attack();
+    Tower1(int x, int y);
+    void attack() override;
     int getX() const override;
     int getY() const override;
     int getAngle() const override;

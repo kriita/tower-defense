@@ -2,6 +2,7 @@
 #include "map.h"
 #include "tile.h"
 #include "tower.h"
+#include "monster.h"
 
 #include <vector>
 
@@ -33,6 +34,9 @@ public:
 private:
 
     Map gameMap {"map.dat"};
+
+    std::vector<Monster> monsters {};
+    std::vector<Tower1> towers {};
 
     sf::Texture gameOverlayTexture;
     sf::Sprite gameOverlay {};

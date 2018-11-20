@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "tile.h"
+#include "Spritesheet.h"
 #include <vector>
 #include <string>
 
@@ -29,7 +30,7 @@ private:
     Tile* endPoint {};
     std::vector<std::vector<Tile>> mapTiles {};
 
-    sf::Texture mapSpriteSheet {};
+    Spritesheet mapSpriteSheet {"resources/images/spritesheet.png", 32, 32};
 
     void readMapData();
     void findPath();

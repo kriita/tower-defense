@@ -56,7 +56,7 @@ IntRect Spritesheet :: create_rect (unsigned row,
     // to down-cast our unsigned values to int
     return IntRect {
         static_cast<int> (width * col),
-	static_cast<int> (height * row),
+	    static_cast<int> (height * row),
         static_cast<int> (width),
         static_cast<int> (height)
     };

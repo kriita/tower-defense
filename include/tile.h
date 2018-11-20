@@ -1,7 +1,7 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include <SFML/Graphics.hpp>
+#include "Spritesheet.h"
 
 /*
  *  Tile
@@ -17,8 +17,10 @@ public:
     int getX() const;
     int getY() const;
     char getType() const;
+    bool checkPlaceable() const;
+    void switchPlaceable();
     void setData(int x, int y, char type);
-    void setSprite(sf::Texture const& spriteSheet, int xOffset, int yOffset);
+    void setSprite(Spritesheet const& spriteSheet, unsigned xOffset, unsigned yOffset);
     void setNextTile(Tile* const tile);
     Tile* getNextTile();
 
@@ -28,6 +30,7 @@ private:
     int xPos {};
     int yPos {};
     char tileType {};
+    bool placeable {};
     Tile* nextTile {};
 
     sf::Sprite tileSprite {};

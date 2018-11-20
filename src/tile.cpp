@@ -1,4 +1,5 @@
 #include "tile.h"
+#include "Spritesheet.h"
 #include "constants.h"
 
 /*
@@ -25,27 +26,43 @@ char Tile::getType() const
     return tileType;
 }
 
+bool Tile::checkPlaceable() const
+{
+    return placeable;
+}
+
+void Tile::switchPlaceable()
+{
+    placeable = !placeable;
+}
+
 void Tile::setData(int x, int y, char type)
 {
     xPos = x;
     yPos = y;
     tileType = type;
+    placeable = (tileType == placeableChar);
 }
 
-void Tile::setSprite(sf::Texture const& spriteSheet, int xOffset, int yOffset)
+void Tile::setSprite(Spritesheet const& spriteSheet, unsigned xOffset, unsigned yOffset)
 {
-    tileSprite.setTexture(spriteSheet);
-    tileSprite.setPosition (28 + tileWidth*xPos, 28 + tileWidth*yPos);
-    tileSprite.setOrigin (tileWidth/2, tileWidth/2);
-
-    if (tileType == '0' || tileType == 'S' || tileType == 'E')
+    if (tileType == pathChar || tileType == startChar || tileType == endChar)
     {
-        tileSprite.setTextureRect(sf::IntRect(96 + xOffset*32, 160 + yOffset*32, 32, 32));
+        tileSprite = spriteSheet.get_sprite(5 + yOffset, 3 + xOffset);
+    }
+    else if (tileType == placeableChar)
+    {
+        tileSprite = spriteSheet.get_sprite(5, 1);
     }
     else
     {
-        tileSprite.setTextureRect(sf::IntRect(32, 64, 32, 32));
+        tileSprite = spriteSheet.get_sprite(2, 1);
     }
+
+    tileSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xPos,
+                            mapBorderOffset + tileWidth / 2 + tileWidth * yPos);
+    tileSprite.setOrigin (tileWidth/2, tileWidth/2);
+
 }
 
 void Tile::setNextTile(Tile* const tile)

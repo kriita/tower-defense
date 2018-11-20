@@ -50,15 +50,15 @@ void Map::readMapData()
         {
             iss >> typeChar;
             
-            if(typeChar == 'S')
+            if(typeChar == startChar)
             {
                 spawnPoint = &mapTiles[x][y];
-                typeChar = '0';
+                typeChar = pathChar;
             }
-            else if(typeChar == 'E')
+            else if(typeChar == endChar)
             {
                 endPoint = &mapTiles[x][y];
-                typeChar = '0';
+                typeChar = pathChar;
             }
 
             mapTiles[x][y].setData(x, y, typeChar);
@@ -78,14 +78,14 @@ void Map::findPath()
 
     while (getTile(x, y) != endPoint)
     {
-        if (getTile(x + xDir, y + yDir)->getType() == '0' ||
-            getTile(x + xDir, y + yDir)->getType() == 'E')
+        if (getTile(x + xDir, y + yDir)->getType() == pathChar ||
+            getTile(x + xDir, y + yDir)->getType() == endChar)
         {
             x += xDir;
             y += yDir;
         }
-        else if (getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == '0' ||
-                 getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == 'E')
+        else if (getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == pathChar ||
+                 getTile(x + (1 - abs(xDir)), y + (1 - abs(yDir)))->getType() == endChar)
         {
             fromTile->setNextTile(getTile(x, y));
             fromTile = getTile(x, y);
@@ -112,22 +112,21 @@ void Map::setTileSprites()
     int binaryNeighbor {};
     int xOffset {};
     int yOffset {};
-    mapSpriteSheet.loadFromFile("resources/images/spritesheet.png");
 
     for (int y {0}; y < yTilesMax; ++y)
     {
         for (int x {0}; x < xTilesMax; ++x)
         {
-            // gör till egen funktion
+            // gör till egen funktion?
             binaryNeighbor = 0;
 
-            if (x != 0 && mapTiles[x-1][y].getType() == '0')
+            if (x != 0 && mapTiles[x-1][y].getType() == pathChar)
                 binaryNeighbor += 1;
-            if (x != xTilesMax-1 && mapTiles[x+1][y].getType() == '0')
+            if (x != xTilesMax-1 && mapTiles[x+1][y].getType() == pathChar)
                 binaryNeighbor += 2;
-            if (y != 0 && mapTiles[x][y-1].getType() == '0')
+            if (y != 0 && mapTiles[x][y-1].getType() == pathChar)
                 binaryNeighbor += 4;
-            if( y != yTilesMax-1 && mapTiles[x][y+1].getType() == '0')
+            if( y != yTilesMax-1 && mapTiles[x][y+1].getType() == pathChar)
                 binaryNeighbor += 8;
 
             if (binaryNeighbor == 4 || binaryNeighbor == 6 || binaryNeighbor == 8 ||

@@ -3,7 +3,9 @@
 
 #include "tile.h"
 #include "Spritesheet.h"
+#include <SFML/Graphics.hpp>
 #include <vector>
+#include <memory>
 #include <string>
 
 /*

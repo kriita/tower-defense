@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include "Spritesheet.h"
+#include <SFML/Graphics.hpp>
 
 /*
  *  Tile

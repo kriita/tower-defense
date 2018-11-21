@@ -2,6 +2,7 @@
 #define TOWER_H
 
 #include "Spritesheet.h"
+#include <SFML/Graphics.hpp>
 
 /*
  *  Tower

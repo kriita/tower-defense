@@ -5,6 +5,7 @@
 #include "monster.h"
 
 #include <vector>
+#include <memory>
 
 /*
  * This class represents the "game".
@@ -35,8 +36,8 @@ private:
 
     Map gameMap {"map.dat"};
 
-    std::vector<Monster> monsters {};
-    std::vector<Tower1> towers {};
+    std::vector<shptr<Monster>> monsters {};
+    std::vector<shptr<Tower>> towers {};
 
     sf::Texture gameOverlayTexture;
     sf::Sprite gameOverlay {};

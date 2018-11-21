@@ -2,6 +2,9 @@
 #include "Events.h"
 #include "constants.h"
 #include "tower.h"
+#include <memory>
+
+#include <iostream>
 
 using namespace sf;
 
@@ -13,7 +16,10 @@ Game_State::Game_State()
     }
     gameOverlay.setTexture(gameOverlayTexture);
 
-    //towers.push_back(Tower1 {2, 10});
+    towers.push_back(make_shared<Tower1> (2, 10));
+    std::cout << towers[0].use_count() << "\n";
+    shptr<Tower> test = towers[0];
+    std::cout << towers[0].use_count() << "\n";
 }
 
 /*
@@ -34,10 +40,10 @@ void Game_State :: handle_event (Event event)
         if ( mouse.button == Mouse::Button::Left )
         {
             Tile* tmpTile {gameMap.getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
-                                static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
+                                           static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
             if (tmpTile->checkPlaceable())
             {
-                towers.push_back(Tower1 {tmpTile->getX(), tmpTile->getY()});
+                towers.push_back(make_shared<Tower1> (tmpTile->getX(), tmpTile->getY()));
                 tmpTile->switchPlaceable();
             }
         }
@@ -51,7 +57,7 @@ Game_Event Game_State :: update ()
 {
     for (auto & t : towers)
     {
-        t.update();
+        t->update();
     }
 
     // Iterate over all balls and let
@@ -69,7 +75,7 @@ void Game_State :: render (RenderTarget & target)
 
     for (auto & t : towers)
     {
-        t.render(target);
+        t->render(target);
     }
 
     target.draw(gameOverlay);

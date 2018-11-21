@@ -8,24 +8,19 @@ using std::string;
  *  Monster
  */
 
-int Monster1::getX() const
+void Monster::despawn()
 {
-    return xPosTile;
+    
 }
 
-int Monster1::getY() const
+double Monster1::getX() const
 {
-    return yPosTile;
+    return x;
 }
 
-double Monster1::getFineX() const
+double Monster1::getY() const
 {
-    return xPosTile;
-}
-
-double Monster1::getFineY() const
-{
-    return yPosTile;
+    return y;
 }
 
 string Monster1::getType() const
@@ -38,4 +33,12 @@ void Monster1::takeDamage()
     health =- 1;               // lägg in skada funktionern för tornet
 }
 
+void Monster1::walk()
+{
 
+}
+
+void Monster1::defeat()
+{
+
+}

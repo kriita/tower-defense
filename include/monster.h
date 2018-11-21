@@ -2,6 +2,7 @@
 #define MONSTER_H
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 /* 
  * Monster
@@ -16,13 +17,12 @@ public:
     virtual void render(sf::RenderTarget &target) = 0;
     virtual void takeDamage() = 0;
     virtual void walk() = 0;
-    virtual double die() = 0;           // Returns bounty
-    virtual int getX() const = 0;
-    virtual int getY() const = 0;
-    virtual double getFineX() const = 0;
-    virtual double getFineY() const = 0;
-
-
+    virtual void defeat() = 0;     // Returns bounty
+    virtual double getX() const = 0;
+    virtual double getY() const = 0;
+    
+    void despawn();
+    bool onCheckpoint() const;
     Tile* getNextTile();
     Monster& operator=(Monster const& other);
 
@@ -31,14 +31,10 @@ protected:
     double speed;
 
     Tile* nextTile {};
-    double distNextTile;
-    bool onNextTile;
-    char xdir;
-    char ydir;
-    int xPosTile {};            // Tilecoordinates
-    int yPosTile {};
-    double fineXpos {};         // Position in pixels
-    double fineYpos {};
+    int xDir;
+    int yDir;
+    double y {};         // Position in pixels
+    double x {};
     double timeStamp;
 };
 
@@ -51,11 +47,9 @@ public:
     void render(sf::RenderTarget &target) override;
     void takeDamage() override;
     void walk() override;
-    double die() override;
-    int getX() const override;
-    int getY() const override;
-    double getFineX() const override;
-    double getFineY() const override;
+    void defeat() override;
+    double getX() const override;
+    double getY() const override;
     std::string getType() const;
 private:
     std::string monsterType {};

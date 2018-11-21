@@ -10,3 +10,5 @@
  */
 template <typename T>
 using ptr = std::unique_ptr<T>;
+template <typename T>
+using shptr = std::shared_ptr<T>;

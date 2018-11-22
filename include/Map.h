@@ -2,7 +2,7 @@
 #define MAP_H
 
 #include "defs.h"
-#include "tile.h"
+#include "Tile.h"
 #include "Spritesheet.h"
 #include <SFML/Graphics.hpp>
 #include <vector>

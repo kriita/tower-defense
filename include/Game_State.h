@@ -1,8 +1,8 @@
 #include "Go_Back_State.h"
-#include "map.h"
-#include "tile.h"
-#include "tower.h"
-#include "monster.h"
+#include "Map.h"
+#include "Monster.h"
+#include "Tile.h"
+#include "Tower.h"
 
 #include <vector>
 #include <memory>

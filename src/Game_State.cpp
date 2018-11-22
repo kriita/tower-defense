@@ -1,7 +1,7 @@
 #include "Game_State.h"
 #include "Events.h"
 #include "constants.h"
-#include "tower.h"
+#include "Tower.h"
 #include <memory>
 
 #include <iostream>

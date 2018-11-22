@@ -20,6 +20,7 @@ public:
     ~Map() = default;
 
     void render(sf::RenderTarget &target);
+    int getSpriteNeighbors(int xPos, int yPos);
     shptr<Tile> getTile(int x, int y);
     shptr<Tile> getSpawnPoint();
     shptr<Tile> getEndPoint();
@@ -34,6 +35,7 @@ private:
     std::vector<std::vector<shptr<Tile>>> mapTiles {};
     Spritesheet mapSpriteSheet {"resources/images/spritesheet.png", 32, 32};
 
+    void createMatrix();
     void readMapData();
     void findPath();
     void setTileSprites();

@@ -1,6 +1,6 @@
-#include "Tile.h"
-#include "Spritesheet.h"
 #include "constants.h"
+#include "Spritesheet.h"
+#include "Tile.h"
 #include <memory>
 
 /*
@@ -47,7 +47,7 @@ void Tile::setData(int x, int y, char type)
 
 void Tile::setSprite(Spritesheet const& spriteSheet, unsigned xOffset, unsigned yOffset)
 {
-    if (tileType == pathChar || tileType == startChar || tileType == endChar)
+    if (tileType == pathChar)
     {
         tileSprite = spriteSheet.get_sprite(5 + yOffset, 3 + xOffset);
     }

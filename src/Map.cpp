@@ -31,12 +31,12 @@ void Map::render(sf::RenderTarget &target)
     {
         for (int x {0}; x < xTilesMax; ++x)
         {
-            mapTiles[x][y]->render(target);
+            getTile(x, y)->render(target);
         }
     }
 }
 
-void Map::readMapData()
+void Map::createMatrix()
 {
     mapTiles.resize(xTilesMax, vector<shptr<Tile>>(yTilesMax, nullptr));
 
@@ -47,6 +47,11 @@ void Map::readMapData()
             mapTiles[x][y] = std::make_shared<Tile> ();
         }
     }
+}
+
+void Map::readMapData()
+{
+    createMatrix();
 
     string mapFolder {"resources/maps/"};
 
@@ -72,7 +77,7 @@ void Map::readMapData()
                 typeChar = pathChar;
             }
 
-            mapTiles[x][y]->setData(x, y, typeChar);
+            getTile(x, y)->setData(x, y, typeChar);
         }
     }
     mapFile.close();
@@ -120,25 +125,15 @@ void Map::findPath()
 
 void Map::setTileSprites()
 {
-    int binaryNeighbor {};
-    int xOffset {};
-    int yOffset {};
+    unsigned binaryNeighbor {};
+    unsigned xOffset {};
+    unsigned yOffset {};
 
     for (int y {0}; y < yTilesMax; ++y)
     {
         for (int x {0}; x < xTilesMax; ++x)
         {
-            // gör till egen funktion?
-            binaryNeighbor = 0;
-
-            if (x != 0 && mapTiles[x-1][y]->getType() == pathChar)
-                binaryNeighbor += 1;
-            if (x != xTilesMax-1 && mapTiles[x+1][y]->getType() == pathChar)
-                binaryNeighbor += 2;
-            if (y != 0 && mapTiles[x][y-1]->getType() == pathChar)
-                binaryNeighbor += 4;
-            if( y != yTilesMax-1 && mapTiles[x][y+1]->getType() == pathChar)
-                binaryNeighbor += 8;
+            binaryNeighbor = getSpriteNeighbors(x, y);
 
             if (binaryNeighbor == 4 || binaryNeighbor == 6 || binaryNeighbor == 8 ||
                 binaryNeighbor == 10 || binaryNeighbor == 12)
@@ -159,13 +154,35 @@ void Map::setTileSprites()
                      binaryNeighbor == 8 || binaryNeighbor == 12)
                 yOffset = 3;
 
-            mapTiles[x][y]->setSprite(mapSpriteSheet, xOffset, yOffset);
+            getTile(x, y)->setSprite(mapSpriteSheet, xOffset, yOffset);
         }
     }
 }
 
+int Map::getSpriteNeighbors(int xPos, int yPos)
+{
+    unsigned binaryNeighbor {0};
+    char tileType {getTile(xPos, yPos)->getType()};
+
+    if (xPos != 0 && getTile(xPos-1, yPos)->getType() == tileType)
+        binaryNeighbor += 1;
+    if (xPos != xTilesMax-1 && getTile(xPos+1, yPos)->getType() == tileType)
+        binaryNeighbor += 2;
+    if (yPos != 0 && getTile(xPos, yPos-1)->getType() == tileType)
+        binaryNeighbor += 4;
+    if (yPos != yTilesMax-1 && getTile(xPos, yPos+1)->getType() == tileType)
+    binaryNeighbor += 8;
+
+    return binaryNeighbor;
+}
+
 shptr<Tile> Map::getTile(int x, int y)
 {
+    if (x < 0 || y < 0 || x >= xTilesMax || y >= yTilesMax)
+    {
+        throw ("Error: getTile coordinates out of bounds");
+    }
+
     return mapTiles[x][y];
 }
 

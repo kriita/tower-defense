@@ -70,6 +70,9 @@ tower_test: $(OBJS) $(SRC)/$(TEST_SRC)/tower_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)
 	@mkdir -p $(BIN)
 	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/tower_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/tower_test $(LIBS) $(FLAGS) 
 
+projectile_test: $(OBJS) $(SRC)/$(TEST_SRC)/projectile_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
+	@mkdir -p $(BIN)
+	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/projectile_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/projectile_test $(LIBS) $(FLAGS)
 # DEBUG TARGET
 debug: CXXFLAGS += -g -O0
 debug: all

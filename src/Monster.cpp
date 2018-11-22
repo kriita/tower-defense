@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
-#include "tile.h"
+#include "Tile.h"
 #include <string>
-#include "monster.h"
+#include "Monster.h"
 using std::string;
 
 /* 

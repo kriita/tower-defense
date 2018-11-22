@@ -1,4 +1,4 @@
-#include "tower.h"
+#include "Tower.h"
 #include "constants.h"
 
 void Tower::render(sf::RenderTarget &target)

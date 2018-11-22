@@ -1,6 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "defs.h"
 #include "tile.h"
 #include "Spritesheet.h"
 #include <SFML/Graphics.hpp>
@@ -19,19 +20,18 @@ public:
     ~Map() = default;
 
     void render(sf::RenderTarget &target);
-    Tile* getTile(int x, int y);
-    Tile* getSpawnPoint();
-    Tile* getEndPoint();
+    shptr<Tile> getTile(int x, int y);
+    shptr<Tile> getSpawnPoint();
+    shptr<Tile> getEndPoint();
 
     void operator = (Map const &m) = delete;
 
 private:
     std::string fileName {};
     int timeStamp {};
-    Tile* spawnPoint {};
-    Tile* endPoint {};
-    std::vector<std::vector<Tile>> mapTiles {};
-
+    shptr<Tile> spawnPoint {};
+    shptr<Tile> endPoint {};
+    std::vector<std::vector<shptr<Tile>>> mapTiles {};
     Spritesheet mapSpriteSheet {"resources/images/spritesheet.png", 32, 32};
 
     void readMapData();

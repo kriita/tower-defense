@@ -15,11 +15,6 @@ Game_State::Game_State()
         //error
     }
     gameOverlay.setTexture(gameOverlayTexture);
-
-    towers.push_back(make_shared<Tower1> (2, 10));
-    std::cout << towers[0].use_count() << "\n";
-    shptr<Tower> test = towers[0];
-    std::cout << towers[0].use_count() << "\n";
 }
 
 /*
@@ -39,8 +34,8 @@ void Game_State :: handle_event (Event event)
         auto mouse { event.mouseButton };
         if ( mouse.button == Mouse::Button::Left )
         {
-            Tile* tmpTile {gameMap.getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
-                                           static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
+            shptr<Tile> tmpTile {gameMap.getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
+                                                 static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
             if (tmpTile->checkPlaceable())
             {
                 towers.push_back(make_shared<Tower1> (tmpTile->getX(), tmpTile->getY()));

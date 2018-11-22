@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include "Spritesheet.h"
+#include "defs.h"
 #include <SFML/Graphics.hpp>
 
 /*
@@ -22,8 +23,8 @@ public:
     void switchPlaceable();
     void setData(int x, int y, char type);
     void setSprite(Spritesheet const& spriteSheet, unsigned xOffset, unsigned yOffset);
-    void setNextTile(Tile* const tile);
-    Tile* getNextTile();
+    void setNextTile(shptr<Tile> const tile);
+    shptr<Tile> getNextTile();
 
     Tile& operator = (Tile const &t) = default;
 
@@ -32,7 +33,7 @@ private:
     int yPos {};
     char tileType {};
     bool placeable {};
-    Tile* nextTile {};
+    shptr<Tile> nextTile {};
 
     sf::Sprite tileSprite {};
 };

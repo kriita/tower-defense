@@ -23,14 +23,14 @@ public:
     
     void despawn();
     bool onCheckpoint() const;
-    Tile* getNextTile();
+    shptr<Tile> getNextTile();
     Monster& operator=(Monster const& other);
 
 protected:
     double health;
     double speed;
 
-    Tile* nextTile {};
+    shptr<Tile> nextTile {};
     int xDir;
     int yDir;
     double y {};         // Position in pixels

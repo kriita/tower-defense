@@ -1,6 +1,7 @@
 #include "tile.h"
 #include "Spritesheet.h"
 #include "constants.h"
+#include <memory>
 
 /*
  *  Tile
@@ -65,12 +66,12 @@ void Tile::setSprite(Spritesheet const& spriteSheet, unsigned xOffset, unsigned 
 
 }
 
-void Tile::setNextTile(Tile* const tile)
+void Tile::setNextTile(shptr<Tile> const tile)
 {
     nextTile = tile;
 }
 
-Tile* Tile::getNextTile()
+shptr<Tile> Tile::getNextTile()
 {
     return nextTile;
 }

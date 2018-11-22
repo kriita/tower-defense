@@ -2,10 +2,13 @@
 #include "map.h"
 #include "tile.h"
 #include <vector>
+#include <memory>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <stdlib.h>
+
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -28,14 +31,22 @@ void Map::render(sf::RenderTarget &target)
     {
         for (int x {0}; x < xTilesMax; ++x)
         {
-            mapTiles[x][y].render(target);
+            mapTiles[x][y]->render(target);
         }
     }
 }
 
 void Map::readMapData()
 {
-    mapTiles.resize(xTilesMax, vector<Tile>(yTilesMax, Tile {}));
+    mapTiles.resize(xTilesMax, vector<shptr<Tile>>(yTilesMax, nullptr));
+
+    for (int y {0}; y < yTilesMax; ++y)
+    {
+        for (int x {0}; x < xTilesMax; ++x)
+        {
+            mapTiles[x][y] = std::make_shared<Tile> ();
+        }
+    }
 
     string mapFolder {"resources/maps/"};
 
@@ -49,19 +60,19 @@ void Map::readMapData()
         for (int x {0}; x < xTilesMax; ++x)
         {
             iss >> typeChar;
-            
+
             if(typeChar == startChar)
             {
-                spawnPoint = &mapTiles[x][y];
+                spawnPoint = mapTiles[x][y];
                 typeChar = pathChar;
             }
             else if(typeChar == endChar)
             {
-                endPoint = &mapTiles[x][y];
+                endPoint = mapTiles[x][y];
                 typeChar = pathChar;
             }
 
-            mapTiles[x][y].setData(x, y, typeChar);
+            mapTiles[x][y]->setData(x, y, typeChar);
         }
     }
     mapFile.close();
@@ -74,7 +85,7 @@ void Map::findPath()
     int xDir {(x == 0 ? 1 : (x == xTilesMax-1 ? -1 : 0))};
     int yDir {(y == 0 ? 1 : (y == yTilesMax-1 ? -1 : 0))};
 
-    Tile* fromTile {spawnPoint};
+    shptr<Tile> fromTile {spawnPoint};
 
     while (getTile(x, y) != endPoint)
     {
@@ -120,13 +131,13 @@ void Map::setTileSprites()
             // gör till egen funktion?
             binaryNeighbor = 0;
 
-            if (x != 0 && mapTiles[x-1][y].getType() == pathChar)
+            if (x != 0 && mapTiles[x-1][y]->getType() == pathChar)
                 binaryNeighbor += 1;
-            if (x != xTilesMax-1 && mapTiles[x+1][y].getType() == pathChar)
+            if (x != xTilesMax-1 && mapTiles[x+1][y]->getType() == pathChar)
                 binaryNeighbor += 2;
-            if (y != 0 && mapTiles[x][y-1].getType() == pathChar)
+            if (y != 0 && mapTiles[x][y-1]->getType() == pathChar)
                 binaryNeighbor += 4;
-            if( y != yTilesMax-1 && mapTiles[x][y+1].getType() == pathChar)
+            if( y != yTilesMax-1 && mapTiles[x][y+1]->getType() == pathChar)
                 binaryNeighbor += 8;
 
             if (binaryNeighbor == 4 || binaryNeighbor == 6 || binaryNeighbor == 8 ||
@@ -148,22 +159,22 @@ void Map::setTileSprites()
                      binaryNeighbor == 8 || binaryNeighbor == 12)
                 yOffset = 3;
 
-            mapTiles[x][y].setSprite(mapSpriteSheet, xOffset, yOffset);
+            mapTiles[x][y]->setSprite(mapSpriteSheet, xOffset, yOffset);
         }
     }
 }
 
-Tile* Map::getTile(int x, int y)
+shptr<Tile> Map::getTile(int x, int y)
 {
-    return &mapTiles[x][y];
+    return mapTiles[x][y];
 }
 
-Tile* Map::getSpawnPoint()
+shptr<Tile> Map::getSpawnPoint()
 {
     return spawnPoint;
 }
 
-Tile* Map::getEndPoint()
+shptr<Tile> Map::getEndPoint()
 {
     return endPoint;
 }

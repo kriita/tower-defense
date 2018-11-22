@@ -1,6 +1,6 @@
 #include "constants.h"
-#include "map.h"
-#include "tile.h"
+#include "Map.h"
+#include "Tile.h"
 #include <vector>
 #include <memory>
 #include <fstream>

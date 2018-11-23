@@ -1,5 +1,7 @@
 #include "Projectile.h"
-#include "Monster.h"
+#include "defs.h"
+#include "Map.h"
+//#include "Monster.h"
 
 /*
  *  Funktioner kvar att definiera:
@@ -10,68 +12,106 @@
     void renderMe()
  */
 
-    void Projectile::setx(int new_x)
-    {
-        x = new_x;
-    }
 
-    void Projectile::sety(int new_y)
-    {
-        y = new_y;
-    }
+//Projectile::Projectile (int x, int y, int xDir, int yDir)
+//: x {x}, y {y}, xDir {xDir}, yDir {yDir} {}
 
-    int Projectile::getX() // Coordinates in pixels
-    {
-        return x;
-    }
+void Projectile::setx(int new_x)
+{
+    x = new_x;
+}
 
-    int Projectile::getY()
-    {
-        return y;
-    }
+void Projectile::sety(int new_y)
+{
+    y = new_y;
+}
 
-    void Projectile::setxDir(int new_xDir)
-    {
-        xDir = new_xDir;
-    }
+int Projectile::getX() // Coordinates in pixels
+{
+    return x;
+}
 
-    void Projectile::setyDir(int new_yDir)
-    {
-        yDir = new_yDir;
-    }
+int Projectile::getY()
+{
+    return y;
+}
 
-    int Projectile::getxDir()
-    {
-        return xDir;
-    }
+void Projectile::setxDir(int new_xDir)
+{
+    xDir = new_xDir;
+}
 
-    int Projectile::getyDir()
-    {
-        return yDir;
-    }
+void Projectile::setyDir(int new_yDir)
+{
+    yDir = new_yDir;
+}
 
-    double Projectile::getSpeed()
-    {
-        return speed;
-    }
-    void Projectile::setSpeed(int newSpeed)
-    {
-        speed = newSpeed;
-    }
+int Projectile::getxDir()
+{
+    return xDir;
+}
 
-    //template<class T>
-    bool Projectile::getTarget() // Returns false if Projectile has no target
-    {
-        if (target == nullptr)
-        {
-            return false;
-        }
-        else 
-        return true;
-        //return target;
-    }
+int Projectile::getyDir()
+{
+    return yDir;
+}
+
+double Projectile::getSpeed()
+{
+    return speed;
+}
+
+void Projectile::setSpeed(int newSpeed)
+{
+    speed = newSpeed;
+}
+
+// Returns nullptr (false) if Projectile has no target
+shptr<Monster> Projectile::getTarget() 
+{
+   return target;
+
+}
 
 void Projectile::setTarget(shptr<Monster> newTarget)
 {
     target = newTarget;
 }
+
+/*
+void Projectile::move()
+{
+    if (getTarget())    // Update coords. if Projectile has target
+    {
+        xDir = (x*x - (target->getX() * target->getX()))/
+        abs(x*x + (target->getX() * target->getX()));
+        yDir = (y*y - (target->getY() * target->getY()))/
+        abs(y*y + (target->getY() * target->getY()));
+    }
+    x += xDir * speed;
+    y += yDir * speed;
+}
+*/
+
+void Projectile::renderMe()
+{
+
+}
+
+
+
+
+/*
+void Projectile::targetHit()
+{
+    if (getTarget())
+    {
+        target->takeDmg
+    }
+}
+*/
+
+/*
+Anvil::Anvil(int x, int y, int xDir, int yDir)
+: Projectile(x, y, xDir, yDir, anvilTexture) {}
+*/

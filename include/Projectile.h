@@ -5,20 +5,22 @@
 #include <memory>
 #include "Map.h"
 #include "defs.h"
-//#include "Monster.h"
+#include "Monster.h"
 #include "Spritesheet.h"
 
-// Class Monster below is only used in testcases (until Monster.h is done)
-/*
-class Monster
+// Class ProjectilTarget below is only used in testcases (at least until Monster.h is done)
+
+class ProjectileTarget : public Monster
 {
     public:
-    Monster() = default;
-    int getX() {return 0;};
-    int getY() {return 0;};
+    ProjectileTarget() = default;
+    void render(sf::RenderTarget &target) {};
+    void takeDamage() {};
+    void walk() {};
+    void defeat() {};     // Returns bounty
+    double getX() const {return 0;};
+    double getY() const {return 0;};
 };
-*/
-class Monster;
 
 class Projectile
 {
@@ -30,7 +32,7 @@ class Projectile
     virtual void targetHit() {};
     virtual void explodeAnim() {}; // renders the explode animation
     void isOutsideMap();
-    virtual void move() {};
+    virtual void move();
     shptr<Monster> getTarget(); // Returns nullptr (false) if Projectile has no target
     void setTarget(shptr<Monster> newTarget);
     int getX(); // Coordinates in pixels
@@ -44,7 +46,7 @@ class Projectile
     double getSpeed();
     void setSpeed(int newSpeed);
     void render(sf::RenderTarget &window);
-    virtual void update() {};
+    virtual void update();
 
     protected:
     int dmg {};

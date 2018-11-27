@@ -1,7 +1,7 @@
 #include "Projectile.h"
 #include "defs.h"
 #include "Map.h"
-//#include "Monster.h"
+#include "Monster.h"
 
 /*
  *  Funktioner kvar att definiera:
@@ -9,7 +9,6 @@
     virtual void explodeAnim() // renders the explode animation
     void isOutsideMap()
     virtual Move()
-    void render()
  */
 
 
@@ -79,7 +78,12 @@ void Projectile::setTarget(shptr<Monster> newTarget)
     target = newTarget;
 }
 
-/*
+void Projectile::update()
+{
+    move();
+}
+
+
 void Projectile::move()
 {
     if (getTarget())    // Update coords. if Projectile has target
@@ -92,7 +96,7 @@ void Projectile::move()
     x += xDir * speed;
     y += yDir * speed;
 }
-*/
+
 
 void Projectile::render(sf::RenderTarget &window)
 {

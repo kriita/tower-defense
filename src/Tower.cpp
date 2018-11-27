@@ -1,5 +1,6 @@
 #include "Tower.h"
 #include "constants.h"
+#include <cmath>
 
 void Tower::render(sf::RenderTarget &target)
 {
@@ -8,47 +9,67 @@ void Tower::render(sf::RenderTarget &target)
 
 void Tower::update()
 {
-    angle += 3;
-    towerSprite.setRotation(angle);
+    if (target == nullptr)
+        towerSprite.setRotation(towerSprite.getRotation() + 20);
+    else 
+    {
+        double x{target->getX() - xPos};
+        double y{target->getY() - yPos};
+        towerSprite.setRotation(atan2(y,x));
+    }
+
 }
 
-Tower::Tower(int x, int y)
-: xPos {x}, yPos {y} {}
-
-Tower1::Tower1(int x, int y)
-: Tower {x, y}
-{
-    towerSprite = towerSpriteSheet.get_sprite(11, 0);
-
-    towerSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xPos,
-                             mapBorderOffset + tileWidth / 2 + tileWidth * yPos);
-    towerSprite.setOrigin (tileWidth/2, tileWidth/2);
-}
-
-void Tower1::attack()
-{}
-
-int Tower1::getX() const
+double Tower::getX() const
 {
     return xPos;
 }
 
-int Tower1::getY() const
+double Tower::getY() const
 {
     return yPos;
 }
 
-int Tower1::getAngle() const
-{
-    return angle;
-}
-
-int Tower1::getFireRate() const
+double Tower::getFireRate() const
 {
     return fireRate;
 }
 
-int Tower1::getAttackPower() const
+double Tower::getAttackPower() const
 {
     return attackPower;
 }
+
+void Tower::setTarget(shptr<Monster> newTarget)
+{
+    target = newTarget;
+}
+
+Tower::Tower(double x, double y)
+    :   xPos{x}, yPos{y} {}
+
+Tower::Tower(int x, int y)
+    :   Tower {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
+               mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+
+Tower::Tower(Tile& tile)
+    :   Tower{tile.getX(), tile.getY()} {}
+
+Tower1::Tower1(double x, double y)
+    : Tower{x,y} 
+{
+    towerSprite = towerSpriteSheet.get_sprite(11, 0);
+    towerSprite.setPosition (xPos,yPos);
+    towerSprite.setOrigin (tileWidth/2, tileWidth/2);
+} 
+
+Tower1::Tower1(int x, int y)
+    : Tower1 {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
+              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+
+Tower1::Tower1(Tile& tile)
+    :   Tower1{tile.getX(), tile.getY()} {}
+
+void Tower1::attack() {}
+
+int Tower1::getPrice() {return 420;}

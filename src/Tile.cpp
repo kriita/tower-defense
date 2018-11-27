@@ -12,14 +12,24 @@ void Tile::render(sf::RenderTarget &target)
     target.draw(tileSprite);
 }
 
-int Tile::getX() const
+int Tile::getTileX() const
 {
     return xPos;
 }
 
-int Tile::getY() const
+int Tile::getTileY() const
 {
     return yPos;
+}
+
+double Tile::getX() const
+{
+    return mapBorderOffset + tileWidth / 2 + tileWidth * xPos;
+}
+
+double Tile::getY() const
+{
+    return mapBorderOffset + tileWidth / 2 + tileWidth * yPos;
 }
 
 char Tile::getType() const

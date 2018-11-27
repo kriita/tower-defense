@@ -16,8 +16,10 @@ public:
     ~Tile() = default;
 
     void render(sf::RenderTarget &target);
-    int getX() const;
-    int getY() const;
+    int getTileX() const;
+    int getTileY() const;
+    double getX() const;
+    double getY() const;
     char getType() const;
     bool checkPlaceable() const;
     void switchPlaceable();

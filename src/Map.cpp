@@ -85,8 +85,8 @@ void Map::readMapData()
 
 void Map::findPath()
 {
-    int x {spawnPoint->getX()};
-    int y {spawnPoint->getY()};
+    int x {spawnPoint->getTileX()};
+    int y {spawnPoint->getTileY()};
     int xDir {(x == 0 ? 1 : (x == xTilesMax-1 ? -1 : 0))};
     int yDir {(y == 0 ? 1 : (y == yTilesMax-1 ? -1 : 0))};
 

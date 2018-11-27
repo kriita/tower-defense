@@ -8,19 +8,6 @@
 #include "Monster.h"
 #include "Spritesheet.h"
 
-// Class ProjectilTarget below is only used in testcases (at least until Monster.h is done)
-
-class ProjectileTarget : public Monster
-{
-    public:
-    ProjectileTarget() = default;
-    void render(sf::RenderTarget &target) {};
-    void takeDamage() {};
-    void walk() {};
-    void defeat() {};     // Returns bounty
-    double getX() const {return 0;};
-    double getY() const {return 0;};
-};
 
 class Projectile
 {

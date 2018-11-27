@@ -7,8 +7,20 @@
 #include <SFML/Graphics.hpp>
 
 using namespace std;
-// Testing of Projectile::getTarget() works if class Monster in Projectile.h
-// is discommented and Monster.h is not included.
+
+// Class ProjectilTarget below is only used in testcases (at least until Monster.h is done)
+
+class ProjectileTarget : public Monster
+{
+    public:
+    ProjectileTarget() = default;
+    void render(sf::RenderTarget &target) {};
+    void takeDamage() {};
+    void walk() {};
+    void defeat() {};     // Returns bounty
+    double getX() const {return 0;};
+    double getY() const {return 0;};
+};
 
 
 TEST_CASE("Testing of Projectile::getTarget()")

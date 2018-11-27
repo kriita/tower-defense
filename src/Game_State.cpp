@@ -55,6 +55,11 @@ Game_Event Game_State :: update ()
         t->update();
     }
 
+    for (auto & p : projectiles)
+    {
+        p->update();
+    }
+
     // Iterate over all balls and let
     // the update themselves.
     //for ( auto & ball :  balls )
@@ -71,6 +76,11 @@ void Game_State :: render (RenderTarget & target)
     for (auto & t : towers)
     {
         t->render(target);
+    }
+
+    for (auto & p : projectiles)
+    {
+        p->render(target);
     }
 
     target.draw(gameOverlay);

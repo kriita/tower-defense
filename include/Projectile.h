@@ -24,13 +24,13 @@ class Projectile
 {
     public:
     Projectile() = default;
-    Projectile (int x, int y, int xDir, int yDir);
+    Projectile(int x, int y, int xDir, int yDir);
     virtual ~Projectile() = default;
     virtual void monsterHit() {};
     virtual void targetHit() {};
     virtual void explodeAnim() {}; // renders the explode animation
     void isOutsideMap();
-    virtual void move();
+    virtual void move() {};
     shptr<Monster> getTarget(); // Returns nullptr (false) if Projectile has no target
     void setTarget(shptr<Monster> newTarget);
     int getX(); // Coordinates in pixels
@@ -43,7 +43,8 @@ class Projectile
     void setyDir(int new_yDir);
     double getSpeed();
     void setSpeed(int newSpeed);
-    void renderMe();
+    void render(sf::RenderTarget &window);
+    virtual void update() {};
 
     protected:
     int dmg {};
@@ -55,15 +56,15 @@ class Projectile
     int yDir {};
     //Spritesheet projectileSpritesheet {};
     sf::Sprite projectileSprite {};
+    sf::Texture projectileTexture {};
 };
 
-/*
-class Anvil : Projectile
+
+class Anvil : public Projectile
 {
+    public:
     Anvil();
     Anvil(int x, int y, int xDir, int yDir);
-    private:
-    sf::Texture anvil_Texture {}
 };
-*/
+
 #endif

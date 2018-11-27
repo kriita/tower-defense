@@ -9,12 +9,13 @@
     virtual void explodeAnim() // renders the explode animation
     void isOutsideMap()
     virtual Move()
-    void renderMe()
+    void render()
  */
 
 
-//Projectile::Projectile (int x, int y, int xDir, int yDir)
-//: x {x}, y {y}, xDir {xDir}, yDir {yDir} {}
+Projectile::Projectile(int x, int y, int xDir, int yDir)
+: x {x}, y {y}, xDir {xDir}, yDir {yDir} {}
+
 
 void Projectile::setx(int new_x)
 {
@@ -93,9 +94,9 @@ void Projectile::move()
 }
 */
 
-void Projectile::renderMe()
+void Projectile::render(sf::RenderTarget &window)
 {
-
+    window.draw(projectileSprite);
 }
 
 
@@ -111,7 +112,19 @@ void Projectile::targetHit()
 }
 */
 
-/*
+Anvil::Anvil()
+: Projectile {}
+{
+    projectileTexture.loadFromFile("resources/images/anvil_t.png");
+    projectileSprite.setTexture(projectileTexture);
+}
+
+
 Anvil::Anvil(int x, int y, int xDir, int yDir)
-: Projectile(x, y, xDir, yDir, anvilTexture) {}
-*/
+: Projectile {x, y, xDir, yDir}
+{
+    projectileTexture.loadFromFile("resources/images/anvil_t.png");
+    projectileSprite.setTexture(projectileTexture);
+    projectileSprite.setOrigin(512, 512);
+    projectileSprite.setPosition(x,y);
+}

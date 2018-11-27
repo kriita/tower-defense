@@ -3,6 +3,8 @@
 #include "Monster.h"
 #include "Tile.h"
 #include "Tower.h"
+#include "Projectile.h"
+#include "defs.h"
 
 #include <vector>
 #include <memory>
@@ -38,6 +40,7 @@ private:
 
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};
+    std::vector<shptr<Projectile>> projectiles {};
 
     sf::Texture gameOverlayTexture;
     sf::Sprite gameOverlay {};

@@ -48,7 +48,16 @@ void Game_State :: handle_event (Event event)
             }
         }
         if ( mouse.button == Mouse::Button::Right )
-            monsters.erase (monsters.begin());
+        {
+            delete *monsters.front();
+            monsters.erase(monsters.begin());
+
+        }
+        for (unsigned i; i <= monsters.size(); i++)
+        {
+            if ((monsters[i]->isDead) == true)
+                monsters.erase(i);
+        }
     }
 
     // Send the event to the base class (see Go_Back_State.h)
@@ -67,11 +76,9 @@ Game_Event Game_State :: update ()
         p->update();
     }
 
-        for (auto & m : monsters)
+    for (auto & m : monsters)
     {
         m->update();
-
-
     }
 
     // Iterate over all balls and let

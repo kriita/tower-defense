@@ -30,6 +30,7 @@ public:
     virtual void defeat();          // Returns bounty
     bool onCheckpoint() const;
     void setNextTile();
+    bool isDead() {return dead;};
 
     Monster& operator=(Monster const& other);
 

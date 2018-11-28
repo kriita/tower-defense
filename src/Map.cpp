@@ -13,6 +13,7 @@
 using std::string;
 using std::vector;
 using std::ifstream;
+using std::make_shared;
 
 /*
  *  Map
@@ -36,22 +37,9 @@ void Map::render(sf::RenderTarget &target)
     }
 }
 
-void Map::createMatrix()
-{
-    mapTiles.resize(xTilesMax, vector<shptr<Tile>>(yTilesMax, nullptr));
-
-    for (int y {0}; y < yTilesMax; ++y)
-    {
-        for (int x {0}; x < xTilesMax; ++x)
-        {
-            mapTiles[x][y] = std::make_shared<Tile> ();
-        }
-    }
-}
-
 void Map::readMapData()
 {
-    createMatrix();
+    mapTiles.resize(xTilesMax, vector<shptr<Tile>>(yTilesMax, nullptr));
 
     string mapFolder {"resources/maps/"};
 
@@ -66,18 +54,32 @@ void Map::readMapData()
         {
             iss >> typeChar;
 
-            if(typeChar == startChar)
+            if (typeChar == startChar)
             {
+                mapTiles[x][y] = make_shared<Path> (x, y, pathChar);
                 spawnPoint = mapTiles[x][y];
                 typeChar = pathChar;
             }
-            else if(typeChar == endChar)
+            else if (typeChar == endChar)
             {
+                mapTiles[x][y] = make_shared<Path> (x, y, pathChar);
                 endPoint = mapTiles[x][y];
                 typeChar = pathChar;
             }
+            else if (typeChar == pathChar)
+            {
+                mapTiles[x][y] = make_shared<Path> (x, y, pathChar);
+            }
+            else if (typeChar == waterChar)
+            {
+                mapTiles[x][y] = make_shared<Water> (x, y, waterChar);
+            }
+            else
+            {
+                mapTiles[x][y] = make_shared<Grass> (x, y, fieldChar);
+            }
 
-            getTile(x, y)->setData(x, y, typeChar);
+            //getTile(x, y)->setData(x, y, typeChar);
         }
     }
     mapFile.close();
@@ -133,6 +135,7 @@ void Map::setTileSprites()
     {
         for (int x {0}; x < xTilesMax; ++x)
         {
+            /*
             binaryNeighbor = getSpriteNeighbors(x, y);
 
             if (binaryNeighbor == 4 || binaryNeighbor == 6 || binaryNeighbor == 8 ||
@@ -155,6 +158,8 @@ void Map::setTileSprites()
                 yOffset = 3;
 
             getTile(x, y)->setSprite(mapSpriteSheet, xOffset, yOffset);
+            */
+            getTile(x, y)->setSprite(mapSpriteSheet, getSpriteNeighbors(x, y));
         }
     }
 }

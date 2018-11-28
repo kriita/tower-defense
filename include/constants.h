@@ -38,4 +38,4 @@ char const startChar {'S'};
 char const endChar {'E'};
 char const pathChar {'0'};
 char const fieldChar {'1'};
-char const placeableChar {'2'};
+char const waterChar {'2'};

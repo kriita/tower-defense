@@ -11,9 +11,9 @@
 class Tile
 {
 public:
-    Tile() = default;
+    Tile(int x, int y, char type);
     Tile(Tile const&) = default;
-    ~Tile() = default;
+    virtual ~Tile() = default;
 
     void render(sf::RenderTarget &target);
     int getTileX() const;
@@ -24,20 +24,55 @@ public:
     bool checkPlaceable() const;
     void switchPlaceable();
     void setData(int x, int y, char type);
-    void setSprite(Spritesheet const& spriteSheet, unsigned xOffset, unsigned yOffset);
+    virtual void setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor) = 0;
     void setNextTile(shptr<Tile> const tile);
     shptr<Tile> getNextTile();
 
     Tile& operator = (Tile const &t) = default;
 
-private:
-    int xPos {};
-    int yPos {};
+protected:
+    int xTile {};
+    int yTile {};
+    unsigned xOffset {};
+    unsigned yOffset {};
     char tileType {};
-    bool placeable {};
+    bool placeable {false};
     shptr<Tile> nextTile {};
 
     sf::Sprite tileSprite {};
+};
+
+class Path : public Tile
+{
+public:
+    Path(int x, int y, char type);
+
+    void setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor);
+
+private:
+    Spritesheet tileSheet {"resources/images/path.png", 32, 32};
+};
+
+class Grass : public Tile
+{
+public:
+    Grass(int x, int y, char type);
+
+    void setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor);
+
+private:
+    Spritesheet tileSheet {"resources/images/grass.png", 32, 32};
+};
+
+class Water : public Tile
+{
+public:
+    Water(int x, int y, char type);
+
+    void setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor);
+
+private:
+    Spritesheet tileSheet {"resources/images/water.png", 32, 32};
 };
 
 #endif

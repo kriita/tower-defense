@@ -14,8 +14,11 @@ class Monster
 public:
     Monster() = default;
     Monster(Monster const&) = default;
+    Monster(int x, int y);
+    Monster(double x, double y);
     virtual ~Monster() = default;
-    void render(sf::RenderTarget &target) {};
+    void render(sf::RenderTarget &target);
+    void update();
     virtual void takeDamage(double damage) = 0;
     void walk();    
     double getX() const;
@@ -26,6 +29,7 @@ public:
     virtual void defeat();  // Returns bounty
     bool onCheckpoint() const;
     void setNextTile();
+
     Monster& operator=(Monster const& other);
 
 protected:
@@ -46,14 +50,16 @@ public:
     Monster1();
     Monster1(double health, double speed);
     Monster1(Monster1 const&) = default;
+    Monster1(int x, int y);
+    Monster1(double x, double y);
     void takeDamage(double damage) override;
     std::string getType() const;
     void loseLife() override;
 private:
     std::string monsterType {};
-    double armour;
-    int bounty;
-    int lifeLoss;
+    double armour{0.5};
+    int bounty{420};
+    int lifeLoss{1};
 };
 
 

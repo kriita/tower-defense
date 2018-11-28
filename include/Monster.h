@@ -23,8 +23,7 @@ public:
     void walk();    
     double getX() const;
     double getY() const;
-    void setXDir();            // -1/1 positiv riktning till höger
-    void setYDir();            // -1/1 positiv riktning nedåt
+    void setDir();                 // -1/1 positiv riktning till höger och nedåt
 
     void despawn();                 // Removes monster
     virtual void loseLife();        // Decreases game life
@@ -36,11 +35,11 @@ public:
 
 protected:
     double health{};
-    double speed{};
+    double speed{1};
 
     shptr<Tile> nextTile {};
-    int xDir{};
-    int yDir{};
+    int xDir{1};
+    int yDir{1};
     double y{};                     // Position in pixels
     double x{};
     double timeStamp{};

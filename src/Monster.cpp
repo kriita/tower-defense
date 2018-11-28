@@ -58,14 +58,12 @@ double Monster::getY() const
     return y;
 }
 
-void Monster::setXDir()
+
+
+void Monster::setDir()
 {
-
-}
-
-void Monster::setYDir()
-{
-
+    x = nextTile->getX();
+    y = nextTile->getY();
 }
 
 string Monster1::getType() const
@@ -85,7 +83,8 @@ void Monster1::takeDamage(double damage)           // Returns if it's dead
 
 void Monster::walk()
 {
-
+    x += speed*xDir;
+    y += speed*yDir;
 }
 
 void Monster::loseLife()

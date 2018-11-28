@@ -143,7 +143,10 @@ void Monster::defeat()
 
 void Monster::setNextTile()
 {
-    nextTile = nextTile->getNextTile();
+    if (nextTile->getNextTile() != nullptr)
+        nextTile = nextTile->getNextTile();
+    else
+        Monster::despawn();
 }
 
 

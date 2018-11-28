@@ -35,7 +35,7 @@ public:
 
 protected:
     double health{};
-    double speed{1};
+    double speed{3};
 
     shptr<Tile> nextTile {};
     int xDir{0};

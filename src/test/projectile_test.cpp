@@ -13,13 +13,8 @@ using namespace std;
 class ProjectileTarget : public Monster
 {
     public:
-    ProjectileTarget() = default;
-    void render(sf::RenderTarget &target) {};
-    void takeDamage() {};
-    void walk() {};
-    void defeat() {};     // Returns bounty
-    double getX() const {return 0;};
-    double getY() const {return 0;};
+    void loseLife() override {};        // Decreases game life
+    void defeat() override {};  
 };
 
 

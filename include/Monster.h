@@ -23,10 +23,12 @@ public:
     void walk();    
     double getX() const;
     double getY() const;
-    
+    void setXDir();            // -1/1 positiv riktning till höger
+    void setYDir();            // -1/1 positiv riktning nedåt
+
     void despawn();                 // Removes monster
-    virtual void loseLife();    // Decreases game life
-    virtual void defeat();  // Returns bounty
+    virtual void loseLife();        // Decreases game life
+    virtual void defeat();          // Returns bounty
     bool onCheckpoint() const;
     void setNextTile();
 
@@ -39,7 +41,7 @@ protected:
     shptr<Tile> nextTile {};
     int xDir{};
     int yDir{};
-    double y{};         // Position in pixels
+    double y{};                     // Position in pixels
     double x{};
     double timeStamp{};
 };

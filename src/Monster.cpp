@@ -37,6 +37,7 @@ void Monster::render(sf::RenderTarget &target)
     target.draw(circle);
 }
 
+
 void Monster::update()
 {
     walk();
@@ -57,6 +58,16 @@ double Monster::getY() const
     return y;
 }
 
+void Monster::setXDir()
+{
+    
+}
+
+void Monster::setYDir()
+{
+
+}
+
 string Monster1::getType() const
 {
     return monsterType;
@@ -64,7 +75,7 @@ string Monster1::getType() const
 
 void Monster1::takeDamage(double damage)
 {
-    Monster::health =- damage;               // lägg in skada funktionern för tornet
+    Monster::health =- damage*armour;               // lägg in skada funktionern för tornet
     if (health <= 0)
     {
         if (nextTile = nextTile->getNextTile())
@@ -87,12 +98,12 @@ void Monster::walk()
 
 void Monster::loseLife()
 {
-    // Ändrar life i GameState till nuvarande minus 1 (standard)
+    // Ändrar life i Economy/resourses till nuvarande minus 1 (standard)
 }
 
 void Monster1::loseLife()
 {
-    // Ändrar life i GameState till nuvarande minus lifeLoss
+    // Ändrar life i Economy/resourses till nuvarande minus lifeLoss
 }
 
 void Monster::defeat()

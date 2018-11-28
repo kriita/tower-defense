@@ -44,6 +44,7 @@ protected:
     double y{};                     // Position in pixels
     double x{};
     double timeStamp{};
+    bool dead{false};
 };
 
 class Monster1 : public Monster
@@ -57,7 +58,7 @@ public:
     std::string getType() const;
     void loseLife() override;
 private:
-    std::string monsterType {};
+    std::string monsterType {"Monster1"};
     double armour{0.5};
     int bounty{420};
     int lifeLoss{1};

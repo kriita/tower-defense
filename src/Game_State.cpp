@@ -56,12 +56,17 @@ Game_Event Game_State :: update ()
 {
     for (auto & t : towers)
     {
-        t->update();
+        t->update(monsters);
     }
 
     for (auto & p : projectiles)
     {
         p->update();
+    }
+
+        for (auto & m : monsters)
+    {
+        m->update();
     }
 
     // Iterate over all balls and let

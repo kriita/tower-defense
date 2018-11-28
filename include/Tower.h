@@ -20,7 +20,7 @@ public:
     virtual ~Tower() = default;
 
     void render(sf::RenderTarget &target);
-    void update();
+    void update(std::vector<shptr<Monster>> & monstervector);
 
     virtual void attack() = 0;
     virtual int getPrice() = 0;

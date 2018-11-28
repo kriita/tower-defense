@@ -7,10 +7,13 @@ void Tower::render(sf::RenderTarget &target)
     target.draw(towerSprite);
 }
 
-void Tower::update()
+void Tower::update(std::vector<shptr<Monster>> & monstervector)
 {
     if (target == nullptr)
+    {
         towerSprite.setRotation(towerSprite.getRotation() + 20);
+
+    }
     else 
     {
         double x{target->getX() - xPos};

@@ -52,12 +52,7 @@ void Game_State :: handle_event (Event event)
             monsters.erase(monsters.begin());
 
         }
-        for (unsigned i; i <= monsters.size(); i++)
-        {   
-            if ((monsters[i]->isDead()) == true)
-                monsters.erase(i);
-            
-        }
+
     }
 
     // Send the event to the base class (see Go_Back_State.h)
@@ -79,9 +74,16 @@ Game_Event Game_State :: update ()
     for (auto & m : monsters)
     {
         m->update();
-        cout << m->getHealth();
+        cout << m->isDead() << m->getHealth() << endl;
     }
-
+    /*
+            for (unsigned i = 2; i <= monsters.size(); i++)
+        {   
+            if (monsters[i]->isDead())
+                monsters.erase(monsters.begin());
+            
+        }
+    */
     // Iterate over all balls and let
     // the update themselves.
     //for ( auto & ball :  balls )

@@ -36,9 +36,9 @@ public:
     Monster& operator=(Monster const& other);
 
 protected:
-    double health{50};
+    double health{500000000};
     double speed{3};
-    double armour{1};
+    double armour{1/1000000000};
     shptr<Tile> nextTile {};
     int xDir{0};
     int yDir{1};

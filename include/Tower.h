@@ -31,11 +31,12 @@ public:
     void setTarget(shptr<Monster> newTarget);
 
 protected:
-    double xPos {};
-    double yPos {};
-    double fireRate {};
-    double attackPower {};
-    shptr<Monster> target {};
+    double xPos{};
+    double yPos{};
+    double fireRate{};
+    double attackPower{};
+    double range{};
+    shptr<Monster> target{};
 
     
 

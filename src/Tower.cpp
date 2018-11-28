@@ -11,14 +11,19 @@ void Tower::update(std::vector<shptr<Monster>> & monstervector)
 {
     if (target == nullptr)
     {
-        towerSprite.setRotation(towerSprite.getRotation() + 20);
+        if (monstervector.empty())
+            towerSprite.setRotation(towerSprite.getRotation() + 20);
+        else 
+        {
+            target = monstervector.back();
+        }
 
     }
     else 
     {
         double x{target->getX() - xPos};
         double y{target->getY() - yPos};
-        towerSprite.setRotation(atan2(y,x));
+        towerSprite.setRotation(atan2(y,x) / (2 * 3.1415926535897) * 360 + 90);
     }
 
 }
@@ -49,7 +54,10 @@ void Tower::setTarget(shptr<Monster> newTarget)
 }
 
 Tower::Tower(double x, double y)
-    :   xPos{x}, yPos{y} {}
+    :   xPos{x}, yPos{y} 
+    {
+        range = 100;
+    }
 
 Tower::Tower(int x, int y)
     :   Tower {mapBorderOffset + tileWidth / 2 + tileWidth * x, 

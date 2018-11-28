@@ -63,7 +63,7 @@ void Monster1::loseLife()
     // Ändrar life i GameState till nuvarande minus lifeLoss
 }
 
-void Monster1::defeat()
+void Monster::defeat()
 {
     // Ändrar pengar i economy till nuvarande + bounty
 }

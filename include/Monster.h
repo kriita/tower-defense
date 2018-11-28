@@ -47,7 +47,6 @@ public:
     Monster1(double health, double speed);
     Monster1(Monster1 const&) = default;
     void takeDamage(double damage) override;
-    void defeat() override;
     std::string getType() const;
     void loseLife() override;
 private:

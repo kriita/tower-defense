@@ -2,6 +2,11 @@
 #include "Spritesheet.h"
 #include "Tile.h"
 #include <memory>
+#include <vector>
+
+#include <iostream>
+
+using std::vector;
 
 /*
  *  Tile
@@ -53,15 +58,6 @@ void Tile::switchPlaceable()
     placeable = !placeable;
 }
 
-/*
-void Tile::setData(int x, int y, char type)
-{
-    xTile = x;
-    yTile = y;
-    tileType = type;
-}
-*/
-
 void Tile::setNextTile(shptr<Tile> const tile)
 {
     nextTile = tile;
@@ -78,32 +74,11 @@ Path::Path(int x, int y, char type)
     //setSprite(tileSheet, 2, 1);
 }
 
-/*
-void Path::setSprite(Spritesheet const& spriteSheet, unsigned xOffset, unsigned yOffset)
-{
-    if (tileType == pathChar)
-    {
-        tileSprite = spriteSheet.get_sprite(5 + yOffset, 3 + xOffset);
-    }
-    else
-    {
-        tileSprite = spriteSheet.get_sprite(2, 1);
-    }
-
-    tileSprite = spriteSheet.get_sprite(yOffset, xOffset);
-
-    tileSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xTile,
-                            mapBorderOffset + tileWidth / 2 + tileWidth * yTile);
-    tileSprite.setOrigin (tileWidth/2, tileWidth/2);
-
-}
-*/
-
-void Path::setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor)
+void Path::setSprite(Spritesheet const& spriteSheet, vector<bool> bin)
 {
     unsigned xOffset {};
     unsigned yOffset {};
-
+/*
     if (binaryNeighbor == 4 || binaryNeighbor == 6 || binaryNeighbor == 8 ||
         binaryNeighbor == 10 || binaryNeighbor == 12)
         xOffset = 0;
@@ -124,6 +99,8 @@ void Path::setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor)
         yOffset = 3;
 
     tileSprite = spriteSheet.get_sprite(5 + yOffset, 3 + xOffset);
+*/
+    tileSprite = spriteSheet.get_sprite(6, 4);
 
     tileSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xTile,
                             mapBorderOffset + tileWidth / 2 + tileWidth * yTile);
@@ -137,7 +114,7 @@ Grass::Grass(int x, int y, char type)
     //setSprite(tileSheet, 1, 1);
 }
 
-void Grass::setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor)
+void Grass::setSprite(Spritesheet const& spriteSheet, vector<bool> bin)
 {
     tileSprite = spriteSheet.get_sprite(2, 1);
 
@@ -153,33 +130,20 @@ Water::Water(int x, int y, char type)
     //setSprite(tileSheet, 1, 1);
 }
 
-void Water::setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor)
+void Water::setSprite(Spritesheet const& spriteSheet, vector<bool> bin)
 {
     unsigned xOffset {};
     unsigned yOffset {};
 
-    if (binaryNeighbor == 2 || binaryNeighbor == 6 || binaryNeighbor == 10 ||
-        binaryNeighbor == 12 || binaryNeighbor == 14)
-        xOffset = 0;
-    else if (binaryNeighbor == 0 || binaryNeighbor == 4 || binaryNeighbor == 7 ||
-             binaryNeighbor == 8 || binaryNeighbor == 11 || binaryNeighbor == 15)
-        xOffset = 1;
-    else if (binaryNeighbor == 1 || binaryNeighbor == 3 || binaryNeighbor == 5 ||
-             binaryNeighbor == 9 || binaryNeighbor == 13)
-        xOffset = 2;
-
-    if (binaryNeighbor <= 9 && binaryNeighbor == 11)
-        yOffset = 0;
-    else if (binaryNeighbor >= 13 && binaryNeighbor <= 15)
-        yOffset = 1;
-    else if (binaryNeighbor >= 5 && binaryNeighbor <= 7)
-        yOffset = 2;
-    else if (binaryNeighbor == 3 || binaryNeighbor == 8 || binaryNeighbor == 12)
-        yOffset = 3;
-    else if (binaryNeighbor >= 0 && binaryNeighbor <= 2)
-        yOffset = 4;
-    else if (binaryNeighbor == 4)
-        yOffset = 5;
+    if (!bin[1] && !bin[3] && bin[4] && bin[6])         { yOffset = 0; xOffset = 0; }
+    else if (!bin[1] && bin[3] && bin[4] && bin[6])     { yOffset = 0; xOffset = 1; }
+    else if (!bin[1] && bin[3] && !bin[4] && bin[6])    { yOffset = 0; xOffset = 2; }
+    else if (bin[1] && !bin[3] && bin[4] && bin[6])     { yOffset = 1; xOffset = 0; }
+    else if (bin[1] && bin[3] && !bin[4] && bin[6])     { yOffset = 1; xOffset = 2; }
+    else if (bin[1] && !bin[3] && bin[4] && !bin[6])    { yOffset = 2; xOffset = 0; }
+    else if (bin[1] && bin[3] && bin[4] && !bin[6])     { yOffset = 2; xOffset = 1; }
+    else if (bin[1] && bin[3] && !bin[4] && !bin[6])    { yOffset = 2; xOffset = 2; }
+    else                                                { yOffset = 1; xOffset = 1; }
 
     tileSprite = tileSheet.get_sprite(yOffset, xOffset);
 

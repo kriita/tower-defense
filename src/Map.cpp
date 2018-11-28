@@ -159,12 +159,15 @@ void Map::setTileSprites()
 
             getTile(x, y)->setSprite(mapSpriteSheet, xOffset, yOffset);
             */
-            getTile(x, y)->setSprite(mapSpriteSheet, getSpriteNeighbors(x, y));
+            if (getTile(x, y)->getType() == pathChar)
+                getTile(x, y)->setSprite(mapSpriteSheet, getSpriteNeighbors(x, y));
+            else
+                getTile(x, y)->setSprite(mapSpriteSheet, getSpriteNeighbors(x, y));
         }
     }
 }
-
-int Map::getSpriteNeighbors(int xPos, int yPos)
+/*
+int Map::getPathNeighbors(int xPos, int yPos)
 {
     unsigned binaryNeighbor {0};
     char tileType {getTile(xPos, yPos)->getType()};
@@ -179,6 +182,34 @@ int Map::getSpriteNeighbors(int xPos, int yPos)
     binaryNeighbor += 8;
 
     return binaryNeighbor;
+}
+*/
+vector<bool> Map::getSpriteNeighbors(int xTile, int yTile)
+{
+    //unsigned binaryNeighbor {0};
+    vector<bool> bin {};
+    bin.resize(8, false);
+    char tileType {getTile(xTile, yTile)->getType()};
+    unsigned n {0};
+
+    for (int y {yTile-1}; y <= yTile+1; ++y)
+    {
+        for (int x {xTile-1}; x <= xTile+1; ++x)
+        {
+            if (x >= 0 && x <= xTilesMax-1 &&
+                y >= 0 && y <= yTilesMax-1 &&
+                !(x == xTile && y == yTile))
+            {
+                if (getTile(x, y)->getType() == tileType)
+                    bin[n] = 1;
+            }
+
+            if (!(x == xTile && y == yTile))
+                ++n;
+        }
+    }
+
+    return bin;
 }
 
 shptr<Tile> Map::getTile(int x, int y)

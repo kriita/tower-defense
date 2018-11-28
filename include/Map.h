@@ -20,7 +20,8 @@ public:
     ~Map() = default;
 
     void render(sf::RenderTarget &target);
-    int getSpriteNeighbors(int xPos, int yPos);
+    int getPathNeighbors(int xPos, int yPos);
+    std::vector<bool> getSpriteNeighbors(int xTile, int yTile);
     shptr<Tile> getTile(int x, int y);
     shptr<Tile> getSpawnPoint();
     shptr<Tile> getEndPoint();

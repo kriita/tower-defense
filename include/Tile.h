@@ -4,6 +4,7 @@
 #include "Spritesheet.h"
 #include "defs.h"
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 /*
  *  Tile
@@ -24,7 +25,7 @@ public:
     bool checkPlaceable() const;
     void switchPlaceable();
     void setData(int x, int y, char type);
-    virtual void setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor) = 0;
+    virtual void setSprite(Spritesheet const& spriteSheet, std::vector<bool> bin) = 0;
     void setNextTile(shptr<Tile> const tile);
     shptr<Tile> getNextTile();
 
@@ -47,7 +48,7 @@ class Path : public Tile
 public:
     Path(int x, int y, char type);
 
-    void setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor);
+    void setSprite(Spritesheet const& spriteSheet, std::vector<bool> bin);
 
 private:
     Spritesheet tileSheet {"resources/images/path.png", 32, 32};
@@ -58,7 +59,7 @@ class Grass : public Tile
 public:
     Grass(int x, int y, char type);
 
-    void setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor);
+    void setSprite(Spritesheet const& spriteSheet, std::vector<bool> bin);
 
 private:
     Spritesheet tileSheet {"resources/images/grass.png", 32, 32};
@@ -69,7 +70,7 @@ class Water : public Tile
 public:
     Water(int x, int y, char type);
 
-    void setSprite(Spritesheet const& spriteSheet, unsigned binaryNeighbor);
+    void setSprite(Spritesheet const& spriteSheet, std::vector<bool> bin);
 
 private:
     Spritesheet tileSheet {"resources/images/water.png", 32, 32};

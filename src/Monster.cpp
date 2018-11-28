@@ -60,7 +60,7 @@ double Monster::getY() const
 
 void Monster::setXDir()
 {
-    
+
 }
 
 void Monster::setYDir()
@@ -78,16 +78,8 @@ void Monster1::takeDamage(double damage)
     Monster::health =- damage*armour;               // lägg in skada funktionern för tornet
     if (health <= 0)
     {
-        if (nextTile = nextTile->getNextTile())
-        {
-            Monster::loseLife();
-            Monster::despawn();
-        }
-        else
-        {
-            Monster::defeat();
-            Monster::despawn();    
-        }
+        Monster::defeat();
+        Monster::despawn();    
     }
 }
 

@@ -159,6 +159,7 @@ void Map::setTileSprites()
 
             getTile(x, y)->setSprite(mapSpriteSheet, xOffset, yOffset);
             */
+           
             if (getTile(x, y)->getType() == pathChar)
                 getTile(x, y)->setSprite(mapSpriteSheet, getSpriteNeighbors(x, y));
             else

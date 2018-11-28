@@ -7,6 +7,7 @@
 #include "Monster.h"
 #include "defs.h"
 
+
 /*
  *  Tower
  */
@@ -29,6 +30,7 @@ public:
     double getFireRate() const;
     double getAttackPower() const;
     void setTarget(shptr<Monster> newTarget);
+    bool inRange(shptr<Monster> monster);
 
 protected:
     double xPos{};

@@ -52,8 +52,8 @@ Tower::Tower(int x, int y)
     :   Tower {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
                mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
-Tower::Tower(Tile& tile)
-    :   Tower{tile.getX(), tile.getY()} {}
+Tower::Tower(shptr<Tile> tile)
+    :   Tower{tile->getX(), tile->getY()} {}
 
 Tower1::Tower1(double x, double y)
     : Tower{x,y} 
@@ -67,8 +67,8 @@ Tower1::Tower1(int x, int y)
     : Tower1 {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
               mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
-Tower1::Tower1(Tile& tile)
-    :   Tower1{tile.getX(), tile.getY()} {}
+Tower1::Tower1(shptr<Tile> tile)
+    :   Tower1{tile->getX(), tile->getY()} {}
 
 void Tower1::attack() {}
 

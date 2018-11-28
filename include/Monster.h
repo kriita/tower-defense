@@ -33,22 +33,21 @@ public:
     Monster& operator=(Monster const& other);
 
 protected:
-    double health;
-    double speed;
+    double health{};
+    double speed{};
 
     shptr<Tile> nextTile {};
-    int xDir;
-    int yDir;
-    double y {};         // Position in pixels
-    double x {};
-    double timeStamp;
+    int xDir{};
+    int yDir{};
+    double y{};         // Position in pixels
+    double x{};
+    double timeStamp{};
 };
 
 class Monster1 : public Monster
 {
 public:
     Monster1();
-    Monster1(double health, double speed);
     Monster1(Monster1 const&) = default;
     Monster1(int x, int y);
     Monster1(double x, double y);

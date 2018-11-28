@@ -41,6 +41,10 @@ void Game_State :: handle_event (Event event)
                 towers.push_back(make_shared<Tower1> (tmpTile->getX(), tmpTile->getY()));
                 tmpTile->switchPlaceable();
             }
+            else 
+            {
+                monsters.push_back(make_shared<Monster1> (tmpTile->getX(), tmpTile->getY()));
+            }
         }
     }
 
@@ -81,6 +85,11 @@ void Game_State :: render (RenderTarget & target)
     for (auto & p : projectiles)
     {
         p->render(target);
+    }
+
+    for (auto & m : monsters)
+    {
+        m->render(target);
     }
 
     target.draw(gameOverlay);

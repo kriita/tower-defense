@@ -62,8 +62,14 @@ double Monster::getY() const
 
 void Monster::setDir()
 {
-    x = nextTile->getX();
-    y = nextTile->getY();
+    if ((nextTile->getX() - x) > 0)
+        xDir = 1;
+    else
+        xDir = -1;
+    if ((nextTile->getY()- y) > 0)
+        yDir = 1;
+    else 
+        yDir = -1;
 }
 
 string Monster1::getType() const

@@ -15,12 +15,12 @@ class Tower
 public:
     Tower(int x, int y);
     Tower(double x, double y);
-    Tower(Tile& tile);
+    Tower(shptr<Tile> tile);
 
     virtual ~Tower() = default;
 
     void render(sf::RenderTarget &target);
-    void update();
+    void update(std::vector<shptr<Monster>> & monstervector);
 
     virtual void attack() = 0;
     virtual int getPrice() = 0;
@@ -51,7 +51,7 @@ class Tower1 : public Tower
 public:
     Tower1(int x, int y);
     Tower1(double x, double y);
-    Tower1(Tile& tile);
+    Tower1(shptr<Tile> tile);
     void attack() override;
     int getPrice() override;
 };

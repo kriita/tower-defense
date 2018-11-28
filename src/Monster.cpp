@@ -101,14 +101,20 @@ string Monster1::getType() const
     return monsterType;
 }
 
-void Monster1::takeDamage(double damage)           // Returns if it's dead
+void Monster::takeDamage(double damage)           // Returns if it's dead
 {
-    Monster::health =- damage*armour;               // lägg in skada funktionern för tornet
+    health =- damage*armour;               // lägg in skada funktionern för tornet
     if (health <= 0)
     {
-        Monster::defeat();
+        defeat();
         dead = true;    
     }
+}
+
+
+double Monster::getHealth()
+{
+    return health;
 }
 
 void Monster::walk()

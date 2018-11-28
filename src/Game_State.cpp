@@ -3,8 +3,8 @@
 #include "constants.h"
 #include "Tower.h"
 #include <memory>
-
 #include <iostream>
+
 
 using namespace sf;
 
@@ -49,14 +49,14 @@ void Game_State :: handle_event (Event event)
         }
         if ( mouse.button == Mouse::Button::Right )
         {
-            delete *monsters.front();
             monsters.erase(monsters.begin());
 
         }
         for (unsigned i; i <= monsters.size(); i++)
-        {
-            if ((monsters[i]->isDead) == true)
+        {   
+            if ((monsters[i]->isDead()) == true)
                 monsters.erase(i);
+            
         }
     }
 
@@ -79,6 +79,7 @@ Game_Event Game_State :: update ()
     for (auto & m : monsters)
     {
         m->update();
+        cout << m->getHealth();
     }
 
     // Iterate over all balls and let

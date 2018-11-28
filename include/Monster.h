@@ -19,25 +19,26 @@ public:
     virtual ~Monster() = default;
     void render(sf::RenderTarget &target);
     void update();
-    virtual void takeDamage(double damage) = 0;
+    void takeDamage(double damage);
     void walk();    
     double getX() const;
     double getY() const;
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
-
+    double getHealth();
     void despawn();                 // Removes monster
     virtual void loseLife();        // Decreases game life
     virtual void defeat();          // Returns bounty
     bool onCheckpoint() const;
     void setNextTile();
     bool isDead() {return dead;};
+    void kill() {dead = true;};
 
     Monster& operator=(Monster const& other);
 
 protected:
-    double health{};
+    double health{50};
     double speed{3};
-
+    double armour{1};
     shptr<Tile> nextTile {};
     int xDir{0};
     int yDir{1};
@@ -54,12 +55,11 @@ public:
     Monster1(Monster1 const&) = default;
     Monster1(int x, int y);
     Monster1(double x, double y);
-    void takeDamage(double damage) override;
     std::string getType() const;
     void loseLife() override;
 private:
     std::string monsterType {"Monster1"};
-    double armour{0.5};
+    double health{25};
     int bounty{420};
     int lifeLoss{1};
 };

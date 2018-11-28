@@ -4,12 +4,20 @@
 #include "Monster.h"
 #include "constants.h"
 #include "defs.h"
+#include <math.h>
+#include <stdlib.h>
 
 using std::string;
 
 /* 
  *  Monster
  */
+
+Monster::Monster(shptr<Tile> tile)
+    : x{tile->getX()}, y{tile->getY()}
+{
+    nextTile = tile;
+}
 
 Monster::Monster(double xPos, double yPos)
     :   x{xPos}, y{yPos} {}
@@ -18,6 +26,10 @@ Monster::Monster(int x, int y)
     :   Monster {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
                mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
+Monster1::Monster1(shptr<Tile> tile)
+    : Monster{tile}
+{
+}
 
 Monster1::Monster1(double x, double y)
     : Monster{x,y} 
@@ -26,6 +38,8 @@ Monster1::Monster1(double x, double y)
 Monster1::Monster1(int x, int y)
     : Monster1 {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
               mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+
+        
 
 void Monster::render(sf::RenderTarget &target)
 { 
@@ -62,14 +76,24 @@ double Monster::getY() const
 
 void Monster::setDir()
 {
-    if ((nextTile->getX() - x) > 0)
+    xDir = nextTile->getX() - x;
+    if (!(xDir == 0))
+        xDir /= abs(xDir);
+    
+    yDir = nextTile->getY() - y;
+    if (!(yDir == 0))
+        yDir /= abs(yDir);
+
+/*
+    if ((nextTile->getX() - x) > speed)
         xDir = 1;
+        yDir = 0;
     else
         xDir = -1;
     if ((nextTile->getY()- y) > 0)
         yDir = 1;
     else 
-        yDir = -1;
+        yDir = -1;  */
 }
 
 string Monster1::getType() const
@@ -89,6 +113,15 @@ void Monster1::takeDamage(double damage)           // Returns if it's dead
 
 void Monster::walk()
 {
+    double tolerance{speed};
+    if (   (pow((nextTile->getX() - x), 2) <= tolerance)
+        && (pow((nextTile->getY() - y), 2) <= tolerance))
+    {
+        x = nextTile->getX();
+        y = nextTile->getY();
+        Monster::setNextTile();
+        Monster::setDir();
+    }
     x += speed*xDir;
     y += speed*yDir;
 }

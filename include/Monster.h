@@ -12,8 +12,8 @@
 class Monster
 {
 public:
-    Monster() = default;
-    Monster(Monster const&) = default;
+    Monster(shptr<Tile> tile);     //provide spawnpoint
+    Monster(Monster const&) = delete;
     Monster(int x, int y);
     Monster(double x, double y);
     virtual ~Monster() = default;
@@ -38,7 +38,7 @@ protected:
     double speed{1};
 
     shptr<Tile> nextTile {};
-    int xDir{1};
+    int xDir{0};
     int yDir{1};
     double y{};                     // Position in pixels
     double x{};
@@ -49,7 +49,7 @@ protected:
 class Monster1 : public Monster
 {
 public:
-    Monster1();
+    Monster1(shptr<Tile>);          //provide spawnpoint
     Monster1(Monster1 const&) = default;
     Monster1(int x, int y);
     Monster1(double x, double y);

@@ -46,6 +46,8 @@ void Game_State :: handle_event (Event event)
                 monsters.push_back(make_shared<Monster1> (tmpTile->getX(), tmpTile->getY()));
             }
         }
+        if ( mouse.button == Mouse::Button::Right )
+            monsters.erase (monsters.begin());
     }
 
     // Send the event to the base class (see Go_Back_State.h)
@@ -67,6 +69,8 @@ Game_Event Game_State :: update ()
         for (auto & m : monsters)
     {
         m->update();
+
+
     }
 
     // Iterate over all balls and let

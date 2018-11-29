@@ -13,7 +13,7 @@ Game_State::Game_State()
 {
     if(!gameOverlayTexture.loadFromFile("resources/images/overlay.png"))
     {
-        //error
+        throw Game_StateError{"Couldn't load overlay texture"};
     }
     gameOverlay.setTexture(gameOverlayTexture);
 

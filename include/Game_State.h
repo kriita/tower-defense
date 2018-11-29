@@ -24,6 +24,12 @@
  * It also demonstrates how to remove objects from
  * the game in a safe way, as to avoid memory leaks.
  */
+
+class Game_StateError : public std::logic_error
+{
+    using std::logic_error::logic_error;
+};
+
 class Game_State : public Go_Back_State
 {
 public:
@@ -45,7 +51,7 @@ private:
     std::vector<shptr<Tower>> towers {};
     std::vector<shptr<Projectile>> projectiles {};
 
-    sf::Texture gameOverlayTexture;
+    sf::Texture gameOverlayTexture {};
     sf::Sprite gameOverlay {};
 
     /*

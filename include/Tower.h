@@ -72,4 +72,15 @@ public:
     int getPrice() override;
 };
 
+class MinigunTower : public Tower
+{
+public:
+    MinigunTower(int x, int y);
+    MinigunTower(double x, double y);
+    MinigunTower(shptr<Tile> tile);
+    void attack() override;
+    int getPrice() override;
+};
+
+
 #endif

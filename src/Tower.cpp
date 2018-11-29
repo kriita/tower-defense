@@ -126,3 +126,29 @@ AnvilTower::AnvilTower(shptr<Tile> tile)
 void AnvilTower::attack() {}
 
 int AnvilTower::getPrice() {return 9000;}
+
+// MinigunTower
+
+MinigunTower::MinigunTower(double x, double y)
+    : Tower{x,y} 
+{
+    
+    sf::Texture texture;
+    texture.loadFromFile("resources/images/minigunTowerTemp.png");
+    towerSprite = sf::Sprite{texture};
+    
+  //  towerSprite = towerSpriteSheet.get_sprite(11, 0);
+    towerSprite.setPosition (xPos,yPos);
+    towerSprite.setOrigin (tileWidth/2, tileWidth/2);
+} 
+
+MinigunTower::MinigunTower(int x, int y)
+    : MinigunTower{mapBorderOffset + tileWidth / 2 + tileWidth * x, 
+              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+
+MinigunTower::MinigunTower(shptr<Tile> tile)
+    :   MinigunTower{tile->getX(), tile->getY()} {}
+
+void MinigunTower::attack() {}
+
+int MinigunTower::getPrice() {return 9000;}

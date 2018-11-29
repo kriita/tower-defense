@@ -31,16 +31,19 @@ public:
     double getAttackPower() const;
     void setTarget(shptr<Monster> newTarget);
     bool inRange(shptr<Monster> monster);
+    void updateRange();
+    void updateAttackPower();
+    void updateFireRate();
 
 protected:
     double xPos{};
     double yPos{};
-    double fireRate{};
-    double attackPower{};
+    //double fireRate{};
+    double attackPower{1};
     double range{};
     shptr<Monster> target{};
+    std::vector<double> fireRate = {1.0, 1.5, 2.0, 2.5, 3.0};
 
-    
 
     Spritesheet towerSpriteSheet {"resources/images/spritesheet.png", 32, 32}; //temporär
     sf::Sprite towerSprite {};
@@ -55,6 +58,16 @@ public:
     Tower1(int x, int y);
     Tower1(double x, double y);
     Tower1(shptr<Tile> tile);
+    void attack() override;
+    int getPrice() override;
+};
+
+class AnvilTower : public Tower
+{
+public:
+    AnvilTower(int x, int y);
+    AnvilTower(double x, double y);
+    AnvilTower(shptr<Tile> tile);
     void attack() override;
     int getPrice() override;
 };

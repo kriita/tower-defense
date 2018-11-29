@@ -6,6 +6,8 @@
  * Header file for Resources.cpp.
  */
 
+#include <stdexcept>
+
 class ResourcesError : public std::logic_error
 {
 	using std::logic_error::logic_error;

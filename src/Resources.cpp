@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * resources.cpp
+ * Resources.cpp
  * 
  * The purpose of this file is to define the behavior of game resources.
  * A resource class is created with initial hitpoints and money values, that
@@ -12,25 +12,25 @@
 
 #include "Resources.h"
 
-resources::resources(int initHitpoints, int initMoney)
+Resources::Resources(int initHitpoints, int initMoney)
 : hitpoints {initHitpoints}, money {initMoney} {}
 
-int resources::getMoney()
+int Resources::getMoney()
 {
 	return money;
 }
 
-int resources::getHP()
+int Resources::getHP()
 {
 	return hitpoints;
 }
 
-void resources::changeMoney(int const diff)
+void Resources::changeMoney(int const diff)
 {
 	money = money + diff;
 }
 
-void resources::changeHP(int const diff)
+void Resources::changeHP(int const diff)
 {
 	hitpoints = hitpoints + diff;
 }

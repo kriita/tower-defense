@@ -6,11 +6,16 @@
  * Header file for Resources.cpp.
  */
 
-class resources
+class ResourcesError : public std::logic_error
+{
+	using std::logic_error::logic_error;
+};
+
+class Resources
 {
 public:
-	resources(int initHitpoints, int initMoney);
-	~resources() = default;
+	Resources(int initHitpoints, int initMoney);
+	~Resources() = default;
 
 	int getMoney();
 	int getHP();

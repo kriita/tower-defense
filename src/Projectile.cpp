@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Monster.h"
 #include <cmath>
+#include <vector>
 
 /*
  *  Funktioner kvar att definiera:
@@ -14,6 +15,9 @@
 
 Projectile::Projectile(double x, double y, double xDir, double yDir)
 : x {x}, y {y}, xDir {xDir}, yDir {yDir} {}
+
+Projectile::Projectile(double x, double y, double dirByRadians)
+: x {x}, y {y}, xDir {cos(dirByRadians)}, yDir {sin(dirByRadians)} {}
 
 
 void Projectile::setx(double new_x)
@@ -48,11 +52,6 @@ void Projectile::setyDir(double new_yDir)
 
 void Projectile::setDirByRadians(double angle)
 {
-    //double tmpAngle = angle;
-    //while (tmpAngle % (2*acos(-1)) > 0)
-    //{
-    //tmpAngle -= tmpAngle/(2*acos(-1));
-    //}
     xDir = cos(angle);
     yDir = sin(angle);
 }
@@ -75,13 +74,9 @@ double Projectile::getDirByRadians()
         {
             throw ProjectileError("xDir = yDir = 0 does not provide a direction angle");
         }
-        else return yDir/abs(yDir);
+        else return asin(yDir);
     }
-    else if (yDir/xDir > 0)
-    {
-        return atan(yDir/xDir);
-    }
-    else return atan(yDir/xDir);
+    else return atan2(yDir, xDir);
 }
 
 double Projectile::getSpeed()
@@ -106,7 +101,7 @@ void Projectile::setTarget(shptr<Monster> newTarget)
     target = newTarget;
 }
 
-void Projectile::update()
+void Projectile::update(std::vector<shptr<Monster>> allMonsters)
 {
     move();
 }
@@ -131,9 +126,6 @@ void Projectile::render(sf::RenderTarget &window)
 {
     window.draw(projectileSprite);
 }
-
-
-
 
 
 void Projectile::targetHit()
@@ -161,8 +153,9 @@ Anvil::Anvil(double x, double y, double xDir, double yDir)
     projectileTexture.loadFromFile("resources/images/anvil_t.png");
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(512, 512);
-    projectileSprite.setScale(0.04, 0.04);
+    projectileSprite.setScale(0.05, 0.05);
     projectileSprite.setPosition(x,y);
+    setSpeed(3);
 }
 
 Anvil::Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &target)
@@ -174,4 +167,9 @@ Anvil::Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &targe
     projectileSprite.setScale(0.04, 0.04);
     projectileSprite.setPosition(x,y);
     setTarget(target);
+}
+
+void Anvil::monsterHit(std::vector<shptr<Monster>> allMonsters)
+{
+
 }

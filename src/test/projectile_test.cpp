@@ -9,7 +9,7 @@
 using namespace std;
 
 // Class ProjectilTarget below is only used in testcases (at least until Monster.h is done)
-
+/*
 class ProjectileTarget : public Monster
 {
     public:
@@ -31,4 +31,11 @@ TEST_CASE("Testing of Projectile::getTarget()")
     myProj.setTarget(nullptr);
     CHECK_FALSE(myProj.getTarget());    // myProj should no longer have a target
     CHECK_FALSE(dynamic_cast<Monster*> ((myProj.getTarget()).get()));
+}
+*/
+
+TEST_CASE("Testing of ProjectileError")
+{
+    Projectile myProj {0, 0, 0, 0};
+    REQUIRE_THROWS_AS(myProj.getDirByRadians(), ProjectileError);
 }

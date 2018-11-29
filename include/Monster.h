@@ -26,8 +26,8 @@ public:
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
     double getHealth();
     void despawn();                 // Removes monster
-    virtual void loseLife();        // Decreases game life
-    virtual void defeat();          // Returns bounty
+    virtual void loseHP();        // Decreases game HP
+    virtual void defeat() {};          // Returns bounty
     bool onCheckpoint() const;
     void setNextTile();
     bool isDead() {return dead;};
@@ -36,7 +36,7 @@ public:
     Monster& operator=(Monster const& other);
 
 protected:
-    double health{100};
+    double health{500000000};
     double speed{3};
     double armour{1/1000000000};
     shptr<Tile> nextTile {};
@@ -56,12 +56,13 @@ public:
     Monster1(int x, int y);
     Monster1(double x, double y);
     std::string getType() const;
-    void loseLife() override;
+    void loseHP() override;
+    void defeat() override;
 private:
     std::string monsterType {"Monster1"};
     double health{25};
     int bounty{420};
-    int lifeLoss{1};
+    int HPLoss{3};
 };
 
 

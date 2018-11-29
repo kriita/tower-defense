@@ -6,6 +6,7 @@
 #include "defs.h"
 #include <math.h>
 #include <stdlib.h>
+#include "Resources.h"
 
 using std::string;
 
@@ -83,17 +84,6 @@ void Monster::setDir()
     yDir = nextTile->getY() - y;
     if (!(yDir == 0))
         yDir /= abs(yDir);
-
-/*
-    if ((nextTile->getX() - x) > speed)
-        xDir = 1;
-        yDir = 0;
-    else
-        xDir = -1;
-    if ((nextTile->getY()- y) > 0)
-        yDir = 1;
-    else 
-        yDir = -1;  */
 }
 
 string Monster1::getType() const
@@ -132,19 +122,20 @@ void Monster::walk()
     y += speed*yDir;
 }
 
-void Monster::loseLife()
+void Monster::loseHP()
 {
-    // Ändrar life i Economy/resourses till nuvarande minus 1 (standard)
+//   resources::changeHP(int const& -1);
 }
 
-void Monster1::loseLife()
+void Monster1::loseHP()
 {
-    // Ändrar life i Economy/resourses till nuvarande minus lifeLoss
+//    resources::changeHP(int const& -HPLoss);
 }
 
-void Monster::defeat()
+
+void Monster1::defeat()
 {
-    // Ändrar pengar i economy till nuvarande + bounty
+//    resources::changeMoney(int const bounty);
 }
 
 void Monster::setNextTile()
@@ -152,7 +143,10 @@ void Monster::setNextTile()
     if (nextTile->getNextTile() != nullptr)
         nextTile = nextTile->getNextTile();
     else
-        Monster::despawn();
+    {
+        dead = true;
+        loseHP();
+    }
 }
 
 

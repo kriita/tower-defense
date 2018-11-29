@@ -7,9 +7,9 @@
 
 /*
  *  Funktioner kvar att definiera:
- *  virtual void monsterHit()
+ *  virtual void monsterHit() // Gjord för Anvil
     virtual void explodeAnim() // renders the explode animation
-    void isOutsideMap()
+    void isOutsideMap() // Behövs inte om cleanup körs i Gamestate? 
  */
 
 
@@ -104,6 +104,8 @@ void Projectile::setTarget(shptr<Monster> newTarget)
 void Projectile::update(std::vector<shptr<Monster>> allMonsters)
 {
     move();
+    targetHit();
+    monsterHit(allMonsters);
 }
 
 
@@ -144,6 +146,7 @@ Anvil::Anvil()
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(512, 512);
     projectileSprite.setScale(0.05, 0.05);
+    setSpeed(3);
 }
 
 
@@ -167,9 +170,21 @@ Anvil::Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &targe
     projectileSprite.setScale(0.04, 0.04);
     projectileSprite.setPosition(x,y);
     setTarget(target);
+    setSpeed(3);
 }
 
+// Optimera så att man jämför hitboxes istället för objektens koordinater
 void Anvil::monsterHit(std::vector<shptr<Monster>> allMonsters)
 {
-
+    double currMonsterx {};
+    double currMonstery {};
+    for (shptr<Monster> currMonster : allMonsters)
+    {
+        currMonsterx = currMonster->getX();
+        currMonstery = currMonster->getY();
+        if ((abs(currMonsterx - x) <= 512) || (abs(currMonstery - y) <= 512))
+        {
+            currMonster->takeDamage(damage);
+        }
+    }
 }

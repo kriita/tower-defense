@@ -22,7 +22,7 @@ int resources::getMoney()
 
 int resources::getHP()
 {
-	return HP;
+	return hitpoints;
 }
 
 void resources::changeMoney(int const diff)

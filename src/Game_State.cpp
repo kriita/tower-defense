@@ -87,14 +87,14 @@ Game_Event Game_State :: update ()
         m->update();
         cout << m->isDead() << m->getHealth() << endl;
     }
-    /*
-            for (unsigned i = 2; i <= monsters.size(); i++)
-        {   
-            if (monsters[i]->isDead())
-                monsters.erase(monsters.begin());
-            
-        }
-    */
+
+    for (unsigned i = 0; i < monsters.size(); i++)
+    {   
+        if (monsters[i]->isDead())
+            monsters.erase(monsters.begin() + i);
+        
+    }
+    
     // Iterate over all balls and let
     // the update themselves.
     //for ( auto & ball :  balls )

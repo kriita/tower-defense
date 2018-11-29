@@ -20,11 +20,13 @@ class Map_Error : public std::logic_error
 class Map
 {
 public:
+    //Map() = default;
     Map(std::string mapFileName);
     Map(Map const &m) = delete;
     ~Map() = default;
 
     void render(sf::RenderTarget &target);
+    void setupMap();
     int getPathNeighbors(int xPos, int yPos);
     std::vector<bool> getSpriteNeighbors(int xTile, int yTile);
     shptr<Tile> getTile(int x, int y);

@@ -1,10 +1,11 @@
-#include "Game_State.h"
-#include "Events.h"
 #include "constants.h"
+#include "Events.h"
+#include "Game_State.h"
+#include "Resources.h"
 #include "Tower.h"
 #include <memory>
-#include <iostream>
 
+#include <iostream>
 
 using namespace sf;
 
@@ -15,6 +16,9 @@ Game_State::Game_State()
         //error
     }
     gameOverlay.setTexture(gameOverlayTexture);
+
+    gameMap = make_unique<Map>("map.dat");
+    gameResources = make_unique<Resources>(100, 100);
 }
 
 /*
@@ -34,7 +38,7 @@ void Game_State :: handle_event (Event event)
         auto mouse { event.mouseButton };
         if ( mouse.button == Mouse::Button::Left )
         {
-            shptr<Tile> tmpTile {gameMap.getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
+            shptr<Tile> tmpTile {gameMap->getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
                                                  static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
             if (tmpTile->checkPlaceable())
             {
@@ -43,7 +47,7 @@ void Game_State :: handle_event (Event event)
             }
             else 
             {
-                monsters.push_back(make_shared<Monster1> (gameMap.getSpawnPoint()));
+                monsters.push_back(make_shared<Monster1> (gameMap->getSpawnPoint()));
                 //monsters.push_back(make_shared<Monster1> (tmpTile->getX(), tmpTile->getY()));
             }
 
@@ -57,42 +61,51 @@ void Game_State :: handle_event (Event event)
     
         }
     }
-/*
+
     if (event.type == sf::Event::KeyPressed)
     {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+        {
+            pause = !pause;
+        }
+        /*
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             projectiles.push_back(make_shared<Anvil>(sf::Mouse::getPosition().x,0, 0, 1));
         }
+        */
     }
-*/
+
     // Send the event to the base class (see Go_Back_State.h)
     Go_Back_State::handle_event (event);
 }
 
 Game_Event Game_State :: update ()
 {
-    for (auto & t : towers)
+    if (!pause)
     {
-        t->update(monsters);
-    }
+        for (auto & t : towers)
+        {
+            t->update(monsters);
+        }
 
-    for (auto & p : projectiles)
-    {
-        p->update(monsters);
-    }
+        for (auto & p : projectiles)
+        {
+            p->update(monsters);
+        }
 
-    for (auto & m : monsters)
-    {
-        m->update();
-        cout << m->isDead() << m->getHealth() << endl;
-    }
+        for (auto & m : monsters)
+        {
+            m->update();
+            cout << m->isDead() << m->getHealth() << endl;
+        }
 
-    for (unsigned i = 0; i < monsters.size(); i++)
-    {   
-        if (monsters[i]->isDead())
-            monsters.erase(monsters.begin() + i);
-        
+        for (unsigned i = 0; i < monsters.size(); i++)
+        {   
+            if (monsters[i]->isDead())
+                monsters.erase(monsters.begin() + i);
+            
+        }
     }
     
     // Iterate over all balls and let
@@ -106,7 +119,7 @@ Game_Event Game_State :: update ()
 
 void Game_State :: render (RenderTarget & target)
 {
-    gameMap.render(target);
+    gameMap->render(target);
 
     for (auto & t : towers)
     {

@@ -1,11 +1,11 @@
+#include "defs.h"
 #include "Go_Back_State.h"
 #include "Map.h"
 #include "Monster.h"
+#include "Projectile.h"
+#include "Resources.h"
 #include "Tile.h"
 #include "Tower.h"
-#include "Projectile.h"
-#include "defs.h"
-
 #include <vector>
 #include <memory>
 
@@ -36,7 +36,10 @@ public:
 
 private:
 
-    Map gameMap {"map.dat"};
+    bool pause {false};
+
+    ptr<Map> gameMap {};
+    ptr<Resources> gameResources {};
 
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};

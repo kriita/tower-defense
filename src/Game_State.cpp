@@ -46,15 +46,26 @@ void Game_State :: handle_event (Event event)
                 monsters.push_back(make_shared<Monster1> (gameMap.getSpawnPoint()));
                 //monsters.push_back(make_shared<Monster1> (tmpTile->getX(), tmpTile->getY()));
             }
+
+            projectiles.push_back(make_shared<Anvil>((event.mouseButton).x, 0, 0, 1));
         }
         if ( mouse.button == Mouse::Button::Right )
         {
             monsters.erase(monsters.begin());
 
+            
+    
         }
-
     }
-
+/*
+    if (event.type == sf::Event::KeyPressed)
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            projectiles.push_back(make_shared<Anvil>(sf::Mouse::getPosition().x,0, 0, 1));
+        }
+    }
+*/
     // Send the event to the base class (see Go_Back_State.h)
     Go_Back_State::handle_event (event);
 }
@@ -68,7 +79,7 @@ Game_Event Game_State :: update ()
 
     for (auto & p : projectiles)
     {
-        p->update();
+        p->update(monsters);
     }
 
     for (auto & m : monsters)

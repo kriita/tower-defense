@@ -7,6 +7,7 @@
 #include "defs.h"
 #include "Monster.h"
 #include "Spritesheet.h"
+#include <vector>
 
 
 class ProjectileError : public std::logic_error
@@ -19,12 +20,13 @@ class Projectile
     public:
     Projectile() = default;
     Projectile(double x, double y, double xDir, double yDir);
+    Projectile(double x, double y, double dirByRadians);
     virtual ~Projectile() = default;
-    virtual void monsterHit() {};
+    virtual void monsterHit(std::vector<shptr<Monster>> allMonster) {};
     virtual void targetHit();
     virtual void explodeAnim() {}; // renders the explode animation
     virtual void move();
-    virtual void update();
+    virtual void update(std::vector<shptr<Monster>> allMonsters);
     void isOutsideMap();
     shptr<Monster> getTarget(); // Returns nullptr (false) if Projectile has no target
     void setTarget(shptr<Monster> newTarget);
@@ -62,6 +64,7 @@ class Anvil : public Projectile
     Anvil();
     Anvil(double x, double y, double xDir, double yDir);
     Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &target);
+    void monsterHit(std::vector<shptr<Monster>> allMonsters) override;
 };
 
 #endif

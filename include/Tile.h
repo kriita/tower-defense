@@ -24,10 +24,12 @@ public:
     char getType() const;
     bool checkPlaceable() const;
     void switchPlaceable();
-    void setData(int x, int y, char type);
-    virtual void setSprite(Spritesheet const& spriteSheet, std::vector<bool> bin) = 0;
     void setNextTile(shptr<Tile> const tile);
     shptr<Tile> getNextTile();
+    void setSheetOffset(std::vector<bool> bin);
+    void setPathSheetOffset(std::vector<bool> bin);
+    void setTileSprite(sf::Sprite sprite);
+    virtual void setSprite(std::vector<bool> bin) = 0;
 
     Tile& operator = (Tile const &t) = default;
 
@@ -43,34 +45,53 @@ protected:
     sf::Sprite tileSprite {};
 };
 
+/*
+ *  Tile -> Path
+ */
 class Path : public Tile
 {
 public:
     Path(int x, int y, char type);
-
-    void setSprite(Spritesheet const& spriteSheet, std::vector<bool> bin);
+    void setSprite(std::vector<bool> bin) override;
 
 private:
     Spritesheet tileSheet {"resources/images/path.png", 32, 32};
 };
 
+/*
+ *  Tile -> Grass
+ */
 class Grass : public Tile
 {
 public:
     Grass(int x, int y, char type);
-
-    void setSprite(Spritesheet const& spriteSheet, std::vector<bool> bin);
+    void setSprite(std::vector<bool> bin) override;
 
 private:
     Spritesheet tileSheet {"resources/images/grass.png", 32, 32};
 };
 
+/*
+ *  Tile -> Tree
+ */
+class Tree : public Tile
+{
+public:
+    Tree(int x, int y, char type);
+    void setSprite(std::vector<bool> bin) override;
+
+private:
+    Spritesheet tileSheet {"resources/images/tree.png", 32, 32};
+};
+
+/*
+ *  Tile -> Water
+ */
 class Water : public Tile
 {
 public:
     Water(int x, int y, char type);
-
-    void setSprite(Spritesheet const& spriteSheet, std::vector<bool> bin);
+    void setSprite(std::vector<bool> bin) override;
 
 private:
     Spritesheet tileSheet {"resources/images/water.png", 32, 32};

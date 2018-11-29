@@ -9,6 +9,11 @@
 #include <memory>
 #include <string>
 
+class Map_Error : public std::logic_error
+{
+    using std::logic_error::logic_error;
+};
+
 /*
  *  Map
  */
@@ -34,7 +39,6 @@ private:
     shptr<Tile> spawnPoint {};
     shptr<Tile> endPoint {};
     std::vector<std::vector<shptr<Tile>>> mapTiles {};
-    Spritesheet mapSpriteSheet {"resources/images/spritesheet.png", 32, 32};
 
     void createMatrix();
     void readMapData();

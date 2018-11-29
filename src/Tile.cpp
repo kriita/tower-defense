@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <iostream>
+//#include <iostream>
 
 using std::vector;
 
@@ -14,9 +14,7 @@ using std::vector;
 
 Tile::Tile(int x, int y, char type)
 : xTile{x}, yTile{y}, tileType{type}
-{
-
-}
+{}
 
 void Tile::render(sf::RenderTarget &target)
 {
@@ -68,17 +66,36 @@ shptr<Tile> Tile::getNextTile()
     return nextTile;
 }
 
-Path::Path(int x, int y, char type)
-: Tile{x, y, type}
+void Tile::setSheetOffset(vector<bool> bin)
 {
-    //setSprite(tileSheet, 2, 1);
+    if (!bin[1] && !bin[3] && bin[4] && bin[6])         { yOffset = 0; xOffset = 0; }
+    else if (!bin[1] && bin[3] && bin[4] && bin[6])     { yOffset = 0; xOffset = 1; }
+    else if (!bin[1] && bin[3] && !bin[4] && bin[6])    { yOffset = 0; xOffset = 2; }
+    else if (bin[1] && !bin[3] && bin[4] && bin[6])     { yOffset = 1; xOffset = 0; }
+    else if (bin[1] && bin[3] && !bin[4] && bin[6])     { yOffset = 1; xOffset = 2; }
+    else if (bin[1] && !bin[3] && bin[4] && !bin[6])    { yOffset = 2; xOffset = 0; }
+    else if (bin[1] && bin[3] && bin[4] && !bin[6])     { yOffset = 2; xOffset = 1; }
+    else if (bin[1] && bin[3] && !bin[4] && !bin[6])    { yOffset = 2; xOffset = 2; }
+    else if (bin[1] && !bin[3] && !bin[4] && bin[6])    { yOffset = 6; xOffset = 0; }
+    else if (bin[1] && bin[3] && bin[4] && !bin[6])     { yOffset = 3; xOffset = 1; }
+    else if (!bin[1] && bin[3] && bin[4] && !bin[6])    { yOffset = 7; xOffset = 0; }
+    else if (!bin[1] && !bin[3] && bin[4] && !bin[6])   { yOffset = 4; xOffset = 0; }
+    else if (!bin[1] && !bin[3] && !bin[4] && !bin[6])  { yOffset = 4; xOffset = 1; }
+    else if (bin[1] && !bin[3] && !bin[4] && !bin[6])   { yOffset = 4; xOffset = 2; }
+    else if (!bin[1] && bin[3] && !bin[4] && !bin[6])   { yOffset = 7; xOffset = 0; }
+    else if (!bin[0] && bin[2] && bin[5] && bin[7])     { yOffset = 3; xOffset = 0; }
+    else if (bin[0] && !bin[2] && bin[5] && bin[7])     { yOffset = 3; xOffset = 2; }
+    else if (bin[0] && bin[2] && !bin[5] && bin[7])     { yOffset = 5; xOffset = 0; }
+    else if (bin[0] && bin[2] && bin[5] && !bin[7])     { yOffset = 5; xOffset = 2; }
+    else if (!bin[0] && bin[2] && !bin[5] && bin[7])    { yOffset = 6; xOffset = 1; }
+    else if (!bin[0] && !bin[2] && bin[5] && bin[7])    { yOffset = 6; xOffset = 2; }
+    else if (bin[0] && bin[2] && !bin[5] && !bin[7])    { yOffset = 7; xOffset = 1; }
+    else if (bin[0] && !bin[2] && bin[5] && !bin[7])    { yOffset = 7; xOffset = 2; }
+    else                                                { yOffset = 1; xOffset = 1; }
 }
 
-void Path::setSprite(Spritesheet const& spriteSheet, vector<bool> bin)
+void Tile::setPathSheetOffset(vector<bool> bin)
 {
-    unsigned xOffset {};
-    unsigned yOffset {};
-
     if (!bin[1] && !bin[3] && bin[4] && bin[6])             { yOffset = 0; xOffset = 0; }
     else if (!bin[1] && bin[3] && !bin[4] && bin[6])        { yOffset = 0; xOffset = 2; }
     else if (bin[1] && bin[3] && bin[4] && bin[6])          { yOffset = 1; xOffset = 1; }
@@ -90,58 +107,65 @@ void Path::setSprite(Spritesheet const& spriteSheet, vector<bool> bin)
     else if ((!bin[1] && bin[3] && bin[4] && !bin[6]) ||
              (!bin[1] && !bin[3] && bin[4] && !bin[6]) ||
              (!bin[1] && bin[3] && !bin[4] && !bin[6]))     { yOffset = 3; xOffset = 2; }
+}
 
-    tileSprite = spriteSheet.get_sprite(5 + yOffset, 3 + xOffset);
-
+void Tile::setTileSprite(sf::Sprite sprite)
+{
+    tileSprite = sprite;
     tileSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xTile,
                             mapBorderOffset + tileWidth / 2 + tileWidth * yTile);
     tileSprite.setOrigin (tileWidth/2, tileWidth/2);
 }
 
+/*
+ *  Tile -> Path
+ */
+Path::Path(int x, int y, char type)
+: Tile{x, y, type}
+{}
+
+void Path::setSprite(vector<bool> bin)
+{
+    setPathSheetOffset(bin);
+    setTileSprite(tileSheet.get_sprite(yOffset, xOffset));
+}
+
+/*
+ *  Tile -> Grass
+ */
 Grass::Grass(int x, int y, char type)
 : Tile{x, y, type}
 {
     placeable = true;
 }
 
-void Grass::setSprite(Spritesheet const& spriteSheet, vector<bool> bin)
+void Grass::setSprite(vector<bool> bin)
 {
-    tileSprite = spriteSheet.get_sprite(2, 1);
-
-    tileSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xTile,
-                            mapBorderOffset + tileWidth / 2 + tileWidth * yTile);
-    tileSprite.setOrigin (tileWidth/2, tileWidth/2);
+    setTileSprite(tileSheet.get_sprite(1, 1));
 }
 
+/*
+ *  Tile -> Tree
+ */
+Tree::Tree(int x, int y, char type)
+: Tile{x, y, type}
+{}
+
+void Tree::setSprite(vector<bool> bin)
+{
+    setSheetOffset(bin);
+    setTileSprite(tileSheet.get_sprite(yOffset, xOffset));
+}
+
+/*
+ *  Tile -> Water
+ */
 Water::Water(int x, int y, char type)
 : Tile{x, y, type}
 {}
 
-void Water::setSprite(Spritesheet const& spriteSheet, vector<bool> bin)
+void Water::setSprite(vector<bool> bin)
 {
-    unsigned xOffset {};
-    unsigned yOffset {};
-
-    if (!bin[1] && !bin[3] && bin[4] && bin[6])         { yOffset = 0; xOffset = 0; }
-    else if (!bin[1] && bin[3] && bin[4] && bin[6])     { yOffset = 0; xOffset = 1; }
-    else if (!bin[1] && bin[3] && !bin[4] && bin[6])    { yOffset = 0; xOffset = 2; }
-    else if (bin[1] && !bin[3] && bin[4] && bin[6])     { yOffset = 1; xOffset = 0; }
-    else if (bin[1] && bin[3] && !bin[4] && bin[6])     { yOffset = 1; xOffset = 2; }
-    else if (bin[1] && !bin[3] && bin[4] && !bin[6])    { yOffset = 2; xOffset = 0; }
-    else if (bin[1] && bin[3] && bin[4] && !bin[6])     { yOffset = 2; xOffset = 1; }
-    else if (bin[1] && bin[3] && !bin[4] && !bin[6])    { yOffset = 2; xOffset = 2; }
-    else if (bin[1] && !bin[3] && !bin[4] && bin[6])    { yOffset = 3; xOffset = 0; }
-    else if (bin[1] && bin[3] && bin[4] && !bin[6])     { yOffset = 3; xOffset = 1; }
-    else if (!bin[1] && bin[3] && bin[4] && !bin[6])    { yOffset = 3; xOffset = 2; }
-    else if (!bin[1] && !bin[3] && bin[4] && !bin[6])   { yOffset = 4; xOffset = 0; }
-    else if (!bin[1] && !bin[3] && !bin[4] && !bin[6])  { yOffset = 4; xOffset = 1; }
-    else if (!bin[1] && bin[3] && !bin[4] && !bin[6])   { yOffset = 4; xOffset = 2; }
-    else if (bin[1] && !bin[3] && !bin[4] && !bin[6])   { yOffset = 5; xOffset = 1; }
-    else                                                { yOffset = 1; xOffset = 1; }
-
-    tileSprite = tileSheet.get_sprite(yOffset, xOffset);
-
-    tileSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xTile,
-                            mapBorderOffset + tileWidth / 2 + tileWidth * yTile);
-    tileSprite.setOrigin (tileWidth/2, tileWidth/2);
+    setSheetOffset(bin);
+    setTileSprite(tileSheet.get_sprite(yOffset, xOffset));
 }

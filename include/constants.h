@@ -39,3 +39,4 @@ char const endChar {'E'};
 char const pathChar {'0'};
 char const fieldChar {'1'};
 char const waterChar {'2'};
+char const treeChar {'t'};

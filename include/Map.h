@@ -5,11 +5,14 @@
 #include "Tile.h"
 #include "Spritesheet.h"
 #include <SFML/Graphics.hpp>
-#include <vector>
 #include <memory>
 #include <string>
+#include <vector>
 
-class Map_Error : public std::logic_error
+/*
+ *  MapError
+ */
+class MapError : public std::logic_error
 {
     using std::logic_error::logic_error;
 };
@@ -20,12 +23,12 @@ class Map_Error : public std::logic_error
 class Map
 {
 public:
-    //Map() = default;
     Map(std::string mapFileName);
     Map(Map const &m) = delete;
     ~Map() = default;
 
     void render(sf::RenderTarget &target);
+    void update();
     void setupMap();
     int getPathNeighbors(int xPos, int yPos);
     std::vector<bool> getSpriteNeighbors(int xTile, int yTile);
@@ -41,6 +44,7 @@ private:
     shptr<Tile> spawnPoint {};
     shptr<Tile> endPoint {};
     std::vector<std::vector<shptr<Tile>>> mapTiles {};
+    std::vector<shptr<Tile>> updateList {};
 
     void createMatrix();
     void readMapData();

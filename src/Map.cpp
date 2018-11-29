@@ -37,6 +37,14 @@ void Map::render(sf::RenderTarget &target)
     }
 }
 
+void Map::update()
+{
+    for (auto & tile : updateList)
+    {
+        tile->update();
+    }
+}
+
 void Map::readMapData()
 {
     mapTiles.resize(xTilesMax, vector<shptr<Tile>>(yTilesMax, nullptr));
@@ -82,6 +90,9 @@ void Map::readMapData()
             {
                 mapTiles[x][y] = make_shared<Grass> (x, y, fieldChar);
             }
+
+            if (getTile(x, y)->checkAnimated())
+                updateList.push_back(getTile(x, y));
         }
     }
     mapFile.close();
@@ -174,7 +185,7 @@ shptr<Tile> Map::getTile(int x, int y)
 {
     if (x < 0 || y < 0 || x >= xTilesMax || y >= yTilesMax)
     {
-        throw Map_Error{"Error: getTile coordinates out of bounds"};
+        throw MapError{"GetTile() coordinates out of bounds"};
     }
 
     return mapTiles[x][y];

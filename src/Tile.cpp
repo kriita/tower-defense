@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-//#include <iostream>
+#include <iostream>
 
 using std::vector;
 
@@ -49,6 +49,11 @@ char Tile::getType() const
 bool Tile::checkPlaceable() const
 {
     return placeable;
+}
+
+bool Tile::checkAnimated() const
+{
+    return animated;
 }
 
 void Tile::switchPlaceable()
@@ -162,10 +167,22 @@ void Tree::setSprite(vector<bool> bin)
  */
 Water::Water(int x, int y, char type)
 : Tile{x, y, type}
-{}
+{
+    animated = true;
+}
 
 void Water::setSprite(vector<bool> bin)
 {
     setSheetOffset(bin);
     setTileSprite(tileSheet.get_sprite(yOffset, xOffset));
+}
+
+void Water::update()
+{
+    if ((animClock.getElapsedTime()).asSeconds() > 1)
+    {
+        xOffset = (xOffset + 3) % 6;
+        setTileSprite(tileSheet.get_sprite(yOffset, xOffset));
+        animClock.restart();
+    }
 }

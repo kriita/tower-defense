@@ -84,6 +84,8 @@ Game_Event Game_State :: update ()
 {
     if (!pause)
     {
+        gameMap->update();
+
         for (auto & t : towers)
         {
             t->update(monsters);

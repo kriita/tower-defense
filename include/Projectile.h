@@ -69,7 +69,7 @@ class Anvil : public Projectile
 };
 
 // minigunProjectile is a non-guided projectile
-class minigunProjectile : Projectile
+class minigunProjectile : public Projectile
 {
     public:
     minigunProjectile(double x, double y, double xDir, double yDir);

@@ -55,6 +55,7 @@ protected:
 /*
  *  Tower 1
  */
+
 class Tower1 : public Tower
 {
 public:

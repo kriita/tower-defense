@@ -1,6 +1,10 @@
 #include "Tower.h"
 #include "constants.h"
+#include "Projectile.h"
 #include <cmath>
+#include <memory>
+#include "defs.h"
+#include <vector>
 
 void Tower::render(sf::RenderTarget &target)
 {
@@ -150,6 +154,9 @@ MinigunTower::MinigunTower(int x, int y)
 MinigunTower::MinigunTower(shptr<Tile> tile)
     :   MinigunTower{tile->getX(), tile->getY()} {}
 
-void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles) {}
+void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles) 
+{
+    projectiles.push_back(std::make_shared<minigunProjectile> (xPos, yPos, towerSprite.getRotation() * 2 * 3.1415));
+}
 
 int MinigunTower::getPrice() {return 9000;}

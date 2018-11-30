@@ -7,7 +7,8 @@ void Tower::render(sf::RenderTarget &target)
     target.draw(towerSprite);
 }
 
-void Tower::update(std::vector<shptr<Monster>> & monstervector)
+void Tower::update(std::vector<shptr<Monster>> & monstervector, 
+                   std::vector<shptr<Projectile>> & projectiles)
 {
     if (target == nullptr)
     {
@@ -54,7 +55,7 @@ double Tower::getFireRate() const
 
 double Tower::getAttackPower() const
 {
-    return attackPower;
+    return attackPower.front();
 }
 
 void Tower::setTarget(shptr<Monster> newTarget)
@@ -64,7 +65,7 @@ void Tower::setTarget(shptr<Monster> newTarget)
 
 bool Tower::inRange(shptr<Monster> monster)
 {
-    return pow((monster->getX() - xPos),2) + pow((monster->getY() - yPos),2) <= pow(range,2);
+    return pow((monster->getX() - xPos),2) + pow((monster->getY() - yPos),2) <= pow(range.front(),2);
 }
 
 
@@ -72,7 +73,7 @@ Tower::Tower(double x, double y)
     :   xPos{x}, yPos{y} 
     {
         //attackPower = 1;
-        range = 100;
+        //range = 100;
     }
 
 Tower::Tower(int x, int y)
@@ -101,7 +102,7 @@ Tower1::Tower1(shptr<Tile> tile)
 
 void Tower1::attack() 
 {
-    target->takeDamage(attackPower);
+    target->takeDamage(attackPower.front());
 }
 
 int Tower1::getPrice() {return 420;}

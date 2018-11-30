@@ -6,11 +6,12 @@
 #include "Tile.h"
 #include "Monster.h"
 #include "defs.h"
-
+#include "Projectile.h"
 
 /*
  *  Tower
  */
+
 class Tower
 {
 public:
@@ -21,7 +22,8 @@ public:
     virtual ~Tower() = default;
 
     void render(sf::RenderTarget &target);
-    void update(std::vector<shptr<Monster>> & monstervector);
+    void update(std::vector<shptr<Monster>> & monstervector, 
+                std::vector<shptr<Projectile>> & projectiles);
 
     virtual void attack() = 0;
     virtual int getPrice() = 0;
@@ -39,10 +41,13 @@ protected:
     double xPos{};
     double yPos{};
     //double fireRate{};
-    double attackPower{1};
-    double range{};
+    //double attackPower{1};
+    //double range{};
     shptr<Monster> target{};
     std::vector<double> fireRate = {1.0, 1.5, 2.0, 2.5, 3.0};
+    std::vector<double> attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
+    std::vector<double> range = {40.0, 70.0, 100.0, 2.5, 3.0};
+
 
 
     Spritesheet towerSpriteSheet {"resources/images/spritesheet.png", 32, 32}; //temporär

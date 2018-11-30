@@ -80,7 +80,7 @@ Game_Event Game_State :: update ()
 
         for (auto & t : towers)
         {
-            t->update(monsters);
+            t->update(monsters, projectiles);
         }
 
         for (auto & p : projectiles)

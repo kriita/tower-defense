@@ -58,7 +58,7 @@ private:
      * Remove all balls which are no longer visible on the
      * screen.
      */
-    //void cleanup ();
+    void cleanup ();
 
     /*
      * Spritesheet from which the graphics for all balls

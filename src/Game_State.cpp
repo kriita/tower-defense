@@ -101,7 +101,11 @@ Game_Event Game_State :: update ()
             
         }
     }
-    
+
+    //cleanup();
+
+    //std::cout << projectiles.size();
+
     // Iterate over all balls and let
     // the update themselves.
     //for ( auto & ball :  balls )
@@ -217,14 +221,15 @@ void Game_State :: render (RenderTarget & target)
 /*
 void Game_State :: cleanup ()
 {
-    for ( auto it { std::begin (balls) }; it != std::end (balls); )
+    for ( auto it { std::begin (projectiles) }; it != std::end (projectiles); )
     {
         // get the global bounds of our current ball
 	auto bounds { it -> bounds () };
         // get a rectangle representing the screen
-	FloatRect screen { 0, 0, screen_width, screen_height };
+	FloatRect screen { mapBorderOffset, mapBorderOffset, mapBorderOffset + xTilesMax * tileWidth,
+                                                         mapBorderOffset + yTilesMax * tileWidth };
 	if ( !screen.intersects (bounds) )
-	    it = balls.erase (it);
+	    it = projectiles.erase (it);
 	else
 	    ++it;
     }

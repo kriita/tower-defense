@@ -29,7 +29,9 @@ int const xTilesMax {18};
 int const yTilesMax {18};
 float const tileWidth {32};
 
-int const mapBorderOffset {(screen_height % (int)tileWidth) / 2};
+int const mapBorderOffset {12};
+
+int const sidebarPosX {mapBorderOffset*2 + xTilesMax*tileWidth};
 
 /*
  * Map data characters

@@ -27,17 +27,17 @@ Monster::Monster(int x, int y)
     :   Monster {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
                mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
-Monster1::Monster1(shptr<Tile> tile)
+Orc::Orc(shptr<Tile> tile)
     : Monster{tile}
 {
 }
 
-Monster1::Monster1(double x, double y)
+Orc::Orc(double x, double y)
     : Monster{x,y} 
 {} 
 
-Monster1::Monster1(int x, int y)
-    : Monster1 {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
+Orc::Orc(int x, int y)
+    : Orc {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
               mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
         
@@ -86,7 +86,7 @@ void Monster::setDir()
         yDir /= abs(yDir);
 }
 
-string Monster1::getType() const
+string Orc::getType() const
 {
     return monsterType;
 }
@@ -127,13 +127,13 @@ void Monster::loseHP()
 //   resources::changeHP(int const& -1);
 }
 
-void Monster1::loseHP()
+void Orc::loseHP()
 {
 //    resources::changeHP(int const& -HPLoss);
 }
 
 
-void Monster1::defeat()
+void Orc::defeat()
 {
 //    resources::changeMoney(int const bounty);
 }

@@ -47,18 +47,10 @@ void Game_State :: handle_event (Event event)
             }
             else 
             {
-                monsters.push_back(make_shared<Monster1> (gameMap->getSpawnPoint()));
-                //monsters.push_back(make_shared<Monster1> (tmpTile->getX(), tmpTile->getY()));
+                monsters.push_back(make_shared<Orc> (gameMap->getSpawnPoint()));
             }
 
             projectiles.push_back(make_shared<Anvil>((event.mouseButton).x, 0, 0, 1));
-        }
-        if ( mouse.button == Mouse::Button::Right )
-        {
-            monsters.erase(monsters.begin());
-
-            
-    
         }
     }
 
@@ -88,7 +80,7 @@ Game_Event Game_State :: update ()
 
         for (auto & t : towers)
         {
-            t->update(monsters);
+            t->update(monsters, projectiles);
         }
 
         for (auto & p : projectiles)

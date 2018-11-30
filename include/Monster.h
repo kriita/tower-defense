@@ -36,9 +36,9 @@ public:
     Monster& operator=(Monster const& other);
 
 protected:
-    double health{500000000};
+    double health{50};
     double speed{3};
-    double armour{1/1000000000};
+    double armour{1};
     shptr<Tile> nextTile {};
     int xDir{0};
     int yDir{1};
@@ -48,22 +48,24 @@ protected:
     bool dead{false};
 };
 
-class Monster1 : public Monster
+class Orc : public Monster
 {
 public:
-    Monster1(shptr<Tile>);          //provide spawnpoint
-    Monster1(Monster1 const&) = default;
-    Monster1(int x, int y);
-    Monster1(double x, double y);
+    Orc(shptr<Tile>);          //provide spawnpoint
+    Orc(Orc const&) = default;
+    Orc(int x, int y);
+    Orc(double x, double y);
     std::string getType() const;
     void loseHP() override;
     void defeat() override;
 private:
-    std::string monsterType {"Monster1"};
+    std::string monsterType {"Orc"};
     double health{25};
     int bounty{420};
-    int HPLoss{3};
+    int HPLoss{1};
 };
+
+
 
 
 #endif

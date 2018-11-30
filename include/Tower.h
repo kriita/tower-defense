@@ -25,7 +25,7 @@ public:
     void update(std::vector<shptr<Monster>> & monstervector, 
                 std::vector<shptr<Projectile>> & projectiles);
 
-    virtual void attack() = 0;
+    virtual void attack(std::vector<shptr<Projectile>> & projectiles) = 0;
     virtual int getPrice() = 0;
     double getX() const;       //behövs dessa ens?
     double getY() const;       //
@@ -40,13 +40,11 @@ public:
 protected:
     double xPos{};
     double yPos{};
-    //double fireRate{};
-    //double attackPower{1};
-    //double range{};
     shptr<Monster> target{};
     std::vector<double> fireRate = {1.0, 1.5, 2.0, 2.5, 3.0};
     std::vector<double> attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
     std::vector<double> range = {40.0, 70.0, 100.0, 2.5, 3.0};
+    
 
 
 
@@ -63,7 +61,7 @@ public:
     Tower1(int x, int y);
     Tower1(double x, double y);
     Tower1(shptr<Tile> tile);
-    void attack() override;
+    void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;
 };
 
@@ -73,7 +71,7 @@ public:
     AnvilTower(int x, int y);
     AnvilTower(double x, double y);
     AnvilTower(shptr<Tile> tile);
-    void attack() override;
+    void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;
 };
 
@@ -83,7 +81,7 @@ public:
     MinigunTower(int x, int y);
     MinigunTower(double x, double y);
     MinigunTower(shptr<Tile> tile);
-    void attack() override;
+    void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;
 };
 

@@ -30,7 +30,7 @@ void Tower::update(std::vector<shptr<Monster>> & monstervector,
         double x{target->getX() - xPos};
         double y{target->getY() - yPos};
         towerSprite.setRotation(atan2(y,x) / (2 * 3.1415926535897) * 360 + 90);
-        attack();
+        attack(projectiles);
     }
     else
         target = nullptr;
@@ -100,7 +100,7 @@ Tower1::Tower1(int x, int y)
 Tower1::Tower1(shptr<Tile> tile)
     :   Tower1{tile->getX(), tile->getY()} {}
 
-void Tower1::attack() 
+void Tower1::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
     target->takeDamage(attackPower.front());
 }
@@ -124,7 +124,7 @@ AnvilTower::AnvilTower(int x, int y)
 AnvilTower::AnvilTower(shptr<Tile> tile)
     :   AnvilTower{tile->getX(), tile->getY()} {}
 
-void AnvilTower::attack() {}
+void AnvilTower::attack(std::vector<shptr<Projectile>> & projectiles) {}
 
 int AnvilTower::getPrice() {return 9000;}
 
@@ -150,6 +150,6 @@ MinigunTower::MinigunTower(int x, int y)
 MinigunTower::MinigunTower(shptr<Tile> tile)
     :   MinigunTower{tile->getX(), tile->getY()} {}
 
-void MinigunTower::attack() {}
+void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles) {}
 
 int MinigunTower::getPrice() {return 9000;}

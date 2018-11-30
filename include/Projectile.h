@@ -9,6 +9,7 @@
 #include "Spritesheet.h"
 #include <vector>
 
+// Note: Not using reference to vector with all monsters!
 
 class ProjectileError : public std::logic_error
 {
@@ -22,7 +23,7 @@ class Projectile
     Projectile(double x, double y, double xDir, double yDir);
     Projectile(double x, double y, double dirByRadians);
     virtual ~Projectile() = default;
-    virtual void monsterHit(std::vector<shptr<Monster>> allMonster) {};
+    virtual void monsterHit(std::vector<shptr<Monster>> allMonsters);
     virtual void targetHit();
     virtual void explodeAnim() {}; // renders the explode animation
     virtual void move();
@@ -65,6 +66,14 @@ class Anvil : public Projectile
     Anvil(double x, double y, double xDir, double yDir);
     Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &target);
     void monsterHit(std::vector<shptr<Monster>> allMonsters) override;
+};
+
+// minigunProjectile is a non-guided projectile
+class minigunProjectile : Projectile
+{
+    public:
+    minigunProjectile(double x, double y, double xDir, double yDir);
+    minigunProjectile(double x, double y, double dirByRadians);
 };
 
 #endif

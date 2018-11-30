@@ -20,6 +20,20 @@ Projectile::Projectile(double x, double y, double xDir, double yDir)
 Projectile::Projectile(double x, double y, double dirByRadians)
 : x {x}, y {y}, xDir {cos(dirByRadians)}, yDir {sin(dirByRadians)} {}
 
+void Projectile::monsterHit(std::vector<shptr<Monster>> allMonsters)
+{
+    double currMonsterx {};
+    double currMonstery {};
+    for (shptr<Monster> currMonster : allMonsters)
+    {
+        currMonsterx = currMonster->getX();
+        currMonstery = currMonster->getY();
+        if ((abs(currMonsterx - x) <= 16) && (abs(currMonstery - y) <= 16))
+        {
+            currMonster->takeDamage(damage);
+        }
+    }
+}
 
 void Projectile::setx(double new_x)
 {
@@ -146,9 +160,8 @@ Anvil::Anvil()
     projectileTexture.loadFromFile("resources/images/anvil_t.png");
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
-    //projectileSprite.setScale(0.05, 0.05);
     setSpeed(3);
-    damage = 1;
+    damage = 100;
 }
 
 
@@ -158,23 +171,19 @@ Anvil::Anvil(double x, double y, double xDir, double yDir)
     projectileTexture.loadFromFile("resources/images/anvil_t.png");
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
-    //projectileSprite.setScale(0.05, 0.05);
     projectileSprite.setPosition(x,y);
-    setSpeed(3);
-    damage = 1;
+    speed = 10;
+    damage = 100;
 }
 
 Anvil::Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &target)
-: Projectile {x, y, xDir, yDir}
+: Anvil {x, y, xDir, yDir}
 {
     projectileTexture.loadFromFile("resources/images/anvil_t.png");
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
-    //projectileSprite.setScale(0.05, 0.05);
     projectileSprite.setPosition(x,y);
     setTarget(target);
-    setSpeed(3);
-    damage = 1;
 }
 
 // Optimera så att man jämför hitboxes istället för objektens koordinater
@@ -186,9 +195,31 @@ void Anvil::monsterHit(std::vector<shptr<Monster>> allMonsters)
     {
         currMonsterx = currMonster->getX();
         currMonstery = currMonster->getY();
-        if ((abs(currMonsterx - x) <= 16) || (abs(currMonstery - y) <= 16))
+        if ((abs(currMonsterx - x) <= 16) && (abs(currMonstery - y) <= 16))
         {
-     //       currMonster->takeDamage(damage);
+            currMonster->takeDamage(damage);
         }
     }
+}
+
+minigunProjectile::minigunProjectile(double x, double y, double xDir, double yDir)
+: Projectile(x, y, xDir, yDir)
+{
+    projectileTexture.loadFromFile("resources/images/minigunProjectile.png");
+    projectileSprite.setTexture(projectileTexture);
+    projectileSprite.setOrigin(16, 16);
+    projectileSprite.setPosition(x,y);
+    speed = 7;
+    damage = 1;
+}
+
+minigunProjectile::minigunProjectile(double x, double y, double dirByRadians)
+: Projectile(x, y, dirByRadians)
+{
+    projectileTexture.loadFromFile("resources/images/minigunProjectile.png");
+    projectileSprite.setTexture(projectileTexture);
+    projectileSprite.setOrigin(16, 16);
+    projectileSprite.setPosition(x,y);
+    speed = 7;
+    damage = 1;
 }

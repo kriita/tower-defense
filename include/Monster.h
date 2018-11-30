@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include "Tile.h"
 #include "defs.h"
 
 /* 

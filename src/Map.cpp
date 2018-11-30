@@ -8,7 +8,7 @@
 #include <string>
 #include <stdlib.h>
 
-#include <iostream>
+//#include <iostream>
 
 using std::string;
 using std::vector;
@@ -52,6 +52,11 @@ void Map::readMapData()
     string mapFolder {"resources/maps/"};
 
     ifstream mapFile((mapFolder + fileName).c_str());
+    if (!mapFile)
+    {
+        throw MapError{"Cannot open map file"};
+    }
+
     string line {};
     char typeChar {};
     for (int y {0}; y < yTilesMax; ++y)

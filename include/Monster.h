@@ -67,7 +67,7 @@ public:
 private:
     std::string monsterType {"Orc"};
     double health{100};
-    double armour{0.1};
+    double armour{10};
     int bounty{420};
     int HPLoss{1};
     double speed{3};

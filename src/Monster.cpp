@@ -94,7 +94,7 @@ string Orc::getType() const
 
 void Orc::takeDamage(double damage)  
 {
-    health -= damage*armour;               // lägg in skada funktionern för tornet
+    health -= damage/armour;               // lägg in skada funktionern för tornet
     if (health <= 0)
     {
         defeat();

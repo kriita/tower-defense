@@ -21,7 +21,7 @@ public:
     void render(sf::RenderTarget &target);
     void update();
     virtual void takeDamage(double damage) = 0;
-    void virtual takeSlowDmg(double damage, double slow) = 0;
+    void virtual takeSlowDmg(double damage, double slow, double duration) = 0;
     virtual void walk() = 0;    
     double getX() const;
     double getY() const;
@@ -62,7 +62,7 @@ public:
     void defeat() override;
     double getHealth() override {return health;};
     void takeDamage(double damage) override;
-    void takeSlowDmg(double damage, double slow) override;
+    void takeSlowDmg(double damage, double slow, double duration) override;
     void walk() override;
 private:
     std::string monsterType {"Orc"};

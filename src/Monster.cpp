@@ -102,11 +102,11 @@ void Orc::takeDamage(double damage)
     }
 }
 
-void Orc::takeSlowDmg(double dmg, double slow) // takes in 0-1 slow part
+void Orc::takeSlowDmg(double dmg, double slow, double duration) // takes in 0-1 slow part
 {
     takeDamage(dmg);
     speed = refSpeed*slow;
-    slowClock = 100;        // set slow duration in renderings.
+    duration = 100;        // set slow duration in renderings.
 }
 
 void Orc::walk()

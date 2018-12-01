@@ -9,6 +9,7 @@
 #include "Resources.h"
 
 using std::string;
+using namespace std::complex_literals;
 
 /* 
  *  Monster
@@ -39,7 +40,7 @@ void Monster::setMonsterSprite(sf::Sprite sprite)
 Orc::Orc(shptr<Tile> tile)
     : Monster{tile}
 {
-    health = 50;
+    health = 50. + 0i;
     armour = 3;
     speed = 2;
     refSpeed = 2;
@@ -74,8 +75,28 @@ Flash::Flash(double x, double y)
 Flash::Flash(int x, int y)
     : Flash {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
               mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
-*/
 
+*/
+/*
+Complexus::Complexus(shptr<Tile> tile)
+    : Monster{tile}
+{
+    health = 50;
+    armour = 3;
+    speed = 2;
+    refSpeed = 2;
+    bounty = 20;
+}
+
+Complexus::Complexus(double x, double y)
+    : Monster{x,y} 
+{} 
+
+Complexus::Complexus(int x, int y)
+    : Complexus {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
+              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+
+*/
 void Monster::render(sf::RenderTarget &target)
 { 
     float const r{10.0};
@@ -112,7 +133,8 @@ void Monster::setDir()
 void Monster::takeDamage(double damage)  
 {
     health -= damage/armour;
-    if (health <= 0)
+    if (real(health) <= 0 &&
+        imag(health) <= 0)
     {
         defeat();
         dead = true;    
@@ -122,7 +144,8 @@ void Monster::takeDamage(double damage)
 void Monster::takePureDmg(double damage)  
 {
     health -= damage;
-    if (health <= 0)
+    if (real(health) <= 0 &&
+        imag(health) <=0)
     {
         defeat();
         dead = true;    

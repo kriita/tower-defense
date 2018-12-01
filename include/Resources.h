@@ -25,6 +25,6 @@ public:
 	void changeHP(int const diff);
 
 protected:
-	int hitpoints;
-	int money;
+	int hitpoints{30};
+	int money{100};
 };

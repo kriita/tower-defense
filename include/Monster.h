@@ -40,8 +40,8 @@ public:
 
 protected:
     shptr<Tile> nextTile {};
-    int xDir{0};
-    int yDir{1};
+    int xDir{};
+    int yDir{};
     double y{};                     // Position in pixels
     double x{};
     double slowClock{0};             // Time for sloweffect
@@ -51,6 +51,7 @@ protected:
     double refSpeed{};
     double speed{};
     int HPLoss{1};
+    double bounty{};
 };
 
 class Orc : public Monster
@@ -60,37 +61,27 @@ public:
     Orc(Orc const&) = default;
     Orc(int x, int y);
     Orc(double x, double y);
-    std::string getType() const;
+    std::string getType() const {return monsterType;};
     void loseHP() override;
     void defeat() override;
     double getHealth() override {return health;};
- //   void takeDamage(double damage) override;
- //   void takePureDmg(double damage) override;
- //   void takeSlowDmg(double damage, double slow, double duration, bool) override;
- //   void walk() override;
 private:
     std::string monsterType {"Orc"};
-    int bounty{420};
 };
 
-class Illidan : public Monster
+class Flash : public Monster
 {
 public:
-    Illidan(shptr<Tile>);          //provide spawnpoint
-    Illidan(Illidan const&) = default;
-    Illidan(int x, int y);
-    Illidan(double x, double y);
-    std::string getType() const;
+    Flash(shptr<Tile>);          //provide spawnpoint
+    Flash(Flash const&) = default;
+    Flash(int x, int y);
+    Flash(double x, double y);
+    std::string getType() const {return monsterType;};
     void loseHP() override;
     void defeat() override;
     double getHealth() override {return health;};
 private:
-    std::string monsterType {"Illidan"};
-    double health{1000};
-    double armour{0.5};
-    int bounty{666};
-    int HPLoss{5};
+    std::string monsterType {"Flash"};
 };
-
 
 #endif

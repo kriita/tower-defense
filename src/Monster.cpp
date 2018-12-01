@@ -7,7 +7,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include "Resources.h"
-#include "Tower.h"
 
 using std::string;
 
@@ -34,7 +33,8 @@ Orc::Orc(shptr<Tile> tile)
     health = 5000;
     armour = 3;
     speed = 1;
-    refSpeed = 1;
+    refSpeed = 10;
+    bounty = 20;
 }
 
 Orc::Orc(double x, double y)
@@ -45,7 +45,27 @@ Orc::Orc(int x, int y)
     : Orc {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
               mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
-        
+
+
+/*
+Flash::Flash(shptr<Tile> tile)
+    : Monster{tile}
+{
+    health = 5000;
+    armour = 3;
+    speed = 1;
+    refSpeed = 10;
+    bounty = 20;
+}
+
+Flash::Flash(double x, double y)
+    : Monster{x,y} 
+{} 
+
+Flash::Flash(int x, int y)
+    : Flash {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
+              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+*/
 
 void Monster::render(sf::RenderTarget &target)
 { 
@@ -92,12 +112,6 @@ void Monster::setDir()
 }
 
 
-
-string Orc::getType() const
-{
-    return monsterType;
-}
-
 void Monster::takeDamage(double damage)  
 {
     health -= damage/armour;
@@ -130,7 +144,7 @@ void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg
 
 void Monster::walk()
 {
-    double tolerance{speed};
+    double tolerance{10*speed};
     if (   (pow((nextTile->getX() - x), 2) <= tolerance)
         && (pow((nextTile->getY() - y), 2) <= tolerance))
     {

@@ -3,10 +3,12 @@
 #include <string>
 #include "Monster.h"
 #include "constants.h"
+#include "Spritesheet.h"
 #include "defs.h"
 #include <math.h>
 #include <stdlib.h>
 #include "Resources.h"
+#include <random>           // Lägga till critChance?
 
 using std::string;
 using namespace std::complex_literals;
@@ -21,33 +23,27 @@ Monster::Monster(shptr<Tile> tile)
     nextTile = tile;
 }
 
-Monster::Monster(double xPos, double yPos)
+Monster::Monster(Spritesheet & sheet, double xPos, double yPos)
     :   x{xPos}, y{yPos} {}
 
 Monster::Monster(int x, int y)
     :   Monster {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
                mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
-/*
-void Monster::setMonsterSprite(sf::Sprite sprite)
-{
-    tileSprite = sprite;
-    tileSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xTile,
-                            mapBorderOffset + tileWidth / 2 + tileWidth * yTile);
-    tileSprite.setOrigin (tileWidth/2, tileWidth/2);
-}
-*/
+
+
+
 Orc::Orc(shptr<Tile> tile)
     : Monster{tile}
 {
-    health = 50. + 0i;
+    health = 50. + 0i;              // complex health enabled
     armour = 3;
     speed = 2;
     refSpeed = 2;
     bounty = 20;
 }
 
-Orc::Orc(double x, double y)
+Orc::Orc(Spritesheet & sheet, double x, double y)
     : Monster{x,y} 
 {} 
 
@@ -97,6 +93,8 @@ Complexus::Complexus(int x, int y)
               mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
 */
+
+
 void Monster::render(sf::RenderTarget &target)
 { 
     float const r{10.0};
@@ -106,6 +104,8 @@ void Monster::render(sf::RenderTarget &target)
     circle.setFillColor (sf::Color::Green);
     target.draw(circle);
 }
+
+
 
 
 void Monster::update()

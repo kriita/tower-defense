@@ -43,6 +43,7 @@ public:
 private:
 
     bool pause {false};
+    bool pauseButtonPressed {false};
 
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};

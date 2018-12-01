@@ -9,11 +9,13 @@ using namespace sf;
  */
 void Go_Back_State :: handle_event (Event event)
 {
+    /*
     if ( event.type == Event::KeyPressed )
     {
         if ( event.key.code == Keyboard::Key::Escape )
             go_back = true;
     }
+    */
 }
 
 /*

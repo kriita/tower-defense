@@ -5,6 +5,7 @@
 #include "Tower.h"
 #include <memory>
 
+#include "Manager.h"
 #include <iostream>
 
 using namespace sf;
@@ -38,27 +39,36 @@ void Game_State :: handle_event (Event event)
         auto mouse { event.mouseButton };
         if ( mouse.button == Mouse::Button::Left )
         {
-            shptr<Tile> tmpTile {gameMap->getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
-                                                 static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
-            if (tmpTile->checkPlaceable())
+            if (pause)
             {
-                towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
-                tmpTile->switchPlaceable();
+                // Go back to main menu
+                go_back = true;
             }
-            else 
+            else
             {
-                monsters.push_back(make_shared<Orc> (gameMap->getSpawnPoint()));
-            }
+                shptr<Tile> tmpTile {gameMap->getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
+                                                      static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
+                if (tmpTile->checkPlaceable())
+                {
+                    towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+                    tmpTile->switchPlaceable();
+                }
+                else 
+                {
+                    monsters.push_back(make_shared<Orc> (gameMap->getSpawnPoint()));
+                }
 
-            projectiles.push_back(make_shared<Anvil>((event.mouseButton).x, 0, 0, 1));
+                projectiles.push_back(make_shared<Anvil>((event.mouseButton).x, 0, 0, 1));
+            }
         }
     }
 
     if (event.type == sf::Event::KeyPressed)
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape) && !pauseButtonPressed)
         {
             pause = !pause;
+            pauseButtonPressed = true;
         }
         /*
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
@@ -66,6 +76,10 @@ void Game_State :: handle_event (Event event)
             projectiles.push_back(make_shared<Anvil>(sf::Mouse::getPosition().x,0, 0, 1));
         }
         */
+    }
+    else if (event.type == sf::Event::KeyReleased)
+    {
+        pauseButtonPressed = false;
     }
 
     // Send the event to the base class (see Go_Back_State.h)
@@ -135,6 +149,26 @@ void Game_State :: render (RenderTarget & target)
     }
 
     target.draw(gameOverlay);
+
+
+    // temporär paus-text
+    if (pause)
+    {
+        Text text { "Paused",
+             Font_Manager::load ("resources/fonts/font.ttf"),
+             30 };
+        Text text2 { "Paused",
+             Font_Manager::load ("resources/fonts/font.ttf"),
+             30 };
+
+        text.setPosition (250, 300);
+        text2.setPosition (252, 302);
+        text2.setFillColor(Color::Black);
+    
+        target.draw (text2);
+        target.draw (text);
+    }
+
 
     // Let each ball render itself onto the
     // supplied RenderTarget

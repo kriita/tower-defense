@@ -20,8 +20,8 @@ public:
     virtual ~Monster() = default;
     void render(sf::RenderTarget &target);
     void update();
-    virtual void takeDamage(double damage);
-    void walk();    
+    virtual void takeDamage(double damage) = 0;
+    virtual void walk() = 0;    
     double getX() const;
     double getY() const;
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
@@ -37,9 +37,6 @@ public:
     Monster& operator=(Monster const& other);
 
 protected:
-    double health{50};
-    double speed{3};
-    double armour{1};
     shptr<Tile> nextTile {};
     int xDir{0};
     int yDir{1};
@@ -47,6 +44,9 @@ protected:
     double x{};
     double timeStamp{};
     bool dead{false};
+private:
+    double health{};
+    double armour{};
 };
 
 class Orc : public Monster
@@ -60,15 +60,35 @@ public:
     void loseHP() override;
     void defeat() override;
     double getHealth() override {return health;};
+    void takeDamage(double damage) override;
+    void walk() override;
 private:
     std::string monsterType {"Orc"};
     double health{100};
-    double armour{1};
+    double armour{0.1};
     int bounty{420};
     int HPLoss{1};
+    double speed{1};
 };
 
-
+class Illidan : public Monster
+{
+public:
+    Illidan(shptr<Tile>);          //provide spawnpoint
+    Illidan(Illidan const&) = default;
+    Illidan(int x, int y);
+    Illidan(double x, double y);
+    std::string getType() const;
+    void loseHP() override;
+    void defeat() override;
+    double getHealth() override {return health;};
+private:
+    std::string monsterType {"Illidan"};
+    double health{1000};
+    double armour{0.5};
+    int bounty{666};
+    int HPLoss{5};
+};
 
 
 #endif

@@ -91,9 +91,9 @@ string Orc::getType() const
     return monsterType;
 }
 
-void Monster::takeDamage(double damage)           // Returns if it's dead
+void Orc::takeDamage(double damage)  
 {
-    health -= damage;               // lägg in skada funktionern för tornet
+    health -= damage*armour;               // lägg in skada funktionern för tornet
     if (health <= 0)
     {
         defeat();
@@ -101,7 +101,7 @@ void Monster::takeDamage(double damage)           // Returns if it's dead
     }
 }
 
-void Monster::walk()
+void Orc::walk()
 {
     double tolerance{speed};
     if (   (pow((nextTile->getX() - x), 2) <= tolerance)

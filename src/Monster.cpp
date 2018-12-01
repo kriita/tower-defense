@@ -31,6 +31,10 @@ Monster::Monster(int x, int y)
 Orc::Orc(shptr<Tile> tile)
     : Monster{tile}
 {
+    health = 5000;
+    armour = 3;
+    speed = 1;
+    refSpeed = 1;
 }
 
 Orc::Orc(double x, double y)
@@ -87,12 +91,14 @@ void Monster::setDir()
         yDir /= abs(yDir);
 }
 
+
+
 string Orc::getType() const
 {
     return monsterType;
 }
 
-void Orc::takeDamage(double damage)  
+void Monster::takeDamage(double damage)  
 {
     health -= damage/armour;
     if (health <= 0)
@@ -102,7 +108,7 @@ void Orc::takeDamage(double damage)
     }
 }
 
-void Orc::takePureDmg(double damage)  
+void Monster::takePureDmg(double damage)  
 {
     health -= damage;
     if (health <= 0)
@@ -112,7 +118,7 @@ void Orc::takePureDmg(double damage)
     }
 }
 
-void Orc::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part
+void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part
 {
     if (pureDmg)
         takePureDmg(dmg);
@@ -122,7 +128,7 @@ void Orc::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) //
     slowClock = duration;        // set slow duration in renderings.
 }
 
-void Orc::walk()
+void Monster::walk()
 {
     double tolerance{speed};
     if (   (pow((nextTile->getX() - x), 2) <= tolerance)
@@ -135,15 +141,10 @@ void Orc::walk()
     }
     x += speed*xDir;
     y += speed*yDir;
-    if (slowClock != 0)
-        slowClock -= 1;
-    else 
+    if (slowClock == 0)
         speed = refSpeed;
-}
-
-void Monster::loseHP()
-{
-//   resources::changeHP(int const& -1);
+    else 
+        slowClock -= 1;
 }
 
 void Orc::loseHP()

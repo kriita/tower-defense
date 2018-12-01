@@ -101,12 +101,6 @@ void Monster::takeDamage(double damage)           // Returns if it's dead
     }
 }
 
-
-double Monster::getHealth()
-{
-    return health;
-}
-
 void Monster::walk()
 {
     double tolerance{speed};

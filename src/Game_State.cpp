@@ -42,7 +42,7 @@ void Game_State :: handle_event (Event event)
                                                  static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
             if (tmpTile->checkPlaceable())
             {
-                towers.push_back(make_shared<Tower1> (tmpTile->getX(), tmpTile->getY()));
+                towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
                 tmpTile->switchPlaceable();
             }
             else 

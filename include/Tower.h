@@ -36,14 +36,16 @@ public:
     void updateRange();
     void updateAttackPower();
     void updateFireRate();
+    
 
 protected:
     double xPos{};
     double yPos{};
+    double angle{}; //radians
     shptr<Monster> target{};
     std::vector<double> fireRate = {1.0, 1.5, 2.0, 2.5, 3.0};
     std::vector<double> attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
-    std::vector<double> range = {40.0, 70.0, 100.0, 2.5, 3.0};
+    std::vector<double> range = {230.0, 70.0, 100.0, 2.5, 3.0};
     
 
 

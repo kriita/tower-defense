@@ -16,7 +16,7 @@ void Tower::update(std::vector<shptr<Monster>> & monstervector,
 {
     if (target == nullptr)
     {
-        towerSprite.setRotation(towerSprite.getRotation() + 20);
+        towerSprite.setRotation(towerSprite.getRotation() + 0);
         if (!monstervector.empty()) 
         {
             for (auto & monster : monstervector)
@@ -33,7 +33,8 @@ void Tower::update(std::vector<shptr<Monster>> & monstervector,
     {
         double x{target->getX() - xPos};
         double y{target->getY() - yPos};
-        towerSprite.setRotation(atan2(y,x) / (2 * 3.1415926535897) * 360 + 90);
+        angle = atan2(y,x);
+        towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360 + 90);
         attack(projectiles);
     }
     else
@@ -142,7 +143,7 @@ MinigunTower::MinigunTower(double x, double y)
     texture.loadFromFile("resources/images/minigunTowerTemp.png");
     towerSprite = sf::Sprite{texture};
     
-  //  towerSprite = towerSpriteSheet.get_sprite(11, 0);
+    towerSprite = towerSpriteSheet.get_sprite(11, 0);
     towerSprite.setPosition (xPos,yPos);
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
 } 
@@ -156,7 +157,7 @@ MinigunTower::MinigunTower(shptr<Tile> tile)
 
 void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-    projectiles.push_back(std::make_shared<minigunProjectile> (xPos, yPos, towerSprite.getRotation() * 2 * 3.1415));
+    projectiles.push_back(std::make_shared<minigunProjectile> (xPos, yPos, angle));
 }
 
 int MinigunTower::getPrice() {return 9000;}

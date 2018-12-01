@@ -27,13 +27,22 @@ Monster::Monster(int x, int y)
     :   Monster {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
                mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
+/*
+void Monster::setMonsterSprite(sf::Sprite sprite)
+{
+    tileSprite = sprite;
+    tileSprite.setPosition (mapBorderOffset + tileWidth / 2 + tileWidth * xTile,
+                            mapBorderOffset + tileWidth / 2 + tileWidth * yTile);
+    tileSprite.setOrigin (tileWidth/2, tileWidth/2);
+}
+*/
 Orc::Orc(shptr<Tile> tile)
     : Monster{tile}
 {
-    health = 5000;
+    health = 50;
     armour = 3;
-    speed = 1;
-    refSpeed = 10;
+    speed = 2;
+    refSpeed = 2;
     bounty = 20;
 }
 
@@ -87,18 +96,6 @@ void Monster::despawn()
 {
     
 }
-
-double Monster::getX() const
-{
-    return x;
-}
-
-double Monster::getY() const
-{
-    return y;
-}
-
-
 
 void Monster::setDir()
 {

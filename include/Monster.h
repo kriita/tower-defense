@@ -23,9 +23,10 @@ public:
     virtual void takeDamage(double damage);
     virtual void takePureDmg(double damage);
     void virtual takeSlowDmg(double damage, double slow, double duration, bool pureDmg);
-    virtual void walk();    
-    double getX() const;
-    double getY() const;
+    virtual void walk();
+//    virtual void setMonsterSprite(sf::Sprite sprite);    
+    double getX() const {return x;};
+    double getY() const {return y;};
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
     virtual double getHealth() = 0;
     void despawn();                 // Removes monster

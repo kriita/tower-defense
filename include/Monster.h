@@ -21,6 +21,7 @@ public:
     void render(sf::RenderTarget &target);
     void update();
     virtual void takeDamage(double damage) = 0;
+    void virtual takeSlowDmg(double damage, double slow) = 0;
     virtual void walk() = 0;    
     double getX() const;
     double getY() const;
@@ -42,7 +43,7 @@ protected:
     int yDir{1};
     double y{};                     // Position in pixels
     double x{};
-    double timeStamp{};
+    double slowClock{0};             // Time for sloweffect
     bool dead{false};
 private:
     double health{};
@@ -61,6 +62,7 @@ public:
     void defeat() override;
     double getHealth() override {return health;};
     void takeDamage(double damage) override;
+    void takeSlowDmg(double damage, double slow) override;
     void walk() override;
 private:
     std::string monsterType {"Orc"};
@@ -68,7 +70,8 @@ private:
     double armour{0.1};
     int bounty{420};
     int HPLoss{1};
-    double speed{1};
+    double speed{3};
+    double refSpeed{1};
 };
 
 class Illidan : public Monster

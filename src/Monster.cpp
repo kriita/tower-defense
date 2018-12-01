@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "Resources.h"
+#include "Tower.h"
 
 using std::string;
 
@@ -101,6 +102,13 @@ void Orc::takeDamage(double damage)
     }
 }
 
+void Orc::takeSlowDmg(double dmg, double slow) // takes in 0-1 slow part
+{
+    takeDamage(dmg);
+    speed = refSpeed*slow;
+    slowClock = 100;        // set slow duration in renderings.
+}
+
 void Orc::walk()
 {
     double tolerance{speed};
@@ -114,6 +122,10 @@ void Orc::walk()
     }
     x += speed*xDir;
     y += speed*yDir;
+    if (slowClock != 0)
+        slowClock -= 1;
+    else 
+        speed = refSpeed;
 }
 
 void Monster::loseHP()
@@ -142,5 +154,3 @@ void Monster::setNextTile()
         loseHP();
     }
 }
-
-

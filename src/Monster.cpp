@@ -94,7 +94,7 @@ string Orc::getType() const
 
 void Orc::takeDamage(double damage)  
 {
-    health -= damage/armour;               // lägg in skada funktionern för tornet
+    health -= damage/armour;
     if (health <= 0)
     {
         defeat();
@@ -102,11 +102,24 @@ void Orc::takeDamage(double damage)
     }
 }
 
-void Orc::takeSlowDmg(double dmg, double slow, double duration) // takes in 0-1 slow part
+void Orc::takePureDmg(double damage)  
 {
-    takeDamage(dmg);
+    health -= damage;
+    if (health <= 0)
+    {
+        defeat();
+        dead = true;    
+    }
+}
+
+void Orc::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part
+{
+    if (pureDmg)
+        takePureDmg(dmg);
+    else
+        takeDamage(dmg);
     speed = refSpeed*slow;
-    duration = 100;        // set slow duration in renderings.
+    slowClock = duration;        // set slow duration in renderings.
 }
 
 void Orc::walk()

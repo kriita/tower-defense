@@ -118,7 +118,7 @@ void Monster::render(sf::RenderTarget &target)
 void Monster::update()
 {
     walk();
-    monsterSprite.setPosition(x-5,y-yTilesMax/2);
+    monsterSprite.setPosition(x-10,y-20);
 }
 
 sf::FloatRect Monster::getBounds()

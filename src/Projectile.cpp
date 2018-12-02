@@ -4,11 +4,11 @@
 #include "Monster.h"
 #include <cmath>
 #include <vector>
+#include "complex"
 
 #include <iostream>
 /*
  *  Funktioner kvar att definiera:
- *  virtual void monsterHit() // Gjord för Anvil
     virtual void explodeAnim() // renders the explode animation
     void isOutsideMap() // Behövs inte om cleanup körs i Gamestate? 
  */
@@ -19,21 +19,6 @@ Projectile::Projectile(double x, double y, double xDir, double yDir)
 
 Projectile::Projectile(double x, double y, double dirByRadians)
 : x {x}, y {y}, xDir {cos(dirByRadians)}, yDir {sin(dirByRadians)} {}
-
-void Projectile::monsterHit(std::vector<shptr<Monster>> allMonsters)
-{
-    double currMonsterx {};
-    double currMonstery {};
-    for (shptr<Monster> currMonster : allMonsters)
-    {
-        currMonsterx = currMonster->getX();
-        currMonstery = currMonster->getY();
-        if ((abs(currMonsterx - x) <= 16) && (abs(currMonstery - y) <= 16))
-        {
-            currMonster->takeDamage(damage);
-        }
-    }
-}
 
 void Projectile::setx(double new_x)
 {
@@ -116,14 +101,6 @@ void Projectile::setTarget(shptr<Monster> newTarget)
     target = newTarget;
 }
 
-void Projectile::update(std::vector<shptr<Monster>> allMonsters)
-{
-    move();
-    targetHit();
-    monsterHit(allMonsters);
-}
-
-
 void Projectile::move()
 {
     if (getTarget())    // Update coords. if Projectile has target
@@ -138,6 +115,23 @@ void Projectile::move()
     projectileSprite.setPosition(x, y);
 }
 
+void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
+{
+    move();
+    targetHit();
+    for (shptr<Monster> aMonster : allMonsters)
+    {
+        if (checkHit(aMonster))
+        {
+            dealDamage(aMonster);
+        }
+    }
+}
+
+void Projectile::dealDamage(shptr<Monster> &aMonster)
+{
+    aMonster->takeDamage(damage);
+}
 
 void Projectile::render(sf::RenderTarget &window)
 {
@@ -157,6 +151,18 @@ sf::FloatRect Projectile::getBounds()
 {
     return projectileSprite.getGlobalBounds();
 }
+
+bool Projectile::checkHit(shptr<Monster> &aMonster)
+{
+    if (abs(aMonster->getX() + aMonster->getY() - (x + y)) -
+        (aMonster->getBounds().width/2 + getBounds().width)/2 < 0)
+    {
+        return true;
+    }
+    else return false;
+}
+
+
 
 
 Anvil::Anvil()
@@ -191,22 +197,6 @@ Anvil::Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &targe
     setTarget(target);
 }
 
-// Optimera så att man jämför hitboxes istället för objektens koordinater
-void Anvil::monsterHit(std::vector<shptr<Monster>> allMonsters)
-{
-    double currMonsterx {};
-    double currMonstery {};
-    for (shptr<Monster> currMonster : allMonsters)
-    {
-        currMonsterx = currMonster->getX();
-        currMonstery = currMonster->getY();
-        if ((abs(currMonsterx - x) <= 16) && (abs(currMonstery - y) <= 16))
-        {
-            currMonster->takeDamage(damage);
-        }
-    }
-}
-
 minigunProjectile::minigunProjectile(double x, double y, double xDir, double yDir)
 : Projectile(x, y, xDir, yDir)
 {
@@ -214,7 +204,7 @@ minigunProjectile::minigunProjectile(double x, double y, double xDir, double yDi
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
-    speed = 7;
+    speed = 5;
     damage = 1;
 }
 
@@ -225,6 +215,6 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians)
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
-    speed = 7;
+    speed = 5;
     damage = 1;
 }

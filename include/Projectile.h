@@ -8,8 +8,15 @@
 #include "Monster.h"
 #include "Spritesheet.h"
 #include <vector>
+#include "complex"
 
-// Note: Not using reference to vector with all monsters!
+// Note: Not using reference to vector with all monsters! But it works anyway...
+// ...because of pointers? Hmmm... Yeah that makes sense! :)
+
+/* The purpose of a Projectile is to be ceated by a Tower and damage a Monster
+ * if the Monster is hit, thus Projectile needs knowledge of the class Monster
+ * but not of Tower.
+ */
 
 class ProjectileError : public std::logic_error
 {
@@ -23,12 +30,12 @@ class Projectile
     Projectile(double x, double y, double xDir, double yDir);
     Projectile(double x, double y, double dirByRadians);
     virtual ~Projectile() = default;
-    virtual void monsterHit(std::vector<shptr<Monster>> allMonsters);
-    virtual void targetHit();
+    virtual void targetHit();   // Checks if the target has been hit, deals damgae if true
     virtual void explodeAnim() {}; // renders the explode animation
     virtual void move();
-    virtual void update(std::vector<shptr<Monster>> allMonsters);
-    void isOutsideMap();
+    virtual void update(std::vector<shptr<Monster>> &allMonsters);
+    virtual void dealDamage (shptr<Monster> &aMonster);
+    bool isOutsideMap();
     shptr<Monster> getTarget(); // Returns nullptr (false) if Projectile has no target
     void setTarget(shptr<Monster> newTarget);
     double getX(); // Coordinates in pixels
@@ -45,6 +52,7 @@ class Projectile
     void setSpeed(double newSpeed);
     void render(sf::RenderTarget &window);
     sf::FloatRect getBounds();
+    bool checkHit (shptr<Monster> &aMonster);
 
     protected:
     double damage {};
@@ -66,7 +74,6 @@ class Anvil : public Projectile
     Anvil();
     Anvil(double x, double y, double xDir, double yDir);
     Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &target);
-    void monsterHit(std::vector<shptr<Monster>> allMonsters) override;
 };
 
 // minigunProjectile is a non-guided projectile

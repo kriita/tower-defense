@@ -48,7 +48,7 @@ protected:
     std::vector<double> range = {230.0, 70.0, 100.0, 2.5, 3.0};
     
 
-
+    sf::Texture texture;
 
     Spritesheet towerSpriteSheet {"resources/images/spritesheet.png", 32, 32}; //temporär
     sf::Sprite towerSprite {};

@@ -139,11 +139,11 @@ MinigunTower::MinigunTower(double x, double y)
     : Tower{x,y} 
 {
     
-    sf::Texture texture;
+    //sf::Texture texture;    -- placerad i h-filen då den måste fortsätta existera
     texture.loadFromFile("resources/images/minigunTowerTemp.png");
     towerSprite = sf::Sprite{texture};
     
-    towerSprite = towerSpriteSheet.get_sprite(11, 0);
+    //towerSprite = towerSpriteSheet.get_sprite(11, 0);    -- denna skriver över med gamla spritesheeten igen
     towerSprite.setPosition (xPos,yPos);
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
 } 

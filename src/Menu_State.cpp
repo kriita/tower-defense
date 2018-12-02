@@ -39,6 +39,8 @@ void Menu_State :: handle_event (Event event)
     {
         if ( event.key.code == Keyboard::Key::Return )
             play = true;
+        else if ( event.key.code == Keyboard::Key::Escape )
+            go_back = true;
     }
 }
 

@@ -34,7 +34,7 @@ void Tower::update(std::vector<shptr<Monster>> & monstervector,
         double x{target->getX() - xPos};
         double y{target->getY() - yPos};
         angle = atan2(y,x);
-        towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360 + 90);
+        towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
         attack(projectiles);
     }
     else

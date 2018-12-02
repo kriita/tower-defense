@@ -9,6 +9,6 @@
 int main ()
 {
     // We only want the main function to start the Game and then run it
-    Game g { "Example Program", screen_width, screen_height };
+    Game g { gameTitle, screen_width, screen_height };
     g.start ();
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 /*
  * In this file we define some global constants.
  *
@@ -10,6 +12,8 @@
  * change them, and therefore they stay the same during
  * the entire execution of the program.
  */
+
+std::string const gameTitle {"Totally awesome tower defense"};
 
 /*
  * define the size of the window.

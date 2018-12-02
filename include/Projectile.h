@@ -44,6 +44,7 @@ class Projectile
     double getSpeed();
     void setSpeed(double newSpeed);
     void render(sf::RenderTarget &window);
+    sf::FloatRect getBounds();
 
     protected:
     double damage {};

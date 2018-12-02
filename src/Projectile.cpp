@@ -153,6 +153,11 @@ void Projectile::targetHit()
     }
 }
 
+sf::FloatRect Projectile::getBounds()
+{
+    return projectileSprite.getGlobalBounds();
+}
+
 
 Anvil::Anvil()
 : Projectile {}

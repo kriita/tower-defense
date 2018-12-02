@@ -8,6 +8,7 @@
 #include "complex"
 #include "cmath"
 #include "Spritesheet.h"
+//#include <CircleShape.hpp>
 
 /* 
  * Monster
@@ -19,29 +20,33 @@ public:
     Monster(shptr<Tile> tile);     //provide spawnpoint
     Monster(Monster const&) = delete;
     Monster(int x, int y);
-    Monster(double x, double y);
-    virtual ~Monster() = default;
-    void render(sf::RenderTarget &target);
-    void update();
+    Monster(double x, double y);    
+    Monster& operator=(Monster const& other) = delete;
+    virtual ~Monster() = default;    
     virtual void takeDamage(double damage);
-    virtual void takePureDmg(double damage);
+    virtual void takePureDmg(double damage);    
     void virtual takeSlowDmg(double damage, double slow, double duration, bool pureDmg);
     virtual void walk();  
+    virtual std::complex<double> getHealth() {return health;};
+    virtual void loseHP() {};        // Decreases game HP
+    virtual void defeat() {};          // Returns bounty
+    void render(sf::RenderTarget &target);
+    void update();
     double getX() const {return x;};
     double getY() const {return y;};
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
-    virtual std::complex<double> getHealth() {return health;};
     void despawn();                 // Removes monster
-    virtual void loseHP() {};        // Decreases game HP
-    virtual void defeat() {};          // Returns bounty
     bool onCheckpoint() const;
     void setNextTile();
     bool isDead() {return dead;};
-    Monster& operator=(Monster const& other) = delete;
+
+    sf::FloatRect getBounds();
 
 protected:
     shptr<Tile> nextTile {};
     sf::Sprite monsterSprite {};
+    sf::Texture monsterTexture {};
+
     int xDir{};
     int yDir{};
     double y{};                     // Position in pixels

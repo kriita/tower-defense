@@ -9,9 +9,12 @@
 #include <stdlib.h>
 #include "Resources.h"
 #include <random>           // Lägga till critChance?
+#include <SFML/Graphics/Export.hpp>
 
 using std::string;
 using namespace std::complex_literals;
+using sf::Color;
+
 
 /* 
  *  Monster
@@ -41,6 +44,9 @@ Orc::Orc(shptr<Tile> tile)
     speed = 2;
     refSpeed = 2;
     bounty = 20;
+
+    monsterTexture.loadFromFile("resources/images/monster1Scaled.png");
+    monsterSprite.setTexture(monsterTexture);
 }
 
 Orc::Orc(double x, double y)
@@ -101,16 +107,23 @@ void Monster::render(sf::RenderTarget &target)
     sf::CircleShape circle { r };
     circle.setPosition (x,y);
     circle.setOrigin (r, r);
-    circle.setFillColor (sf::Color::Green);
+//    circle.setFillColor(Color::Transparant); Gör den transparant
+    circle.setOutlineColor (Color::Red);
+    circle.setOutlineThickness(2);
     target.draw(circle);
+    target.draw(monsterSprite);
 }
-
-
 
 
 void Monster::update()
 {
     walk();
+    monsterSprite.setPosition(x-5,y-yTilesMax/2);
+}
+
+sf::FloatRect Monster::getBounds()
+{
+    return monsterSprite.getGlobalBounds();     // Verkar inte fungera
 }
 
 void Monster::despawn()
@@ -170,6 +183,7 @@ void Monster::walk()
     {
         x = nextTile->getX();
         y = nextTile->getY();
+
         Monster::setNextTile();
         Monster::setDir();
     }

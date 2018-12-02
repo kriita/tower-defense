@@ -103,7 +103,7 @@ Complexus::Complexus(int x, int y)
 
 void Monster::render(sf::RenderTarget &target)
 { 
-    float const r{10.0};
+    float const r{20.0};
     sf::CircleShape circle { r };
     circle.setPosition (x,y);
     circle.setOrigin (r, r);
@@ -114,7 +114,6 @@ void Monster::render(sf::RenderTarget &target)
     target.draw(monsterSprite);
 }
 
-
 void Monster::update()
 {
     walk();
@@ -124,11 +123,6 @@ void Monster::update()
 sf::FloatRect Monster::getBounds()
 {
     return monsterSprite.getGlobalBounds();     // Verkar inte fungera
-}
-
-void Monster::despawn()
-{
-    
 }
 
 void Monster::setDir()

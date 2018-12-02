@@ -35,7 +35,6 @@ public:
     double getX() const {return x;};
     double getY() const {return y;};
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
-    void despawn();                 // Removes monster
     bool onCheckpoint() const;
     void setNextTile();
     bool isDead() {return dead;};

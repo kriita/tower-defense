@@ -23,7 +23,7 @@ Monster::Monster(shptr<Tile> tile)
     nextTile = tile;
 }
 
-Monster::Monster(Spritesheet & sheet, double xPos, double yPos)
+Monster::Monster(double xPos, double yPos)
     :   x{xPos}, y{yPos} {}
 
 Monster::Monster(int x, int y)
@@ -43,13 +43,13 @@ Orc::Orc(shptr<Tile> tile)
     bounty = 20;
 }
 
-Orc::Orc(Spritesheet & sheet, double x, double y)
+Orc::Orc(double x, double y)
     : Monster{x,y} 
 {} 
 
 Orc::Orc(int x, int y)
     : Orc {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
-              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+           mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
 
 
 

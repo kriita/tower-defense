@@ -19,7 +19,7 @@ public:
     Monster(shptr<Tile> tile);     //provide spawnpoint
     Monster(Monster const&) = delete;
     Monster(int x, int y);
-    Monster(Spritesheet & sheet, double x, double y);
+    Monster(double x, double y);
     virtual ~Monster() = default;
     void render(sf::RenderTarget &target);
     void update();
@@ -62,7 +62,7 @@ public:
     Orc(shptr<Tile>);          //provide spawnpoint
     Orc(Orc const&) = default;
     Orc(int x, int y);
-    Orc(Spritesheet & sheet, double x, double y);
+    Orc(double x, double y);
     std::string getType() const {return monsterType;};
     void loseHP() override;
     void defeat() override;

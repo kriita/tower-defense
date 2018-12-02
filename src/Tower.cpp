@@ -157,7 +157,7 @@ MinigunTower::MinigunTower(shptr<Tile> tile)
 
 void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-    projectiles.push_back(std::make_shared<minigunProjectile> (xPos, yPos, angle));
+    projectiles.push_back(std::make_shared<minigunProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
 }
 
 int MinigunTower::getPrice() {return 9000;}

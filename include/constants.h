@@ -43,6 +43,6 @@ float const sidebarPosX {mapBorderOffset*2 + xTilesMax*tileWidth};
 char const startChar {'S'};
 char const endChar {'E'};
 char const pathChar {'0'};
-char const fieldChar {'1'};
+char const grassChar {'1'};
 char const waterChar {'2'};
 char const treeChar {'t'};

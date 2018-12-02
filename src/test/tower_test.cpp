@@ -1,4 +1,4 @@
-#include "tower.h"
+#include "Tower.h"
 
 using namespace std;
 

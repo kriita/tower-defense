@@ -8,12 +8,14 @@
 #include <string>
 #include <stdlib.h>
 
-//#include <iostream>
+#include <iostream>
 
 using std::string;
 using std::vector;
 using std::ifstream;
 using std::make_shared;
+using std::istringstream;
+using std::getline;
 
 /*
  *  Map
@@ -53,28 +55,36 @@ void Map::readMapData()
 
     ifstream mapFile((mapFolder + fileName).c_str());
     if (!mapFile)
-    {
         throw MapError{"Cannot open map file"};
-    }
 
     string line {};
     char typeChar {};
     for (int y {0}; y < yTilesMax; ++y)
     {
-        std::getline(mapFile, line);
-        std::istringstream iss(line);
+        getline(mapFile, line);
+        istringstream iss(line);
+
+        if (line.length() != xTilesMax * 2 - 1)
+            throw MapError{"Incorrect line length (including spaces) in map file"};
+
         for (int x {0}; x < xTilesMax; ++x)
         {
             iss >> typeChar;
 
             if (typeChar == startChar)
             {
+                if (spawnPoint != nullptr)
+                    throw MapError{"Multiple spawn points in map file"};
+
                 mapTiles[x][y] = make_shared<Path> (x, y, pathChar);
                 spawnPoint = mapTiles[x][y];
                 typeChar = pathChar;
             }
             else if (typeChar == endChar)
             {
+                if (endPoint != nullptr)
+                    throw MapError{"Multiple end points in map file"};
+
                 mapTiles[x][y] = make_shared<Path> (x, y, pathChar);
                 endPoint = mapTiles[x][y];
                 typeChar = pathChar;
@@ -82,6 +92,10 @@ void Map::readMapData()
             else if (typeChar == pathChar)
             {
                 mapTiles[x][y] = make_shared<Path> (x, y, pathChar);
+            }
+            else if (typeChar == grassChar)
+            {
+                mapTiles[x][y] = make_shared<Grass> (x, y, grassChar);
             }
             else if (typeChar == treeChar)
             {
@@ -93,7 +107,7 @@ void Map::readMapData()
             }
             else
             {
-                mapTiles[x][y] = make_shared<Grass> (x, y, fieldChar);
+                throw MapError{"Unknown tile character in map file"};
             }
 
             if (getTile(x, y)->checkAnimated())
@@ -101,6 +115,12 @@ void Map::readMapData()
         }
     }
     mapFile.close();
+
+    if (spawnPoint == nullptr)
+        throw MapError{"No spawn point in map file"};
+
+    if (endPoint == nullptr)
+        throw MapError{"No end point in map file"};
 }
 
 void Map::findPath()
@@ -189,9 +209,7 @@ vector<bool> Map::getSpriteNeighbors(int xTile, int yTile)
 shptr<Tile> Map::getTile(int x, int y)
 {
     if (x < 0 || y < 0 || x >= xTilesMax || y >= yTilesMax)
-    {
         throw MapError{"GetTile() coordinates out of bounds"};
-    }
 
     return mapTiles[x][y];
 }

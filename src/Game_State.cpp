@@ -45,7 +45,7 @@ void Game_State :: handle_event (Event event)
                 }
                 else 
                 {
-                    monsters.push_back(make_shared<Orc> (gameMap->getSpawnPoint()));
+                    monsters.push_back(make_shared<Orc> (gameMap->getSpawnPoint(), 1));
                 }
 
                 //projectiles.push_back(make_shared<Anvil>((event.mouseButton).x, 0, 0, 1));
@@ -100,7 +100,7 @@ Game_Event Game_State :: update ()
         for (auto & m : monsters)
         {
             m->update();
-            //cout << m->isDead() << m->getHealth() << endl;
+//            cout << m->isDead() << m->getHealth() << endl;
         }
 
         for (unsigned i = 0; i < monsters.size(); )

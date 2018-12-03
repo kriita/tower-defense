@@ -14,13 +14,15 @@
 using std::string;
 using namespace std::complex_literals;
 using sf::Color;
+using std::vector;
+using std::complex;
 
 
 /* 
  *  Monster
  */
 
-Monster::Monster(shptr<Tile> tile)
+Monster::Monster(shptr<Tile> tile, int lvl)
     : x{tile->getX()}, y{tile->getY()}
 {
     nextTile = tile;
@@ -36,14 +38,16 @@ Monster::Monster(int x, int y)
 
 
 
-Orc::Orc(shptr<Tile> tile)
-    : Monster{tile}
+Orc::Orc(shptr<Tile> tile, int lvl)
+    : Monster{tile, lvl}
 {
-    health = 50. + 0i;              // complex health enabled
+//    health = 50. + 0i;              // complex health enabled
     armour = 3;
     speed = 2;
     refSpeed = 2;
     bounty = 20;
+    level = lvl;
+    health = healths[level];
 
     monsterTexture.loadFromFile("resources/images/monster1Scaled.png");
     monsterSprite.setTexture(monsterTexture);

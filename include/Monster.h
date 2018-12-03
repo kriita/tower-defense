@@ -17,7 +17,7 @@
 class Monster
 {
 public:
-    Monster(shptr<Tile> tile);     //provide spawnpoint
+    Monster(shptr<Tile> tile, int lvl);     //provide spawnpoint and level
     Monster(Monster const&) = delete;
     Monster(int x, int y);
     Monster(double x, double y);    
@@ -63,7 +63,7 @@ protected:
 class Orc : public Monster
 {
 public:
-    Orc(shptr<Tile>);          //provide spawnpoint
+    Orc(shptr<Tile>, int lvl);          //provide spawnpoint and level
     Orc(Orc const&) = default;
     Orc(int x, int y);
     Orc(double x, double y);
@@ -72,6 +72,8 @@ public:
     void defeat() override;
 private:
     std::string monsterType {"Orc"};
+    int level{};
+    std::vector<std::complex<double>> healths {50, 100, 250};
 };
 
 /*

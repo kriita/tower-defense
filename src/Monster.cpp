@@ -22,7 +22,7 @@ using std::complex;
  *  Monster
  */
 
-Monster::Monster(shptr<Tile> tile, int lvl)
+Monster::Monster(shptr<Tile> tile, int level)
     : x{tile->getX()}, y{tile->getY()}
 {
     nextTile = tile;
@@ -38,16 +38,15 @@ Monster::Monster(int x, int y)
 
 
 
-Orc::Orc(shptr<Tile> tile, int lvl)
-    : Monster{tile, lvl}
+Orc::Orc(shptr<Tile> tile, int level)
+    : Monster{tile, level}
 {
-    health = healths[lvl];
-    armour = armours[lvl];
+    health = healths[level];
+    armour = armours[level];
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
-
-    monsterTexture.loadFromFile("resources/images/monster1Scaled.png");
+    monsterTexture.loadFromFile("resources/images/monster.png");
     monsterSprite.setTexture(monsterTexture);
 }
 
@@ -102,25 +101,25 @@ Complexus::Complexus(int x, int y)
 
 */
 
+void Orc::setSprite(sf::Sprite sprite)
+{
+    monsterSprite = sprite;
+    monsterSprite.setPosition(x - xTilesMax, y - yTilesMax);
+}
+
 
 void Monster::render(sf::RenderTarget &target)
 { 
-    float const r{20.0};
-    sf::CircleShape circle { r };
-    circle.setPosition (x,y);
-    circle.setOrigin (r, r);
-//    circle.setFillColor(Color::Transparant); Gör den transparant
-    circle.setOutlineColor (Color::Red);
-    circle.setOutlineThickness(2);
-    target.draw(circle);
     target.draw(monsterSprite);
 }
 
-void Monster::update()
+void Orc::update()
 {
     walk();
-    monsterSprite.setPosition(x-10,y-20);
+    setSprite(monsterSprite);
 }
+
+
 
 sf::FloatRect Monster::getBounds()
 {

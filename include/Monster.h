@@ -8,7 +8,6 @@
 #include "complex"
 #include "cmath"
 #include "Spritesheet.h"
-//#include <CircleShape.hpp>
 
 /* 
  * Monster
@@ -17,7 +16,7 @@
 class Monster
 {
 public:
-    Monster(shptr<Tile> tile, int lvl);     //provide spawnpoint and level
+    Monster(shptr<Tile> tile, int level);     //provide spawnpoint and level
     Monster(Monster const&) = delete;
     Monster(int x, int y);
     Monster(double x, double y);    
@@ -63,7 +62,7 @@ protected:
 class Orc : public Monster
 {
 public:
-    Orc(shptr<Tile>, int lvl);          //provide spawnpoint and level
+    Orc(shptr<Tile>, int level);          //provide spawnpoint and level
     Orc(Orc const&) = default;
     Orc(int x, int y);
     Orc(double x, double y);
@@ -73,7 +72,10 @@ public:
 private:
     std::string monsterType {"Orc"};
     int level{};
-    std::vector<std::complex<double>> healths {50, 100, 250};
+    std::vector<std::complex<double>> healths {50, 100, 250, 1000};
+    std::vector<double> armours {1, 3, 5, 10, 20};
+    std::vector<double> speeds {1, 1.5, 2, 2.5, 2.5};
+    std::vector<double> bountys {20, 50, 100, 250, 500};
 };
 
 /*

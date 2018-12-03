@@ -100,7 +100,7 @@ Game_Event Game_State :: update ()
         for (auto & m : monsters)
         {
             m->update();
-//            cout << m->isDead() << m->getHealth() << endl;
+            cout << m->isDead() << m->getHealth() << endl;
         }
 
         for (unsigned i = 0; i < monsters.size(); )

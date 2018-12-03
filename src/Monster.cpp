@@ -41,13 +41,11 @@ Monster::Monster(int x, int y)
 Orc::Orc(shptr<Tile> tile, int lvl)
     : Monster{tile, lvl}
 {
-//    health = 50. + 0i;              // complex health enabled
-    armour = 3;
-    speed = 2;
-    refSpeed = 2;
-    bounty = 20;
-    level = lvl;
-    health = healths[level];
+    health = healths[lvl];
+    armour = armours[lvl];
+    speed = speeds[level];
+    refSpeed = speeds[level];
+    bounty = bountys[level];
 
     monsterTexture.loadFromFile("resources/images/monster1Scaled.png");
     monsterSprite.setTexture(monsterTexture);

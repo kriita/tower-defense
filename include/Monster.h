@@ -74,7 +74,7 @@ public:
     void loseHP() override;
     void defeat() override;
     void update() override;
-    void setTileSprite(sf::Sprite sprite)
+    void setTileSprite(sf::Sprite sprite);
 //    void render(sf::RenderTarget &target) override;
 private:
     std::string monsterType {"Orc"};

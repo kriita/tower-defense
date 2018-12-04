@@ -21,7 +21,7 @@ public:
     Monster(int x, int y);
     Monster(double x, double y);    
     Monster& operator=(Monster const& other) = delete;
-    virtual void setSprite(sf::Sprite sprite) = 0;
+    virtual void setSprite() = 0;
     virtual ~Monster() = default;    
     virtual void takeDamage(double damage);
     virtual void takePureDmg(double damage);    
@@ -44,7 +44,6 @@ public:
 protected:
     shptr<Tile> nextTile {};
     sf::Sprite monsterSprite {};
-
 
     int xDir{};
     int yDir{};
@@ -71,12 +70,10 @@ public:
     Orc(int x, int y);
     Orc(double x, double y);
     std::string getType() const {return monsterType;};
-    void setSprite(sf::Sprite sprite) override;
+    void setSprite() override;
     void loseHP() override;
     void defeat() override;
     void update() override;
-    void setTileSprite(sf::Sprite sprite);
-//    void render(sf::RenderTarget &target) override;
 private:
     std::string monsterType {"Orc"};
     int level{};

@@ -12,13 +12,15 @@
 #include <SFML/Graphics/Export.hpp>
 
 using std::string;
-using sf::Color;
 using std::vector;
 using sf::Clock;
+
 
 /* 
  *  Monster
  */
+
+
 
 Monster::Monster(shptr<Tile> tile)
 {
@@ -42,6 +44,7 @@ Orc::Orc(shptr<Tile> tile, unsigned level)
 /*
 Flash::Flash(shptr<Tile> tile, unsigned level)
     : Monster{tile} 
+
 {
     health = healths[level];
     armour = armours[level];
@@ -122,22 +125,20 @@ void Monster::setDir()
 void Monster::takeDamage(double damage)  
 {
     health -= damage/armour;
-    if (real(health) <= 0 &&
-        imag(health) <= 0)
+    if (health <= 0)
     {
-        defeat();
-        dead = true;    
+        dead = true;
+        getBounty = true;    
     }
 }
 
 void Monster::takePureDmg(double damage)  
 {
     health -= damage;
-    if (real(health) <= 0 &&
-        imag(health) <=0)
+    if (health <= 0)
     {
-        defeat();
-        dead = true;    
+        dead = true;
+        getBounty = true;    
     }
 }
 
@@ -160,7 +161,6 @@ void Monster::walk()
     {
         x = nextTile->getX();
         y = nextTile->getY();
-
         Monster::setNextTile();
         Monster::setDir();
     }
@@ -168,18 +168,6 @@ void Monster::walk()
         speed = refSpeed;
     x += speed*xDir;
     y += speed*yDir;
-
-}
-
-void Orc::loseHP()
-{
-//    resources::changeHP(int const& -HPLoss);
-}
-
-
-void Orc::defeat()
-{
-//    resources::changeMoney(int const bounty);
 }
 
 void Monster::setNextTile()
@@ -189,6 +177,6 @@ void Monster::setNextTile()
     else
     {
         dead = true;
-        loseHP();
+//        loseHP = true;
     }
 }

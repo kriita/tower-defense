@@ -46,8 +46,10 @@ Orc::Orc(shptr<Tile> tile, int level)
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
-    monsterTexture.loadFromFile("resources/images/monster.png");
-    monsterSprite.setTexture(monsterTexture);
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+//    monsterTexture.loadFromFile("resources/images/monster.png");
+//    monsterSprite.setTexture(monsterTexture);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 Orc::Orc(double x, double y)
@@ -104,8 +106,10 @@ Complexus::Complexus(int x, int y)
 void Orc::setSprite(sf::Sprite sprite)
 {
     monsterSprite = sprite;
-    monsterSprite.setPosition(x - xTilesMax, y - yTilesMax);
+    monsterSprite.setPosition(x, y);
 }
+
+
 
 
 void Monster::render(sf::RenderTarget &target)
@@ -167,7 +171,6 @@ void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg
     else
         takeDamage(dmg);
     speed = refSpeed*slow;
-    slowClock = duration;        // set slow duration in renderings.
 }
 
 void Monster::walk()
@@ -184,10 +187,6 @@ void Monster::walk()
     }
     x += speed*xDir;
     y += speed*yDir;
-    if (slowClock == 0)
-        speed = refSpeed;
-    else 
-        slowClock -= 1;
 }
 
 void Orc::loseHP()

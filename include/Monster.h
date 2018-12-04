@@ -44,13 +44,13 @@ public:
 protected:
     shptr<Tile> nextTile {};
     sf::Sprite monsterSprite {};
-    sf::Texture monsterTexture {};
+
 
     int xDir{};
     int yDir{};
     double y{};                     // Position in pixels
     double x{};
-    double slowClock{0};             // Time for sloweffect
+    sf::Clock slowClock {};             // Time for sloweffect
     bool dead{false};
     std::complex<double> health{};
     double armour{};
@@ -60,6 +60,7 @@ protected:
     double bounty{};
     unsigned xOffset {};
     unsigned yOffset {};
+    sf::Clock animClock {};         // Clock for animation
 };
 
 class Orc : public Monster
@@ -78,7 +79,8 @@ public:
 //    void render(sf::RenderTarget &target) override;
 private:
     std::string monsterType {"Orc"};
-    int level{};  
+    int level{};
+    Spritesheet monsterSheet {"resources/images/monster.png", 32, 32};
     std::vector<std::complex<double>> healths {50, 100, 250, 500, 1000};
     std::vector<double> armours {1, 3, 5, 10, 20};
     std::vector<double> speeds {1, 1.5, 2, 2.5, 2.5};

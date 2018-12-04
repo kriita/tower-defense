@@ -95,5 +95,25 @@ public:
     int getPrice() override;
 };
 
+class MissileTower : public Tower
+{
+public:
+    MissileTower(int x, int y);
+    MissileTower(double x, double y);
+    MissileTower(shptr<Tile> tile);
+    void attack(std::vector<shptr<Projectile>> & projectiles) override;
+    int getPrice() override;
+};
+
+class SlowTower : public Tower
+{
+public:
+    SlowTower(int x, int y);
+    SlowTower(double x, double y);
+    SlowTower(shptr<Tile> tile);
+    void attack(std::vector<shptr<Projectile>> & projectiles) override;
+    int getPrice() override;
+};
+
 
 #endif

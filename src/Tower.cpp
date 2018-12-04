@@ -114,11 +114,7 @@ void Tower::upgradeAttackPower(int & cash)
 }
 
 Tower::Tower(double x, double y)
-    :   xPos{x}, yPos{y} 
-    {
-        //attackPower = 1;
-        //range = 100;
-    }
+    :   xPos{x}, yPos{y} {}
 
 Tower::Tower(int x, int y)
     :   Tower {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
@@ -177,12 +173,8 @@ int AnvilTower::getPrice() {return 9000;}
 MinigunTower::MinigunTower(double x, double y)
     : Tower{x,y} 
 {
-    
-    //sf::Texture texture;    -- placerad i h-filen då den måste fortsätta existera
     texture.loadFromFile("resources/images/minigunTowerTemp.png");
-    towerSprite = sf::Sprite{texture};
-    
-    //towerSprite = towerSpriteSheet.get_sprite(11, 0);    -- denna skriver över med gamla spritesheeten igen
+    towerSprite = sf::Sprite{texture};    
     towerSprite.setPosition (xPos,yPos);
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
 } 
@@ -200,3 +192,53 @@ void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles)
 }
 
 int MinigunTower::getPrice() {return 9000;}
+
+// MissileTower
+
+MissileTower::MissileTower(double x, double y)
+    : Tower{x,y} 
+{    
+    texture.loadFromFile("resources/images/minigunTowerTemp.png");
+    towerSprite = sf::Sprite{texture};    
+    towerSprite.setPosition (xPos,yPos);
+    towerSprite.setOrigin (tileWidth/2, tileWidth/2);
+} 
+
+MissileTower::MissileTower(int x, int y)
+    : MissileTower{mapBorderOffset + tileWidth / 2 + tileWidth * x, 
+              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+
+MissileTower::MissileTower(shptr<Tile> tile)
+    :   MissileTower{tile->getX(), tile->getY()} {}
+
+void MissileTower::attack(std::vector<shptr<Projectile>> & projectiles) 
+{
+    projectiles.push_back(std::make_shared<minigunProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
+}
+
+int MissileTower::getPrice() {return 9000;}
+
+// SlowTower
+
+SlowTower::SlowTower(double x, double y)
+    : Tower{x,y} 
+{    
+    texture.loadFromFile("resources/images/minigunTowerTemp.png");
+    towerSprite = sf::Sprite{texture};    
+    towerSprite.setPosition (xPos,yPos);
+    towerSprite.setOrigin (tileWidth/2, tileWidth/2);
+} 
+
+SlowTower::SlowTower(int x, int y)
+    : SlowTower{mapBorderOffset + tileWidth / 2 + tileWidth * x, 
+              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+
+SlowTower::SlowTower(shptr<Tile> tile)
+    :   SlowTower{tile->getX(), tile->getY()} {}
+
+void SlowTower::attack(std::vector<shptr<Projectile>> & projectiles) 
+{
+    target->takeSlowDmg(attackPower.front(),attackPower.front(),1,true);
+}
+
+int SlowTower::getPrice() {return 9000;}

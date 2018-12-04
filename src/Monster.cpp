@@ -16,7 +16,7 @@ using namespace std::complex_literals;
 using sf::Color;
 using std::vector;
 using std::complex;
-
+using sf::Clock;
 
 /* 
  *  Monster
@@ -104,6 +104,7 @@ Complexus::Complexus(int x, int y)
 void Orc::setSprite()
 {
     monsterSprite.setPosition(x, y);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
     if (xDir == 0)
     {
         if (yDir == 1)
@@ -117,6 +118,17 @@ void Orc::setSprite()
             yOffset = 2;
         else 
             yOffset = 1;
+    }
+    if (animClock.getElapsedTime().asMilliseconds() > 100)
+    {
+        if (xOffset == 0 || xOffset == 2)
+            xOffset = 1;
+        else
+            if (firstStep)
+                xOffset = 0;
+            else
+                xOffset = 1;
+        animClock.restart();
     }
 }
 
@@ -135,7 +147,6 @@ void Orc::update()
     monsterSprite = monsterSheet.get_sprite(yOffset, xOffset);
     monsterSprite.setPosition(x, y);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
-    
 }
 
 

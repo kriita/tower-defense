@@ -5,8 +5,8 @@
 #include <memory>
 #include "Tile.h"
 #include "defs.h"
-#include "complex"
-#include "cmath"
+#include <complex>
+#include <cmath>
 #include "Spritesheet.h"
 
 /* 
@@ -58,6 +58,7 @@ protected:
     int HPLoss{1};
     double bounty{};
     unsigned xOffset {};
+    bool firstStep {true};
     unsigned yOffset {};
     sf::Clock animClock {};         // Clock for animation
 };

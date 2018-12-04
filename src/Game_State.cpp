@@ -86,6 +86,9 @@ Game_Event Game_State :: update ()
         // Update map
         gameMap->update();
 
+        // Update sidebar
+        gameSidebar->update(gameResources);
+
         // Update towers
         for (auto & t : towers)
         {
@@ -124,6 +127,9 @@ void Game_State :: render (RenderTarget & target)
 {
     // Render map
     gameMap->render(target);
+
+    // Render sidebar
+    gameSidebar->render(target);
 
     // Render towers
     for (auto & t : towers)

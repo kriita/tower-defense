@@ -38,7 +38,7 @@ Sidebar::Sidebar(int xPos)
 	sidebarResources = make_unique<Resource_Window>(xPos);
 }
 
-void Sidebar::update(shptr<Resources> (& gameResources))
+void Sidebar::update(ptr<Resources> (& gameResources))
 {
 	sidebarResources -> update(gameResources);
 //	sidebarShop.update();

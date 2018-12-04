@@ -146,6 +146,7 @@ Grass::Grass(int x, int y, char type)
 
 void Grass::setSprite(vector<bool> bin)
 {
+    bin[0] = 0;
     setTileSprite(tileSheet.get_sprite(1, 1));
 }
 

@@ -68,6 +68,11 @@ double Tower::getAttackPower() const
     return attackPower.front();
 }
 
+double Tower::getRange() const
+{
+    return range.front();
+}
+
 void Tower::setTarget(shptr<Monster> newTarget)
 {
     target = newTarget;
@@ -78,6 +83,35 @@ bool Tower::inRange(shptr<Monster> monster)
     return pow((monster->getX() - xPos),2) + pow((monster->getY() - yPos),2) <= pow(range.front(),2);
 }
 
+void Tower::upgradeFireRate(int & cash)
+{
+    if (!fireRatePrice.empty() && cash >= fireRatePrice.front())
+    {
+        cash -= fireRatePrice.front();
+        fireRatePrice.erase(fireRatePrice.begin());
+        fireRate.erase(fireRate.begin());
+    }
+}
+
+void Tower::upgradeRange(int & cash)
+{
+    if (!rangePrice.empty() && cash >= rangePrice.front())
+    {
+        cash -= rangePrice.front();
+        rangePrice.erase(rangePrice.begin());
+        range.erase(range.begin());
+    }
+}
+
+void Tower::upgradeAttackPower(int & cash)
+{
+    if (!attackPowerPrice.empty() && cash >= attackPowerPrice.front())
+    {
+        cash -= attackPowerPrice.front();
+        attackPowerPrice.erase(attackPowerPrice.begin());
+        fireRate.erase(fireRate.begin());
+    }
+}
 
 Tower::Tower(double x, double y)
     :   xPos{x}, yPos{y} 

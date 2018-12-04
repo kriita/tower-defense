@@ -31,11 +31,12 @@ public:
     double getY() const;       //
     double getFireRate() const;
     double getAttackPower() const;
+    double getRange() const;
     void setTarget(shptr<Monster> newTarget);
     bool inRange(shptr<Monster> monster);
-    void updateRange();
-    void updateAttackPower();
-    void updateFireRate();
+    void upgradeRange(int & cash);                      //Takes the player's cash as argument to subtract the upgrade price if there's sufficient funds to upgrade.
+    void upgradeAttackPower(int & cash);
+    void upgradeFireRate(int & cash);
     
 
 protected:
@@ -43,9 +44,13 @@ protected:
     double yPos{};
     double angle{}; //radians
     shptr<Monster> target{};
-    std::vector<double> fireRate = {0.1, 1.5, 2.0, 2.5, 3.0};
+    std::vector<double> fireRate = {0.1, 0.08, 0.06, 0.04, 0.02};   //Time in seconds between each attack.
+    std::vector<double> fireRatePrice = {100, 200, 300, 400};
     std::vector<double> attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
-    std::vector<double> range = {230.0, 70.0, 100.0, 2.5, 3.0};
+    std::vector<double> attackPowerPrice = {100, 200, 300, 400};
+    std::vector<double> range = {70.0, 130.0, 180.0, 230.0, 270.0};
+    std::vector<double> rangePrice = {100, 200, 300, 400};
+
     sf::Clock attackClock{};
 
     

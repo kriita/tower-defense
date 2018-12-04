@@ -32,7 +32,7 @@ Resource_Window::Resource_Window(int xPos)
 				y + 2 * mapBorderOffset);
 	HPText.setOrigin(	x + (2 + 5) * mapBorderOffset,
 				y + 2 * mapBorderOffset);
-	
+/*	
 	if(!moneyTexture.loadFromFile("resources/image/money_t.png"))
     	{
 //        	throw Resource_Window_Error{"Couldn't load money texture"};
@@ -42,12 +42,13 @@ Resource_Window::Resource_Window(int xPos)
 				y + (2 + 6) * mapBorderOffset);
 	moneyText.setOrigin(	x + (8 + 5) * mapBorderOffset,
 				y + (2 + 6) * mapBorderOffset);
+				*/
 }
 
 void Resource_Window::update(shptr<Resources> (& gameResources))
 {
 	HPText.setString(std::to_string(gameResources -> getHP()));
-	moneyText.setString(std::to_string(gameResources -> getMoney()));
+//	moneyText.setString(std::to_string(gameResources -> getMoney()));
 	//waveText.setString(std::to_string(<wave object's wave # value>), font,
 	//		4 * mapBorderOffset;
 }
@@ -56,6 +57,6 @@ void Resource_Window::render(sf::RenderTarget &target)
 {
 	target.draw(HPSprite);
 	target.draw(HPText);
-	target.draw(moneySprite);
-	target.draw(moneyText);
+//	target.draw(moneySprite);
+//	target.draw(moneyText);
 }

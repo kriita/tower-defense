@@ -44,9 +44,9 @@ private:
 	sf::Text HPText {"", Font_Manager::load("resources/fonts/font.ttf"),
 			4 * static_cast<unsigned int>(mapBorderOffset)};
 
-	sf::Texture moneyTexture {};
-	sf::Sprite moneySprite {};
-	sf::Text moneyText {"", Font_Manager::load("resources/fonts/font.ttf"),
-			   4 * static_cast<unsigned int>(mapBorderOffset)};
+//	sf::Texture moneyTexture {};
+//	sf::Sprite moneySprite {};
+//	sf::Text moneyText {"", Font_Manager::load("resources/fonts/font.ttf"),
+//			   4 * static_cast<unsigned int>(mapBorderOffset)};
 	//sf::Text waveText;
 };

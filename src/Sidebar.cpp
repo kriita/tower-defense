@@ -18,7 +18,7 @@
  * 
  */
 
-#include "sidebar.h"
+#include "Sidebar.h"
 #include "constants.h"
 #include <SFML/Graphics.hpp>
 #include "Resource_Window.h"
@@ -35,19 +35,19 @@ Sidebar::Sidebar(int xPos)
 //sidebarShop {new Shop_Window(xPos, availableTowers)},
 //sidebarInfo {new Info_Window(xPos)}
 {
-//	sidebarResources = make_unique<Resource_Window>(xPos);
+	sidebarResources = make_unique<Resource_Window>(xPos);
 }
 
-void Sidebar::update(ptr<Resources> const & gameResources)
+void Sidebar::update(shptr<Resources> (& gameResources))
 {
-//	sidebarResources -> update(ptr<Resources> const & gameResources);
+	sidebarResources -> update(gameResources);
 //	sidebarShop.update();
 //	sidebarInfo.update();
 }
 
 void Sidebar::render(sf::RenderTarget &target)
 {
-//	sidebarResources -> render(target);
+	sidebarResources -> render(target);
 //	sidebarShop.render();
 //	sidebarInfo.render();
 }

@@ -28,7 +28,7 @@ public:
 	Sidebar(int xPos);
 	~Sidebar() = default;
 	
-	void update(ptr<Resources> const & gameResources);
+	void update(shptr<Resources> (& gameResources));
 	void render(sf::RenderTarget &target);
 
 	int getX();
@@ -38,7 +38,7 @@ private:
 	int x;
 	int y;
 
-	//shptr<Resource_Window> sidebarResources {};
+	shptr<Resource_Window> sidebarResources {};
 	//shptr<Shop_Window> sidebarShop {};
 	//shptr<Info_Window> sidebarInfo {};
 };

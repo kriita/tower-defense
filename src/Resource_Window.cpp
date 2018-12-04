@@ -44,7 +44,7 @@ Resource_Window::Resource_Window(int xPos)
 				y + (2 + 6) * mapBorderOffset);
 }
 
-void Resource_Window::update(ptr<Resources> const & gameResources)
+void Resource_Window::update(shptr<Resources> (& gameResources))
 {
 	HPText.setString(std::to_string(gameResources -> getHP()));
 	moneyText.setString(std::to_string(gameResources -> getMoney()));

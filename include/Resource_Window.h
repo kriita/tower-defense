@@ -30,9 +30,9 @@ class Resource_Window
 {
 public:
 	Resource_Window(int xPos);
-	~Resource_Window();
+	~Resource_Window() = default;
 	
-	void update(ptr<Resources> const & gameResources);
+	void update(shptr<Resources> (& gameResources));
 	void render(sf::RenderTarget &target);
 
 private:

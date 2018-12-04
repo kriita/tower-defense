@@ -56,7 +56,7 @@ class Path : public Tile
 public:
     Path(int x, int y, char type);
     void setSprite(std::vector<bool> bin) override;
-    void update() {};
+    void update() override {};
 
 private:
     Spritesheet tileSheet {"resources/images/path.png", 32, 32};
@@ -70,7 +70,7 @@ class Grass : public Tile
 public:
     Grass(int x, int y, char type);
     void setSprite(std::vector<bool> bin) override;
-    void update() {};
+    void update() override {};
 
 private:
     Spritesheet tileSheet {"resources/images/grass.png", 32, 32};
@@ -84,7 +84,7 @@ class Tree : public Tile
 public:
     Tree(int x, int y, char type);
     void setSprite(std::vector<bool> bin) override;
-    void update() {};
+    void update() override {};
 
 private:
     Spritesheet tileSheet {"resources/images/tree.png", 32, 32};
@@ -98,7 +98,7 @@ class Water : public Tile
 public:
     Water(int x, int y, char type);
     void setSprite(std::vector<bool> bin) override;
-    void update();
+    void update() override;
 
 private:
     Spritesheet tileSheet {"resources/images/water.png", 32, 32};

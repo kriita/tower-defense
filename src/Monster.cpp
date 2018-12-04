@@ -47,8 +47,6 @@ Orc::Orc(shptr<Tile> tile, int level)
     refSpeed = speeds[level];
     bounty = bountys[level];
     monsterSprite = monsterSheet.get_sprite(0, 0);
-//    monsterTexture.loadFromFile("resources/images/monster.png");
-//    monsterSprite.setTexture(monsterTexture);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
@@ -103,10 +101,23 @@ Complexus::Complexus(int x, int y)
 
 */
 
-void Orc::setSprite(sf::Sprite sprite)
+void Orc::setSprite()
 {
-    monsterSprite = sprite;
     monsterSprite.setPosition(x, y);
+    if (xDir == 0)
+    {
+        if (yDir == 1)
+            yOffset = 0;
+        else
+            yOffset = 3;
+    }
+    else 
+    {
+        if (xDir == 1)
+            yOffset = 2;
+        else 
+            yOffset = 1;
+    }
 }
 
 
@@ -120,7 +131,11 @@ void Monster::render(sf::RenderTarget &target)
 void Orc::update()
 {
     walk();
-    setSprite(monsterSprite);
+    setSprite();
+    monsterSprite = monsterSheet.get_sprite(yOffset, xOffset);
+    monsterSprite.setPosition(x, y);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+    
 }
 
 

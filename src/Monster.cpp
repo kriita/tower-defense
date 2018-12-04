@@ -20,24 +20,15 @@ using sf::Clock;
  *  Monster
  */
 
-Monster::Monster(shptr<Tile> tile, unsigned level)
-    : x{tile->getX()}, y{tile->getY()}
+Monster::Monster(shptr<Tile> tile)
 {
     nextTile = tile;
+    x = tile->getX();
+    y = tile->getY();
 }
-/*
-Monster::Monster(double xPos, double yPos)
-    :   x{xPos}, y{yPos} {}
-
-Monster::Monster(int x, int y)
-    :   Monster {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
-               mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
-*/
-
-
 
 Orc::Orc(shptr<Tile> tile, unsigned level)
-    : Monster{tile, level}
+    : Monster{tile}
 {
     health = healths[level];
     armour = armours[level];
@@ -50,7 +41,7 @@ Orc::Orc(shptr<Tile> tile, unsigned level)
 
 /*
 Flash::Flash(shptr<Tile> tile, unsigned level)
-    : Monster{tile, level}
+    : Monster{tile} 
 {
     health = healths[level];
     armour = armours[level];

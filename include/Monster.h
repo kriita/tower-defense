@@ -16,7 +16,7 @@
 class Monster
 {
 public:
-    Monster(shptr<Tile> tile, unsigned level);     //provide spawnpoint and level
+    Monster(shptr<Tile> tile);     //provide spawnpoint and level
     Monster(Monster const&) = delete;
 //    Monster(int x, int y);
 //   Monster(double x, double y);    
@@ -68,8 +68,6 @@ class Orc : public Monster
 public:
     Orc(shptr<Tile>, unsigned level);          //provide spawnpoint and level
     Orc(Orc const&) = default;
-//    Orc(int x, int y);
-//    Orc(double x, double y);
     std::string getType() const {return monsterType;};
     void setSprite() override;
     void loseHP() override;
@@ -90,8 +88,6 @@ class Flash : public Monster
 public:
     Flash(shptr<Tile>, unsigned level);          //provide spawnpoint and level
     Flash(Flash const&) = default;
-    Flash(int x, int y);
-    Flash(double x, double y);
     std::string getType() const {return monsterType;};
     void setSprite() override;
     void loseHP() override;
@@ -100,7 +96,7 @@ public:
 private:
     std::string monsterType {"Flash"};
     unsigned level{};
-    Spritesheet monsterSheet {"resources/images/monster.png", 32, 32};
+    Spritesheet monsterSheet {"resources/images/animals2.png", 32, 32};
     std::vector<double> healths {50, 100, 250, 500, 1000};
     std::vector<double> armours {1, 3, 5, 10, 20};
     std::vector<double> speeds {1, 1.5, 2, 2.5, 2.5};

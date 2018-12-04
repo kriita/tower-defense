@@ -35,7 +35,7 @@ Resource_Window::Resource_Window(int xPos)
 	
 	if(!moneyTexture.loadFromFile("resources/image/money_t.png"))
     	{
-        	throw Resource_Window_Error{"Couldn't load money texture"};
+//        	throw Resource_Window_Error{"Couldn't load money texture"};
     	}
 	moneySprite.setTexture(moneyTexture);
 	moneySprite.setOrigin(	x + 2 * mapBorderOffset,

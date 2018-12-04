@@ -127,7 +127,7 @@ void Orc::setSprite()
             if (firstStep)
                 xOffset = 0;
             else
-                xOffset = 1;
+                xOffset = 2;
         animClock.restart();
     }
 }

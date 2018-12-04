@@ -45,7 +45,7 @@ Resource_Window::Resource_Window(int xPos)
 				*/
 }
 
-void Resource_Window::update(shptr<Resources> (& gameResources))
+void Resource_Window::update(ptr<Resources> (& gameResources))
 {
 	HPText.setString(std::to_string(gameResources -> getHP()));
 //	moneyText.setString(std::to_string(gameResources -> getMoney()));

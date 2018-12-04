@@ -32,7 +32,7 @@ public:
 	Resource_Window(int xPos);
 	~Resource_Window() = default;
 	
-	void update(shptr<Resources> (& gameResources));
+	void update(ptr<Resources> (& gameResources));
 	void render(sf::RenderTarget &target);
 
 private:

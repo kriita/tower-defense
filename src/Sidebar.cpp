@@ -18,27 +18,46 @@
  * 
  */
 
-/*
 #include "sidebar.h"
 #include "constants.h"
+#include <SFML/Graphics.hpp>
+#include "Resource_Window.h"
+//#include "Shop_Window.h"
+//#include "Info_Window.h"
+#include <memory>
 
-Sidebar::Sidebar(int xPos, int yPos)
-: x {xPos}, y {yPos}, sidebarResources {new Resource_Window(gameResources)},
-sidebarShop {new Shop_Window(availableTowers)}, sidebarInfo {new Info_Window()}
-{}
+#include "Manager.h"
 
-class Sidebar
+using std::make_unique;
+
+Sidebar::Sidebar(int xPos)
+: x {xPos}
+//sidebarShop {new Shop_Window(xPos, availableTowers)},
+//sidebarInfo {new Info_Window(xPos)}
 {
-public:
-	Sidebar(int xPos, int yPos);
-	~Sidebar() = default;
-	
-private:
-	int x;
-	int y;
+//	sidebarResources = make_unique<Resource_Window>(xPos);
+}
 
-	Resource_Window sidebarResources;
-	Shop_Window sidebarShop;
-	Info_Window sidebarInfo;
-};
-*/
+void Sidebar::update(ptr<Resources> const & gameResources)
+{
+//	sidebarResources -> update(ptr<Resources> const & gameResources);
+//	sidebarShop.update();
+//	sidebarInfo.update();
+}
+
+void Sidebar::render(sf::RenderTarget &target)
+{
+//	sidebarResources -> render(target);
+//	sidebarShop.render();
+//	sidebarInfo.render();
+}
+
+int Sidebar::getX()
+{
+	return x;
+}
+
+int Sidebar::getY()
+{
+	return y;
+}

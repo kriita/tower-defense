@@ -4,6 +4,7 @@
 #include "Monster.h"
 #include "Projectile.h"
 #include "Resources.h"
+#include "Sidebar.h"
 #include "Tile.h"
 #include "Tower.h"
 #include <vector>
@@ -47,6 +48,7 @@ private:
 
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};
+    ptr<Sidebar> gameSidebar {};
 
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};

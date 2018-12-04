@@ -2,6 +2,7 @@
 #include "Events.h"
 #include "Game_State.h"
 #include "Resources.h"
+#include "Sidebar.h"
 #include "Tower.h"
 #include <memory>
 
@@ -20,6 +21,7 @@ Game_State::Game_State()
 
     gameMap = make_unique<Map>("map.dat");
     gameResources = make_unique<Resources>(100, 100);
+    gameSidebar = make_unique<Sidebar>(sidebarPosX);
 }
 
 void Game_State :: handle_event (Event event)

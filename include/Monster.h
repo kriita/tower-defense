@@ -16,10 +16,10 @@
 class Monster
 {
 public:
-    Monster(shptr<Tile> tile, int level);     //provide spawnpoint and level
+    Monster(shptr<Tile> tile, unsigned level);     //provide spawnpoint and level
     Monster(Monster const&) = delete;
-    Monster(int x, int y);
-    Monster(double x, double y);    
+//    Monster(int x, int y);
+//   Monster(double x, double y);    
     Monster& operator=(Monster const& other) = delete;
     virtual void setSprite() = 0;
     virtual ~Monster() = default;    
@@ -38,7 +38,7 @@ public:
     bool onCheckpoint() const;
     void setNextTile();
     bool isDead() {return dead;};
-
+    unsigned slowTime {};
     sf::FloatRect getBounds();
 
 protected:
@@ -66,10 +66,10 @@ protected:
 class Orc : public Monster
 {
 public:
-    Orc(shptr<Tile>, int level);          //provide spawnpoint and level
+    Orc(shptr<Tile>, unsigned level);          //provide spawnpoint and level
     Orc(Orc const&) = default;
-    Orc(int x, int y);
-    Orc(double x, double y);
+//    Orc(int x, int y);
+//    Orc(double x, double y);
     std::string getType() const {return monsterType;};
     void setSprite() override;
     void loseHP() override;
@@ -77,43 +77,35 @@ public:
     void update() override;
 private:
     std::string monsterType {"Orc"};
-    int level{};
+    unsigned level{};
     Spritesheet monsterSheet {"resources/images/monster.png", 32, 32};
-    std::vector<std::complex<double>> healths {50, 100, 250, 500, 1000};
+    std::vector<double> healths {50, 100, 250, 500, 1000};
     std::vector<double> armours {1, 3, 5, 10, 20};
     std::vector<double> speeds {1, 1.5, 2, 2.5, 2.5};
     std::vector<double> bountys {20, 50, 100, 250, 500};
 };
 
-/*
 class Flash : public Monster
 {
 public:
-    Flash(shptr<Tile>);          //provide spawnpoint
+    Flash(shptr<Tile>, unsigned level);          //provide spawnpoint and level
     Flash(Flash const&) = default;
     Flash(int x, int y);
     Flash(double x, double y);
     std::string getType() const {return monsterType;};
+    void setSprite() override;
     void loseHP() override;
     void defeat() override;
-    double getHealth() override {return health;};
+    void update() override;
 private:
     std::string monsterType {"Flash"};
+    unsigned level{};
+    Spritesheet monsterSheet {"resources/images/monster.png", 32, 32};
+    std::vector<double> healths {50, 100, 250, 500, 1000};
+    std::vector<double> armours {1, 3, 5, 10, 20};
+    std::vector<double> speeds {1, 1.5, 2, 2.5, 2.5};
+    std::vector<double> bountys {20, 50, 100, 250, 500};
 };
-*/
 
-class Complexus : public Monster 
-{
-public:
-    Complexus(shptr<Tile>);          //provide spawnpoint
-    Complexus(Complexus const&) = default;
-    Complexus(int x, int y);
-    Complexus(double x, double y);
-    std::string getType() const {return monsterType;};
-    void loseHP() override;
-    void defeat() override;
-private:
-    std::string monsterType {"Complexus"};
-};
 
 #endif

@@ -12,33 +12,31 @@
 #include <SFML/Graphics/Export.hpp>
 
 using std::string;
-using namespace std::complex_literals;
 using sf::Color;
 using std::vector;
-using std::complex;
 using sf::Clock;
 
 /* 
  *  Monster
  */
 
-Monster::Monster(shptr<Tile> tile, int level)
+Monster::Monster(shptr<Tile> tile, unsigned level)
     : x{tile->getX()}, y{tile->getY()}
 {
     nextTile = tile;
 }
-
+/*
 Monster::Monster(double xPos, double yPos)
     :   x{xPos}, y{yPos} {}
 
 Monster::Monster(int x, int y)
     :   Monster {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
                mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
+*/
 
 
 
-
-Orc::Orc(shptr<Tile> tile, int level)
+Orc::Orc(shptr<Tile> tile, unsigned level)
     : Monster{tile, level}
 {
     health = healths[level];
@@ -50,57 +48,19 @@ Orc::Orc(shptr<Tile> tile, int level)
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
-Orc::Orc(double x, double y)
-    : Monster{x,y} 
-{} 
-
-Orc::Orc(int x, int y)
-    : Orc {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
-           mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
-
-
-
 /*
-Flash::Flash(shptr<Tile> tile)
-    : Monster{tile}
+Flash::Flash(shptr<Tile> tile, unsigned level)
+    : Monster{tile, level}
 {
-    health = 5000;
-    armour = 3;
-    speed = 1;
-    refSpeed = 10;
-    bounty = 20;
+    health = healths[level];
+    armour = armours[level];
+    speed = speeds[level];
+    refSpeed = speeds[level];
+    bounty = bountys[level];
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
-
-Flash::Flash(double x, double y)
-    : Monster{x,y} 
-{} 
-
-Flash::Flash(int x, int y)
-    : Flash {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
-              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
-
 */
-/*
-Complexus::Complexus(shptr<Tile> tile)
-    : Monster{tile}
-{
-    health = 50;
-    armour = 3;
-    speed = 2;
-    refSpeed = 2;
-    bounty = 20;
-}
-
-Complexus::Complexus(double x, double y)
-    : Monster{x,y} 
-{} 
-
-Complexus::Complexus(int x, int y)
-    : Complexus {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
-              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
-
-*/
-
 void Orc::setSprite()
 {
     monsterSprite.setPosition(x, y);
@@ -197,6 +157,8 @@ void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg
     else
         takeDamage(dmg);
     speed = refSpeed*slow;
+    slowClock.restart();
+    slowTime = duration;
 }
 
 void Monster::walk()
@@ -211,8 +173,11 @@ void Monster::walk()
         Monster::setNextTile();
         Monster::setDir();
     }
+    if ((animClock.getElapsedTime()).asSeconds() > slowTime)
+        speed = refSpeed;
     x += speed*xDir;
     y += speed*yDir;
+
 }
 
 void Orc::loseHP()

@@ -11,8 +11,6 @@ void Wave::setSpawnTile(shptr<Tile> init_spawnTile)
 shptr<Monster> Wave::spawnMonster()
 {
     clock.restart();
-    std::cout << monsterQueue.size() << std::endl;
-    //auto temp = std::make_shared<Orc>(spawnTile, 1);
     auto temp = monsterQueue.front();
     monsterQueue.pop();
     return temp;
@@ -20,7 +18,25 @@ shptr<Monster> Wave::spawnMonster()
      
 bool Wave::timeToSpawn()
 {
-    return !empty() && clock.getElapsedTime().asSeconds() > cooldown;
+    if (clock.getElapsedTime().asSeconds() < cooldown)
+    {
+	return false;
+    }
+    else if (empty())
+    {
+	return false;
+    }
+    else if (monsterQueue.front() == nullptr)
+    {
+	clock.restart();
+	monsterQueue.pop();
+	return false;
+    }
+    else
+    { 
+	return (!empty() && clock.getElapsedTime().asSeconds() > cooldown);
+    }
+	 
 }
 
 Wave::Wave()
@@ -37,6 +53,9 @@ void Wave::pushMonster(int MonsterType, int level)
 {
     switch(MonsterType)
     {
+    case 0:
+	monsterQueue.push(nullptr);
+	break;
     case 1: 
 	monsterQueue.push(std::make_shared<Orc>(spawnTile, level));
 	break;

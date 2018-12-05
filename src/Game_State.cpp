@@ -1,4 +1,5 @@
 #include "constants.h"
+#include "Effect.h"
 #include "Events.h"
 #include "Game_State.h"
 #include "Resources.h"
@@ -62,6 +63,11 @@ void Game_State :: handle_event (Event event)
             pause = !pause;
             pauseButtonPressed = true;
         }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::B) && !bloodButtonPressed)
+        {
+            blood = !blood;
+            bloodButtonPressed = true;
+        }
         /*
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
@@ -72,6 +78,7 @@ void Game_State :: handle_event (Event event)
     else if (event.type == sf::Event::KeyReleased)
     {
         pauseButtonPressed = false;
+        bloodButtonPressed = false;
     }
 
     // Send the event to the base class (see Go_Back_State.h)
@@ -89,6 +96,12 @@ Game_Event Game_State :: update ()
         // Update sidebar
         gameSidebar->update(gameResources);
 
+        // Update blood effect
+        for (auto & b : bloodFX)
+        {
+            b->update();
+        }
+
         // Update towers
         for (auto & t : towers)
         {
@@ -105,15 +118,7 @@ Game_Event Game_State :: update ()
         for (auto & m : monsters)
         {
             m->update();
-            cout << m->isDead() << m->getHealth() << endl;
-        }
-
-        for (unsigned i = 0; i < monsters.size(); )
-        {   
-            if (monsters[i]->isDead())
-                monsters.erase(monsters.begin() + i);
-            else
-                i++;
+            //cout << m->isDead() << m->getHealth() << endl;
         }
     }
 
@@ -130,6 +135,15 @@ void Game_State :: render (RenderTarget & target)
 
     // Render sidebar
     gameSidebar->render(target);
+
+    // Render blood
+    if (blood)
+    {
+        for (auto & b : bloodFX)
+        {
+            b->render(target);
+        }
+    }
 
     // Render towers
     for (auto & t : towers)
@@ -184,6 +198,28 @@ void Game_State :: cleanup ()
             projectiles.erase(projectiles.begin() + i);
         else
             ++i;    
+    }
+
+    // Clean up blood effects
+    for (unsigned b = 0; b < bloodFX.size(); )
+    {
+        if (bloodFX[b]->checkRemove())
+            bloodFX.erase(bloodFX.begin() + b);
+        else
+            b++;
+    }
+
+    // Clean up monsters
+    for (unsigned i = 0; i < monsters.size(); )
+    {   
+        if (monsters[i]->isDead())
+        {
+            // Spawn some blood and erase
+            bloodFX.push_back(make_unique<Blood> (monsters[i]->getX(), monsters[i]->getY()));
+            monsters.erase(monsters.begin() + i);
+        }
+        else
+            i++;
     }
 /*
     for ( auto it { std::begin (projectiles) }; it != std::end (projectiles); )

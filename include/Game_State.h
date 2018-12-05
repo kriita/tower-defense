@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "Effect.h"
 #include "Go_Back_State.h"
 #include "Map.h"
 #include "Monster.h"
@@ -45,6 +46,8 @@ private:
 
     bool pause {false};
     bool pauseButtonPressed {false};
+    bool blood {true};
+    bool bloodButtonPressed {false};
 
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};
@@ -53,6 +56,8 @@ private:
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};
     std::vector<shptr<Projectile>> projectiles {};
+
+    std::vector<ptr<Effect>> bloodFX {};
 
     sf::Texture gameOverlayTexture {};
     sf::Sprite gameOverlay {};

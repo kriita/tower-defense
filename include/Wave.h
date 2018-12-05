@@ -5,22 +5,26 @@
 #include "Tile.h"
 #include <queue>
 #include <memory>
+#include <istream>
 #include "defs.h"
 
 class Wave
 {
 public:
-    Wave();
+    Wave(); //lägg kanske till vilo intervallet
     ~Wave() = default;
     void setSpawnTile(shptr<Tile> init_spawnTile);
     shptr<Monster> spawnMonster();
     bool timeToSpawn();
-
+    bool empty();
+    std::istream& operator>>(std::istream& recruits);
+    
 private:
-    ptr<Monster> monster_pointer;
+    void pushMonster(int, int);
     shptr<Tile> spawnTile;
     sf::Clock clock;
     float cooldown{2.f};
-};
+    std::queue<shptr<Monster>> monsterQueue{};
+}; 
 
 #endif    

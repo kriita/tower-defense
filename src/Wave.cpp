@@ -16,3 +16,7 @@ bool Wave::timeToSpawn()
 {
     return clock.getElapsedTime().asSeconds() > cooldown;
 }
+
+Wave::Wave()
+    :monster_pointer{nullptr}, spawnTile{nullptr}, cooldown{2.f}
+{}

@@ -9,14 +9,18 @@
 
 class Wave
 {
+public:
+    Wave();
+    ~Wave() = default;
+    void setSpawnTile(shptr<Tile> init_spawnTile);
+    shptr<Monster> spawnMonster();
+    bool timeToSpawn();
+
+private:
     ptr<Monster> monster_pointer;
     shptr<Tile> spawnTile;
     sf::Clock clock;
     float cooldown{2.f};
-public:
-    void setSpawnTile(shptr<Tile> init_spawnTile);
-    shptr<Monster> spawnMonster();
-    bool timeToSpawn();
 };
 
 #endif    

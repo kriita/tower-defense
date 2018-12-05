@@ -113,6 +113,13 @@ public:
     SlowTower(shptr<Tile> tile);
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;
+    void upgradeDuration(int & cash);
+    void upgradeSlow(int & cash);
+    std::vector<double> duration{3.0, 5.0, 7.0};
+    std::vector<double> durationPrice{100, 1000};
+    std::vector<double> slow{0.7, 0.4, 0.2};
+    std::vector<double> slowPrice{100, 1000};
+
 };
 
 

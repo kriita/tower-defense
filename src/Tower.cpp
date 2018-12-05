@@ -177,6 +177,13 @@ MinigunTower::MinigunTower(double x, double y)
     towerSprite = sf::Sprite{texture};    
     towerSprite.setPosition (xPos,yPos);
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
+    fireRate = {0.1, 0.08, 0.06, 0.04, 0.02};   //Time in seconds between each attack.
+    fireRatePrice = {100, 200, 300, 400};
+    attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
+    attackPowerPrice = {100, 200, 300, 400};
+    range = {70.0, 130.0, 180.0, 230.0, 270.0};
+    rangePrice = {100, 200, 300, 400};
+
 } 
 
 MinigunTower::MinigunTower(int x, int y)
@@ -202,6 +209,12 @@ MissileTower::MissileTower(double x, double y)
     towerSprite = sf::Sprite{texture};    
     towerSprite.setPosition (xPos,yPos);
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
+    fireRate = {2.5, 2, 1.5, 1.0, 0.5};   //Time in seconds between each attack.
+    fireRatePrice = {100, 200, 300, 400};
+    attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
+    attackPowerPrice = {100, 200, 300, 400};
+    range = {70.0, 130.0, 180.0, 230.0, 270.0};
+    rangePrice = {100, 200, 300, 400};
 } 
 
 MissileTower::MissileTower(int x, int y)
@@ -242,3 +255,23 @@ void SlowTower::attack(std::vector<shptr<Projectile>> & projectiles)
 }
 
 int SlowTower::getPrice() {return 9000;}
+
+void SlowTower::upgradeSlow(int & cash)
+{
+        if (!slowPrice.empty() && cash >= slowPrice.front())
+    {
+        cash -= slowPrice.front();
+        slowPrice.erase(slowPrice.begin());
+        slow.erase(slow.begin());
+    }
+}
+
+void SlowTower::upgradeDuration(int & cash)
+{
+        if (!durationPrice.empty() && cash >= durationPrice.front())
+    {
+        cash -= durationPrice.front();
+        durationPrice.erase(durationPrice.begin());
+        duration.erase(duration.begin());
+    }
+}

@@ -27,6 +27,7 @@ Monster::Monster(shptr<Tile> tile)
     nextTile = tile;
     x = tile->getX();
     y = tile->getY();
+    radius = 8;
 }
 
 Orc::Orc(shptr<Tile> tile, unsigned level)
@@ -37,9 +38,7 @@ Orc::Orc(shptr<Tile> tile, unsigned level)
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
-    extraXOffset = 0;
-    extraYOffset = 0;
-    radius = 5;
+    extraXOffset = 6;
 
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
@@ -55,6 +54,37 @@ Flash::Flash(shptr<Tile> tile, unsigned level)
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+}
+
+
+Tank::Tank(shptr<Tile> tile, unsigned level)
+    : Monster{tile} 
+
+{
+    health = healths[level];
+    armour = armours[level];
+    speed = speeds[level];
+    refSpeed = speeds[level];
+    bounty = bountys[level];
+    extraXOffset = 9;
+    extraYOffset = 4;
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+}
+
+Derp::Derp(shptr<Tile> tile, unsigned level)
+    : Monster{tile} 
+
+{
+    health = healths[level];
+    armour = armours[level];
+    speed = speeds[level];
+    refSpeed = speeds[level];
+    bounty = bountys[level];
+    extraXOffset = 3;
+    extraYOffset = 4;
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
@@ -126,6 +156,13 @@ void Monster::setDir()
         yDir /= abs(yDir);
 }
 
+void Monster::helpDamage(double dmg, bool pureDmg)
+{
+    if (pureDmg)
+        takePureDmg(dmg);
+    else
+        takeDamage(dmg);    
+}
 
 void Monster::takeDamage(double damage)  
 {
@@ -149,19 +186,29 @@ void Monster::takePureDmg(double damage)
 
 void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part
 {
-    if (pureDmg)
-        takePureDmg(dmg);
-    else
-        takeDamage(dmg);
+    helpDamage(dmg, pureDmg);
     speed = refSpeed*slow;
     slowClock.restart();
     slowTime = duration;
 }
 
-void Monster::takeCritDamge(double damage, double critChance)
+void Monster::takeCritDamge(double damage, unsigned critChance, bool pureDmg)
 {
-
+    for (unsigned i = 1; i>= critChance; i++)
+    {
+        if (getCritDamage())
+        {
+            helpDamage(damage, pureDmg);
+        }
+        helpDamage(damage, pureDmg);
+    }
 }
+
+bool Monster::getCritDamage()
+{
+    return ((rand() % 100) > 95);
+}
+
 
 void Monster::walk()
 {

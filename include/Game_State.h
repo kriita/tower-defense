@@ -53,16 +53,21 @@ private:
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};
     ptr<Sidebar> gameSidebar {};
-    Wave wave;
+    ptr<Wave> wave {};
 
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};
+    std::vector<shptr<Tower>> availableTowers{};
     std::vector<shptr<Projectile>> projectiles {};
 
     std::vector<ptr<Effect>> bloodFX {};
 
     sf::Texture gameOverlayTexture {};
     sf::Sprite gameOverlay {};
+
+    sf::FloatRect mapScreen { mapBorderOffset, mapBorderOffset,
+                              mapBorderOffset + xTilesMax * tileWidth,
+                              mapBorderOffset + yTilesMax * tileWidth };
 
     /*
      * Remove all balls which are no longer visible on the

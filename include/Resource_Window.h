@@ -42,11 +42,11 @@ private:
 	sf::Texture HPTexture {};
 	sf::Sprite HPSprite {};
 	sf::Text HPText {"", Font_Manager::load("resources/fonts/font.ttf"),
-			4 * static_cast<unsigned int>(mapBorderOffset)};
+			H2};
 
-//	sf::Texture moneyTexture {};
-//	sf::Sprite moneySprite {};
-//	sf::Text moneyText {"", Font_Manager::load("resources/fonts/font.ttf"),
-//			   4 * static_cast<unsigned int>(mapBorderOffset)};
+	sf::Texture moneyTexture {};
+	sf::Sprite moneySprite {};
+	sf::Text moneyText {"", Font_Manager::load("resources/fonts/font.ttf"),
+			   H2};
 	//sf::Text waveText;
 };

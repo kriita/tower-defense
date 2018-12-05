@@ -22,9 +22,10 @@ public:
     virtual void update();    
     void takeDamage(double damage);
     void takePureDmg(double damage);    
-    void takeSlowDmg(double damage, double slow, double duration, 
-                     bool pureDmg);
-    void takeCritDamge(double damage, double critChance);
+    void takeSlowDmg(double damage, double slow, double duration, bool pureDmg);
+    void takeCritDamge(double damage, unsigned critChance, bool pureDmg);
+    void helpDamage(double dmg, bool pureDmg);
+    bool getCritDamage();
     void walk();  
     double getHealth() {return health;};
     void render(sf::RenderTarget &target);

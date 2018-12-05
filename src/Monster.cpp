@@ -126,6 +126,13 @@ void Monster::setDir()
         yDir /= abs(yDir);
 }
 
+void Monster::helpDamage(double dmg, bool pureDmg)
+{
+    if (pureDmg)
+        takePureDmg(dmg);
+    else
+        takeDamage(dmg);    
+}
 
 void Monster::takeDamage(double damage)  
 {
@@ -149,19 +156,29 @@ void Monster::takePureDmg(double damage)
 
 void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part
 {
-    if (pureDmg)
-        takePureDmg(dmg);
-    else
-        takeDamage(dmg);
+    helpDamage(dmg, pureDmg);
     speed = refSpeed*slow;
     slowClock.restart();
     slowTime = duration;
 }
 
-void Monster::takeCritDamge(double damage, double critChance)
+void Monster::takeCritDamge(double damage, unsigned critChance, bool pureDmg)
 {
-
+    for (unsigned i = 1; i>= critChance; i++)
+    {
+        if (getCritDamage())
+        {
+            helpDamage(damage, pureDmg);
+        }
+        helpDamage(damage, pureDmg);
+    }
 }
+
+bool Monster::getCritDamage()
+{
+    return ((rand() % 100) > 95);
+}
+
 
 void Monster::walk()
 {

@@ -57,6 +57,7 @@ private:
 
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};
+    std::vector<shptr<Tower>> availableTowers{};
     std::vector<shptr<Projectile>> projectiles {};
 
     std::vector<ptr<Effect>> bloodFX {};

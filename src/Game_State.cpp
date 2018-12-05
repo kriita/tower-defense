@@ -26,6 +26,8 @@ Game_State::Game_State()
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
     wave = make_unique<Wave>();
     wave->setSpawnTile(gameMap->getSpawnPoint());
+
+    availableTowers.push_back(make_shared<MinigunTower>(sidebarPosX + mapBorderOffset, 156 + mapBorderOffset));
 }
 
 void Game_State :: handle_event (Event event)

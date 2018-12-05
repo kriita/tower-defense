@@ -22,6 +22,7 @@ protected:
     float y {};
     float duration {};          // Seconds
     float fadeDuration {0};     // Seconds
+    int startAlpha {255};
     bool remove {false};        // Flag for removal
     sf::Clock durationClock {};
     sf::Sprite effectSprite {};
@@ -49,6 +50,18 @@ public:
 
 private:
     Spritesheet effectSheet {"resources/images/bleed.png", 32, 32};
+};
+
+/*
+ *  Effect -> Slow
+ */
+class Slow : public Effect
+{
+public:
+    Slow(float x, float y, float radius);
+
+private:
+    Spritesheet effectSheet {"resources/images/slowAOE.png", 96, 96};
 };
 
 #endif

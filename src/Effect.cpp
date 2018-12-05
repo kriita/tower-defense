@@ -25,7 +25,7 @@ void Effect::update()
     }
     else if (elapsed > duration - fadeDuration)
     {
-        float fadeAlpha {((duration - elapsed) / fadeDuration) * 255};
+        float fadeAlpha {((duration - elapsed) / fadeDuration) * startAlpha};
         effectSprite.setColor(sf::Color(255, 255, 255, static_cast<int>(fadeAlpha)));
     }
 }
@@ -46,6 +46,7 @@ Blood::Blood(float x, float y)
     effectSprite = effectSheet.get_sprite(0, 0);
     effectSprite.setPosition(x, y);
     effectSprite.setOrigin(tileWidth/2, tileWidth/2);
+    effectSprite.setColor(sf::Color(255, 255, 255, startAlpha));
     effectSprite.setRotation(rand() % 360);
 }
 
@@ -60,5 +61,22 @@ Bleed::Bleed(float x, float y)
     effectSprite = effectSheet.get_sprite(0, 0);
     effectSprite.setPosition(x, y);
     effectSprite.setOrigin(tileWidth/2, tileWidth/2);
+    effectSprite.setColor(sf::Color(255, 255, 255, startAlpha));
     effectSprite.setRotation(rand() % 360);
+}
+
+/*
+ *  Effect -> Slow
+ */
+Slow::Slow(float x, float y, float radius)
+: Effect {x, y}
+{
+    duration = 5;
+    fadeDuration = 3;
+    startAlpha = 150;
+    effectSprite = effectSheet.get_sprite(0, 0);
+    effectSprite.setPosition(x, y);
+    effectSprite.setOrigin(48, 48);
+    effectSprite.setColor(sf::Color(255, 255, 255, startAlpha));
+    effectSprite.setScale(radius / 96, radius / 96);
 }

@@ -215,7 +215,8 @@ void Game_State :: cleanup ()
         if (monsters[i]->isDead())
         {
             // Spawn some blood and erase
-            bloodFX.push_back(make_unique<Blood> (monsters[i]->getX(), monsters[i]->getY()));
+            if (monsters[i]->getHealth() <= 0)
+                bloodFX.push_back(make_unique<Blood> (monsters[i]->getX(), monsters[i]->getY()));
             monsters.erase(monsters.begin() + i);
         }
         else

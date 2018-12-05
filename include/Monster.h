@@ -17,9 +17,9 @@ public:
     Monster(shptr<Tile> tile);     //provide spawnpoint and level
     Monster(Monster const&) = delete;
     Monster& operator=(Monster const& other) = delete;
-    virtual void setSprite() = 0;
+    virtual void setSprite();
     virtual ~Monster() = default;
-    virtual void update() = 0;    
+    virtual void update();    
     void takeDamage(double damage);
     void takePureDmg(double damage);    
     void takeSlowDmg(double damage, double slow, double duration, bool pureDmg);
@@ -39,6 +39,7 @@ public:
 protected:
     shptr<Tile> nextTile {};
     sf::Sprite monsterSprite {};
+    Spritesheet monsterSheet {"resources/images/monster.png", 32, 32};
 
     int xDir{};
     int yDir{};
@@ -55,6 +56,8 @@ protected:
     unsigned xOffset {};
     bool firstStep {true};
     unsigned yOffset {};
+    unsigned extraXOffset{};
+    unsigned extraYOffset{};
     sf::Clock animClock {};         // Clock for animation
     bool getBounty{false};          // Increase money with bounty when true
 //    bool loseHP{false}:             // Decrase HP with lifeLoss when true
@@ -65,12 +68,9 @@ class Orc : public Monster
 public:
     Orc(shptr<Tile>, unsigned level);          //provide spawnpoint and level
     std::string getType() const {return monsterType;};
-    void setSprite() override;
-    void update() override;
 private:
     std::string monsterType {"Orc"};
     unsigned level{};
-    Spritesheet monsterSheet {"resources/images/monster.png", 32, 32};
     std::vector<double> healths {50, 100, 250, 500, 1000};
     std::vector<double> armours {1, 3, 5, 10, 20};
     std::vector<double> speeds {1, 1.5, 2, 2.5, 2.5};
@@ -82,8 +82,6 @@ class Flash : public Monster
 public:
     Flash(shptr<Tile>, unsigned level);          //provide spawnpoint and level
     std::string getType() const {return monsterType;};
-    void setSprite() override;
-    void update() override;
 private:
     std::string monsterType {"Flash"};
     unsigned level{};

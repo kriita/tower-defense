@@ -37,11 +37,14 @@ Orc::Orc(shptr<Tile> tile, unsigned level)
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
+    extraXOffset = 0;
+    extraYOffset = 0;
+
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
-/*
+
 Flash::Flash(shptr<Tile> tile, unsigned level)
     : Monster{tile} 
 
@@ -54,8 +57,8 @@ Flash::Flash(shptr<Tile> tile, unsigned level)
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
-*/
-void Orc::setSprite()
+
+void Monster::setSprite()
 {
     monsterSprite.setPosition(x, y);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
@@ -94,11 +97,12 @@ void Monster::render(sf::RenderTarget &target)
     target.draw(monsterSprite);
 }
 
-void Orc::update()
+void Monster::update()
 {
     walk();
     setSprite();
-    monsterSprite = monsterSheet.get_sprite(yOffset, xOffset);
+    monsterSprite = monsterSheet.get_sprite(yOffset + extraYOffset,
+                                            xOffset + extraXOffset);
     monsterSprite.setPosition(x, y);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
@@ -164,7 +168,7 @@ void Monster::walk()
         Monster::setNextTile();
         Monster::setDir();
     }
-    if ((animClock.getElapsedTime()).asSeconds() > slowTime)
+    if ((slowClock.getElapsedTime()).asSeconds() > slowTime)
         speed = refSpeed;
     x += speed*xDir;
     y += speed*yDir;

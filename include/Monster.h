@@ -22,7 +22,9 @@ public:
     virtual void update();    
     void takeDamage(double damage);
     void takePureDmg(double damage);    
-    void takeSlowDmg(double damage, double slow, double duration, bool pureDmg);
+    void takeSlowDmg(double damage, double slow, double duration, 
+                     bool pureDmg);
+    void takeCritDamge(double damage, double critChance);
     void walk();  
     double getHealth() {return health;};
     void render(sf::RenderTarget &target);
@@ -35,6 +37,7 @@ public:
     bool isDead() {return dead;};
     unsigned slowTime {};
     sf::FloatRect getBounds();
+    double getRadius() {return radius;};
 
 protected:
     shptr<Tile> nextTile {};
@@ -61,6 +64,7 @@ protected:
     sf::Clock animClock {};         // Clock for animation
     bool getBounty{false};          // Increase money with bounty when true
 //    bool loseHP{false}:             // Decrase HP with lifeLoss when true
+    double radius{};
 };
 
 class Orc : public Monster

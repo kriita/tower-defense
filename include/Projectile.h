@@ -35,6 +35,7 @@ class Projectile
     virtual void move();
     virtual void update(std::vector<shptr<Monster>> &allMonsters);
     virtual void dealDamage (shptr<Monster> &aMonster);
+    virtual void removeProjectile();
     bool isOutsideMap();
     shptr<Monster> getTarget(); // Returns nullptr (false) if Projectile has no target
     void setTarget(shptr<Monster> newTarget);
@@ -53,6 +54,7 @@ class Projectile
     void render(sf::RenderTarget &window);
     sf::FloatRect getBounds();
     bool checkHit (shptr<Monster> &aMonster);
+    double getRadius();
 
     protected:
     double damage {};
@@ -65,6 +67,7 @@ class Projectile
     //Spritesheet projectileSpritesheet {};
     sf::Sprite projectileSprite {};
     sf::Texture projectileTexture {};
+    double radius {}; // radius in pixels
 };
 
 
@@ -84,4 +87,11 @@ class minigunProjectile : public Projectile
     minigunProjectile(double x, double y, double dirByRadians);
 };
 
+class MissileProjectile : public Projectile
+{
+    public:
+    MissileProjectile(double x, double y, double xDir, double yDir);
+    MissileProjectile(double x, double y, double dirByRadians);
+
+};
 #endif

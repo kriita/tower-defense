@@ -5,6 +5,7 @@
 #include <cmath>
 #include <vector>
 #include "complex"
+#include "constants.h"
 
 #include <iostream>
 /*
@@ -118,12 +119,23 @@ void Projectile::move()
 void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
 {
     move();
-    targetHit();
+    if (getTarget())
+    {
+        if (checkHit(target))
+        {
+            targetHit();
+            removeProjectile();
+            return void();
+        }
+    }
+
     for (shptr<Monster> aMonster : allMonsters)
     {
         if (checkHit(aMonster))
         {
             dealDamage(aMonster);
+            removeProjectile();
+            return void();
         }
     }
 }
@@ -131,6 +143,15 @@ void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
 void Projectile::dealDamage(shptr<Monster> &aMonster)
 {
     aMonster->takeDamage(damage);
+}
+
+// Set the projectile's cordinates to outside of the map so that
+// cleanUp() removes it in gameState
+void Projectile::removeProjectile()
+{
+    speed = 0;
+    x = -10;
+    y = -10;
 }
 
 void Projectile::render(sf::RenderTarget &window)
@@ -154,14 +175,19 @@ sf::FloatRect Projectile::getBounds()
 
 bool Projectile::checkHit(shptr<Monster> &aMonster)
 {
-    if (abs(aMonster->getX() + aMonster->getY() - (x + y)) -
-        (aMonster->getBounds().width/2 + getBounds().width)/2 < 0)
+    if //(aMonster->getBounds().intersects(getBounds()))
+    (sqrt( pow( aMonster->getX() - x, 2 ) + pow( aMonster->getY() - y, 2 ) ) -
+        (aMonster->getRadius() + radius) < 0)
     {
         return true;
     }
     else return false;
 }
 
+double Projectile::getRadius()
+{
+    return radius;
+}
 
 
 
@@ -204,8 +230,9 @@ minigunProjectile::minigunProjectile(double x, double y, double xDir, double yDi
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
-    speed = 5;
+    speed = 4;
     damage = 1;
+    radius = 2.5;
 }
 
 minigunProjectile::minigunProjectile(double x, double y, double dirByRadians)
@@ -215,6 +242,30 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians)
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
-    speed = 5;
+    speed = 4;
     damage = 1;
+    radius = 2.5;
 }
+/*
+MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDir)
+:Projectile(x, y , xDir, yDir)
+{
+    projectileTexture.loadFromFile("resources/images/missileProjectile.png");
+    projectileSprite.setTexture(projectileTexture);
+    projectileSprite.setOrigin(16, 16);
+    projectileSprite.setPosition(x,y);
+    speed = 8;
+    damage = 30;
+}
+
+MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
+:Projectile(x, y, dirByRadians)
+{
+    projectileTexture.loadFromFile("resources/images/missileProjectile.png");
+    projectileSprite.setTexture(projectileTexture);
+    projectileSprite.setOrigin(16, 16);
+    projectileSprite.setPosition(x,y);
+    speed = 8;
+    damage = 30;
+}
+*/

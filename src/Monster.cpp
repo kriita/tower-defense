@@ -39,6 +39,7 @@ Orc::Orc(shptr<Tile> tile, unsigned level)
     bounty = bountys[level];
     extraXOffset = 0;
     extraYOffset = 0;
+    radius = 5;
 
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
@@ -155,6 +156,11 @@ void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg
     speed = refSpeed*slow;
     slowClock.restart();
     slowTime = duration;
+}
+
+void Monster::takeCritDamge(double damage, double critChance)
+{
+
 }
 
 void Monster::walk()

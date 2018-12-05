@@ -38,4 +38,16 @@ private:
     Spritesheet effectSheet {"resources/images/blood.png", 32, 32};
 };
 
+/*
+ *  Effect -> Bleed
+ */
+class Bleed : public Effect
+{
+public:
+    Bleed(float x, float y);
+
+private:
+    Spritesheet effectSheet {"resources/images/bleed.png", 32, 32};
+};
+
 #endif

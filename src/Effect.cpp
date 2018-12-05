@@ -40,3 +40,16 @@ Blood::Blood(float x, float y)
     effectSprite.setOrigin(tileWidth/2, tileWidth/2);
     effectSprite.setRotation(rand() % 360);
 }
+
+/*
+ *  Effect -> Bleed
+ */
+Bleed::Bleed(float x, float y)
+: Effect {x, y}
+{
+    duration = 30;
+    effectSprite = effectSheet.get_sprite(0, 0);
+    effectSprite.setPosition(x, y);
+    effectSprite.setOrigin(tileWidth/2, tileWidth/2);
+    effectSprite.setRotation(rand() % 360);
+}

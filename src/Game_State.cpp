@@ -118,6 +118,9 @@ Game_Event Game_State :: update ()
         for (auto & m : monsters)
         {
             m->update();
+
+            if (m->getHealth() <= 20)
+                bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
             //cout << m->isDead() << m->getHealth() << endl;
         }
     }

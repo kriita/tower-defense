@@ -20,8 +20,9 @@ public:
 protected:
     float x {};
     float y {};
-    float duration {};  // Seconds
-    bool remove {false};    // Flag for removal
+    float duration {};          // Seconds
+    float fadeDuration {0};     // Seconds
+    bool remove {false};        // Flag for removal
     sf::Clock durationClock {};
     sf::Sprite effectSprite {};
 };

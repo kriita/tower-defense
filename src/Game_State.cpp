@@ -54,6 +54,9 @@ void Game_State :: handle_event (Event event)
                 else 
                 {
                     monsters.push_back(make_shared<Orc> (gameMap->getSpawnPoint(), 1));
+                    monsters.push_back(make_shared<Flash> (gameMap->getSpawnPoint(), 1));
+                    monsters.push_back(make_shared<Tank> (gameMap->getSpawnPoint(), 1));
+                    monsters.push_back(make_shared<Derp> (gameMap->getSpawnPoint(), 1));
                 }
 
                 //projectiles.push_back(make_shared<Anvil>((event.mouseButton).x, 0, 0, 1));

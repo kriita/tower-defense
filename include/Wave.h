@@ -14,6 +14,7 @@ class Wave
     sf::Clock clock;
     float cooldown{2.f};
 public:
+    Wave();
     void setSpawnTile(shptr<Tile> init_spawnTile);
     shptr<Monster> spawnMonster();
     bool timeToSpawn();

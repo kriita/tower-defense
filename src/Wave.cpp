@@ -11,16 +11,20 @@ void Wave::setSpawnTile(shptr<Tile> init_spawnTile)
 shptr<Monster> Wave::spawnMonster()
 {
     clock.restart();
-    return std::make_shared<Orc>(spawnTile, 2);
+    std::cout << monsterQueue.size() << std::endl;
+    //auto temp = std::make_shared<Orc>(spawnTile, 1);
+    auto temp = monsterQueue.front();
+    monsterQueue.pop();
+    return temp;
 }
      
 bool Wave::timeToSpawn()
 {
-    return clock.getElapsedTime().asSeconds() > cooldown;
+    return !empty() && clock.getElapsedTime().asSeconds() > cooldown;
 }
 
 Wave::Wave()
-    : spawnTile{nullptr}, cooldown{2.f}
+    : spawnTile{nullptr}, cooldown{.5f}
 {}
 
 bool Wave::empty()
@@ -55,13 +59,12 @@ std::istream& Wave::operator>>(std::istream& reqruits)
 {
     if (reqruits)
     {
-	
 	int next_reqruit{};
 	reqruits >> next_reqruit;
 	
 	while (reqruits)
 	{
-	    pushMonster(next_reqruit, 1); // think of a way to read level
+	    pushMonster(next_reqruit, 1);
 	    reqruits >> next_reqruit;
 	}
 

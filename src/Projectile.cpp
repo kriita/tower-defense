@@ -231,7 +231,7 @@ minigunProjectile::minigunProjectile(double x, double y, double xDir, double yDi
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     speed = 4;
-    damage = 1;
+    damage = 4;
     radius = 2.5;
 }
 
@@ -243,10 +243,10 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians)
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     speed = 4;
-    damage = 1;
+    damage = 4;
     radius = 2.5;
 }
-/*
+
 MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDir)
 :Projectile(x, y , xDir, yDir)
 {
@@ -256,6 +256,7 @@ MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDi
     projectileSprite.setPosition(x,y);
     speed = 8;
     damage = 30;
+    radius = 8;
 }
 
 MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
@@ -267,5 +268,5 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
     projectileSprite.setPosition(x,y);
     speed = 8;
     damage = 30;
+    radius = 8;
 }
-*/

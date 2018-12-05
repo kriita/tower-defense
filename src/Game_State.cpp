@@ -5,6 +5,7 @@
 #include "Resources.h"
 #include "Sidebar.h"
 #include "Tower.h"
+#include <cstdlib>
 #include <memory>
 
 #include "Manager.h"
@@ -119,7 +120,7 @@ Game_Event Game_State :: update ()
         {
             m->update();
 
-            if (m->getHealth() <= 20)
+            if (m->getHealth() <= 20 && (rand() % 100) <= 10)
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
             //cout << m->isDead() << m->getHealth() << endl;
         }

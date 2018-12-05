@@ -24,7 +24,8 @@ Game_State::Game_State()
     gameMap = make_unique<Map>("map.dat");
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
-    wave.setSpawnTile(gameMap->getSpawnPoint());
+    wave = make_unique<Wave>();
+    wave->setSpawnTile(gameMap->getSpawnPoint());
 }
 
 void Game_State :: handle_event (Event event)
@@ -126,13 +127,11 @@ Game_Event Game_State :: update ()
             //cout << m->isDead() << m->getHealth() << endl;
         }
 
-	//Update wave
-	if (wave.timeToSpawn())
-	{
-	    monsters.push_back(wave.spawnMonster());
-	}
-
-	
+        //Update wave
+        if (wave->timeToSpawn())
+        {
+            monsters.push_back(wave->spawnMonster());
+        }
     }
 
     cleanup();
@@ -204,9 +203,7 @@ void Game_State :: cleanup ()
     for (unsigned i = 0; i < projectiles.size(); )
     {   
         auto bounds {projectiles[i]->getBounds()};
-        FloatRect mapScreen { mapBorderOffset, mapBorderOffset,
-                           mapBorderOffset + xTilesMax * tileWidth,
-                           mapBorderOffset + yTilesMax * tileWidth };
+        
         if (!mapScreen.intersects(bounds))
             projectiles.erase(projectiles.begin() + i);
         else

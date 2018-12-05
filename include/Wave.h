@@ -9,9 +9,14 @@
 
 class Wave
 {
+    ptr<Monster> monster_pointer;
     shptr<Tile> spawnTile;
+    sf::Clock clock;
+    float cooldown{2.f};
 public:
-    Wave(shptr<Tile>init_spawnTile);
+    void setSpawnTile(shptr<Tile> init_spawnTile);
+    shptr<Monster> spawnMonster();
+    bool timeToSpawn();
 };
 
 #endif    

@@ -8,6 +8,7 @@
 #include "Sidebar.h"
 #include "Tile.h"
 #include "Tower.h"
+#include "Wave.h"
 #include <vector>
 #include <memory>
 
@@ -52,6 +53,7 @@ private:
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};
     ptr<Sidebar> gameSidebar {};
+    Wave wave;
 
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};

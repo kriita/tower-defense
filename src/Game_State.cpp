@@ -24,6 +24,7 @@ Game_State::Game_State()
     gameMap = make_unique<Map>("map.dat");
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
+    wave.setSpawnTile(gameMap->getSpawnPoint());
 }
 
 void Game_State :: handle_event (Event event)
@@ -124,6 +125,14 @@ Game_Event Game_State :: update ()
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
             //cout << m->isDead() << m->getHealth() << endl;
         }
+
+	//Update wave
+	if (wave.timeToSpawn())
+	{
+	    monsters.push_back(wave.spawnMonster());
+	}
+
+	
     }
 
     cleanup();

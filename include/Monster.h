@@ -27,7 +27,7 @@ public:
     void takeSlowDmg(double damage, double slow, double duration, bool pureDmg);
     void takeCritDamge(double damage, unsigned critChance, bool pureDmg);
     void helpDamage(double dmg, bool pureDmg);
-    void takePushBackDmg(double damage, double length, bool pureDmg);
+    void takePushBackDmg(double damage, bool pureDmg);
     bool getCritDamage();
     void walk();  
     double getHealth() {return health;};
@@ -47,6 +47,7 @@ public:
 
 protected:
     shptr<Tile> nextTile {};
+    shptr<Tile> prevTile {};
     sf::Sprite monsterSprite {};
     Spritesheet monsterSheet {"resources/images/monsters.png", 32, 32};
 

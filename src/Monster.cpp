@@ -208,13 +208,15 @@ bool Monster::getCritDamage()
     return ((rand() % 100) > 95);
 }
 
-void Monster::takePushBackDmg(double damage, double length, bool pureDmg)
+void Monster::takePushBackDmg(double damage, bool pureDmg)
 {
-    xDir = -xDir;
-    yDir = -yDir;
     helpDamage(damage, pureDmg);
-    for (unsigned i = 1; i >= length; i++)
-        walk();    
+    nextTile = prevTile;
+    x = nextTile->getX();
+    y = nextTile->getY();
+    Monster::setNextTile();
+    Monster::setDir();
+    walk();
 }
 
 void Monster::walk()
@@ -223,6 +225,7 @@ void Monster::walk()
     if (   (pow((nextTile->getX() - x), 2) <= tolerance)
         && (pow((nextTile->getY() - y), 2) <= tolerance))
     {
+        prevTile = nextTile;
         x = nextTile->getX();
         y = nextTile->getY();
         Monster::setNextTile();

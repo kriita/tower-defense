@@ -142,7 +142,7 @@ void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
 
 void Projectile::dealDamage(shptr<Monster> &aMonster)
 {
-    aMonster->takeSlowDmg(damage, 0.1, 10, true);
+    aMonster->takePushBackDmg(damage, true);
 }
 
 // Set the projectile's cordinates to outside of the map so that
@@ -164,7 +164,7 @@ void Projectile::targetHit()
 {
     if (getTarget())
     {
-        target->takeSlowDmg(damage, 0.1, 10, true);
+        target->takePushBackDmg(damage, true);
     }
 }
 

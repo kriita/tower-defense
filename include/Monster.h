@@ -36,6 +36,8 @@ public:
     int getYDIr() {return yDir;};
     double getX() const {return x;};
     double getY() const {return y;};
+    double getBounty() {return bounty;};
+    double getHPLoss() {return HPLoss;};
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
     bool onCheckpoint() const;
     void setNextTile();
@@ -43,7 +45,7 @@ public:
     unsigned slowTime {};
     sf::FloatRect getBounds();
     double getRadius() {return radius;};
-
+    bool shallLoseHP() {return loseHP;};
 protected:
     shptr<Tile> nextTile {};
     shptr<Tile> prevTile {};
@@ -61,15 +63,15 @@ protected:
     double refSpeed{};
     double speed{};
     int HPLoss{1};
-    double bounty{};
+    double bounty{1};
     unsigned xOffset {};
     bool firstStep {true};
     unsigned yOffset {};
     unsigned extraXOffset{};
     unsigned extraYOffset{};
     sf::Clock animClock {};         // Clock for animation
-    bool getBounty{false};          // Increase money with bounty when true
-    bool loseHP{true};             // Decrase HP with lifeLoss when true
+    bool giveBounty{false};          // Increase money with bounty when true
+    bool loseHP{false};             // Decrase HP with lifeLoss when true
 };
 
 class Orc : public Monster

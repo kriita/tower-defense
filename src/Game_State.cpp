@@ -234,6 +234,11 @@ void Game_State :: cleanup ()
         if (monsters[i]->isDead())
         {
             // Spawn some blood and erase
+            if (monsters[i]->shallLoseHP())
+                gameResources->changeHP(- monsters[i]->getHPLoss());
+            else
+                gameResources->changeMoney(monsters[i]->getBounty());
+            
             if (monsters[i]->getHealth() <= 0)
                 bloodFX.push_back(make_unique<Blood> (monsters[i]->getX(), monsters[i]->getY()));
             monsters.erase(monsters.begin() + i);

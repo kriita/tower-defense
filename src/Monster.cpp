@@ -170,7 +170,6 @@ void Monster::takeDamage(double damage)
     if (health <= 0)
     {
         dead = true;
-        giveBounty = true;
     }
 }
 
@@ -180,7 +179,6 @@ void Monster::takePureDmg(double damage)
     if (health <= 0)
     {
         dead = true;
-        giveBounty = true;    
     }
 }
 void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part

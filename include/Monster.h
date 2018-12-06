@@ -70,7 +70,6 @@ protected:
     unsigned extraXOffset{};
     unsigned extraYOffset{};
     sf::Clock animClock {};         // Clock for animation
-    bool giveBounty{false};          // Increase money with bounty when true
     bool loseHP{false};             // Decrase HP with lifeLoss when true
 };
 

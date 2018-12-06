@@ -214,8 +214,6 @@ void Monster::takePushBackDmg(double damage, bool pureDmg)
     nextTile = prevTile;
     x = nextTile->getX();
     y = nextTile->getY();
-    Monster::setNextTile();
-    Monster::setDir();
     walk();
 }
 

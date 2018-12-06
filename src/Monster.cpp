@@ -183,7 +183,6 @@ void Monster::takePureDmg(double damage)
         getBounty = true;    
     }
 }
-
 void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part
 {
     helpDamage(dmg, pureDmg);
@@ -209,6 +208,14 @@ bool Monster::getCritDamage()
     return ((rand() % 100) > 95);
 }
 
+void Monster::takePushBackDmg(double damage, double length, bool pureDmg)
+{
+    xDir = -xDir;
+    yDir = -yDir;
+    helpDamage(damage, pureDmg);
+    for (unsigned i = 1; i >= length; i++)
+        walk();    
+}
 
 void Monster::walk()
 {

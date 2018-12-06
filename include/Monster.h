@@ -27,8 +27,7 @@ public:
     void takeSlowDmg(double damage, double slow, double duration, bool pureDmg);
     void takeCritDamge(double damage, unsigned critChance, bool pureDmg);
     void helpDamage(double dmg, bool pureDmg);
-    void takePushBackDmg(double damage, bool pureDmg);
-    bool getCritDamage();
+    void takePushBackDmg(double damage, int pushBack, bool pureDmg);
     void walk();  
     double getHealth() {return health;};
     void render(sf::RenderTarget &target);

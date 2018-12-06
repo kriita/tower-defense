@@ -195,7 +195,7 @@ void Monster::takeCritDamge(double damage, unsigned critChance, bool pureDmg)
 {
     for (unsigned i = 1; i>= critChance; i++)
     {
-        if (getCritDamage())
+        if ((rand() % 100) > 95)
         {
             helpDamage(damage, pureDmg);
         }
@@ -203,18 +203,16 @@ void Monster::takeCritDamge(double damage, unsigned critChance, bool pureDmg)
     }
 }
 
-bool Monster::getCritDamage()
-{
-    return ((rand() % 100) > 95);
-}
-
-void Monster::takePushBackDmg(double damage, bool pureDmg)
+void Monster::takePushBackDmg(double damage, int pushBack, bool pureDmg)     // pushBack percentage to push back
 {
     helpDamage(damage, pureDmg);
-    nextTile = prevTile;
-    x = nextTile->getX();
-    y = nextTile->getY();
-    walk();
+    if ((rand() % 100) > (100 - pushBack))
+    {
+        nextTile = prevTile;
+        x = nextTile->getX();
+        y = nextTile->getY();
+        walk();
+    }
 }
 
 void Monster::walk()

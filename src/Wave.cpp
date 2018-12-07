@@ -73,7 +73,7 @@ void Wave::pushMonster(int MonsterType, int level)
     }
     
 }
- 
+
 std::istream& Wave::operator>>(std::istream& reqruits)
 {
     if (reqruits)
@@ -88,6 +88,7 @@ std::istream& Wave::operator>>(std::istream& reqruits)
 	}
 
     }
+    return reqruits;
 }
 
 

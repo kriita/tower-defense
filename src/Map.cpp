@@ -53,7 +53,7 @@ void Map::readMapData()
 
     string mapFolder {"resources/maps/"};
 
-    ifstream mapFile((mapFolder + fileName).c_str());
+    ifstream mapFile((mapFolder + fileName + ".map").c_str());
     if (!mapFile)
         throw MapError{"Cannot open map file"};
 
@@ -169,10 +169,7 @@ void Map::setTileSprites()
     {
         for (int x {0}; x < xTilesMax; ++x)
         {           
-            if (getTile(x, y)->getType() == pathChar)
-                getTile(x, y)->setSprite(getSpriteNeighbors(x, y));
-            else
-                getTile(x, y)->setSprite(getSpriteNeighbors(x, y));
+            getTile(x, y)->setSprite(getSpriteNeighbors(x, y));
         }
     }
 }

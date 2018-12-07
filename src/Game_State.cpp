@@ -22,7 +22,7 @@ Game_State::Game_State()
     }
     gameOverlay.setTexture(gameOverlayTexture);
 
-    gameMap = make_unique<Map>("map.dat");
+    gameMap = make_unique<Map>("Forest");
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
     wave = make_unique<Wave>();

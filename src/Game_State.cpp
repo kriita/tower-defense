@@ -186,7 +186,6 @@ void Game_State :: render (RenderTarget & target)
 
     target.draw(gameOverlay);
 
-
     // Render pause-screen <-- temporär pause-text
     if (pause)
     {

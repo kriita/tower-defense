@@ -36,6 +36,12 @@ Game :: Game (std::string const & title,
       machine { std::make_unique<Menu_State> () },
       running { true }
 {
+    
+    // Custom cursor
+    window.setMouseCursorVisible(false);
+    cursorTexture.loadFromFile("resources/images/cursor.png");
+    cursorSprite.setTexture(cursorTexture);
+    cursorSprite.setOrigin(2, 0);
 }
 
 void Game :: start ()
@@ -65,6 +71,7 @@ void Game :: start ()
 
         // let the state render itself onto the window
         state.render (window);
+        window.draw(cursorSprite);
 
         /*
          * No drawn pixels will be shown in the window
@@ -123,6 +130,9 @@ void Game :: handle_events (State & state)
         // system kills it.
         if ( event.type == Event::Closed )
             running = false;
+
+        // Update cursor position
+        cursorSprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
 
         // send the event to 'state'
         state.handle_event (event);

@@ -124,5 +124,8 @@ private:
      * iteration of the game loop will not run.
      */
     bool             running;
-    
+
+    // For custom cursor
+    sf::Texture cursorTexture {};
+    sf::Sprite cursorSprite {};  
 };

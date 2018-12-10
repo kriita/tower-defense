@@ -27,8 +27,9 @@ Game_State::Game_State()
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
     wave = make_unique<Wave>();
     wave->setSpawnTile(gameMap->getSpawnPoint());
-    std::istringstream test_iss{"1 0 0 0 1 0 0 1 0 1 1 0 0 0 3 4"};
-    *wave >> test_iss;
+    //std::istringstream test_iss{"1 0 0 0 1 0 0 1 0 1 1 0 0 0 3 4"};
+    //*wave >> test_iss;
+    wave->readWaveData("test.w");
     
 
     availableTowers.push_back(make_shared<MinigunTower>(sidebarPosX + mapBorderOffset, 156 + mapBorderOffset));

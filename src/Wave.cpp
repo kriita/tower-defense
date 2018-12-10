@@ -87,8 +87,6 @@ void Wave::readWaveData(std::string fileName)
 	}
 	    
     }
-    
-    std::cout << "done!"<< std::endl;
 }
     
 shptr<Monster> Wave::spawnMonster()

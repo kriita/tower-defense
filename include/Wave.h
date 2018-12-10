@@ -6,7 +6,13 @@
 #include <queue>
 #include <memory>
 #include <istream>
+#include <string>
 #include "defs.h"
+
+class WaveError : public std::logic_error
+{
+    using std::logic_error::logic_error;
+};
 
 class Wave
 {

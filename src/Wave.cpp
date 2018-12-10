@@ -1,5 +1,8 @@
 #include "Wave.h"
 #include <utility>
+#include <string>
+#include <fstream>
+#include <sstream> 
 
 #include <iostream>
 
@@ -8,17 +11,24 @@ void Wave::setSpawnTile(shptr<Tile> init_spawnTile)
     spawnTile = std::move(init_spawnTile);    
 }
 
+void Wave::readWaveData(std::string fileName)
+{
+    std::string filePath {"resources/waves/"};
+    std::ifstream waveFile((filePath + fileName).c_str());
+    if(!waveFile)
+	throw WaveError{"Cannot open wave file"};
+
+    std::string temp{};
+    getline(waveFile, temp);
+    std::cout << "I can read "  << temp << std::endl;
+}
+
 shptr<Monster> Wave::spawnMonster()
 {
     clock.restart();
     auto temp = monsterQueue.front();
     monsterQueue.pop();
     return temp;
-}
-
-void readWaveData(std::string fileName)
-{
-    (void) fileName;
 }
      
 bool Wave::timeToSpawn()

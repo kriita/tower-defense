@@ -53,7 +53,7 @@ std::vector<int> readOneType(int & amount, std::string word)
 void Wave::readWaveData(std::string fileName)
 {
     std::string filePath {"resources/waves/"};
-    std::ifstream waveFile((filePath + fileName).c_str());
+    std::ifstream waveFile((filePath + fileName + ".w").c_str());
     if(!waveFile)
 	throw WaveError{"Cannot open wave file"};
 

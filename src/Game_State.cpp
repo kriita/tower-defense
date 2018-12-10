@@ -30,7 +30,7 @@ Game_State::Game_State(string level)
     wave->setSpawnTile(gameMap->getSpawnPoint());
     //std::istringstream test_iss{"1 0 0 0 1 0 0 1 0 1 1 0 0 0 3 4"};
     //*wave >> test_iss;
-    wave->readWaveData("test.w");
+    wave->readWaveData("test");
     
 
     availableTowers.push_back(make_shared<MinigunTower>(sidebarPosX + mapBorderOffset, 156 + mapBorderOffset));

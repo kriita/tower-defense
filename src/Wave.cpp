@@ -11,6 +11,45 @@ void Wave::setSpawnTile(shptr<Tile> init_spawnTile)
     spawnTile = std::move(init_spawnTile);    
 }
 
+
+std::vector<int> readSequence(int & amount, std::string word)
+{
+    std::istringstream iss{word};
+    std::vector<int> sequence{};
+    int type{};
+    char symbol{};
+    while(iss >> symbol)
+    {
+	if (symbol == ')')
+	{
+	    iss >> symbol;
+	    iss >> amount;
+	    break;
+	}
+	else
+	{
+	    iss >> type;
+	    sequence.push_back(type);
+	    continue;
+	}
+    }
+    return sequence;
+}
+
+std::vector<int> readOneType(int & amount, std::string word)
+{
+    std::istringstream iss{word};
+    std::vector<int> sequence{};
+    int type{};
+    char symbol{};
+    iss >> type;
+    iss >> symbol;
+    iss >> amount;
+    sequence.push_back(type);
+    return sequence;
+
+}
+
 void Wave::readWaveData(std::string fileName)
 {
     std::string filePath {"resources/waves/"};
@@ -18,11 +57,40 @@ void Wave::readWaveData(std::string fileName)
     if(!waveFile)
 	throw WaveError{"Cannot open wave file"};
 
-    std::string temp{};
-    getline(waveFile, temp);
-    std::cout << "I can read "  << temp << std::endl;
-}
+    //tolka .w filen till monster typer och mängd monster
+    std::string word{};
+    std::string numberString{"1234567890"};
+    int amount{1};
+    std::vector<int> sequence{};
+    while(getline(waveFile, word, ' '))
+    {
+	if (word.front() == '(')
+	{
+	    sequence = readSequence(amount, word);
+	}
+	else if (numberString.find(word.front()) != std::string::npos)
+	{
+	    sequence = readOneType(amount, word);
+	}
+	else 
+	{
+	    throw WaveError{"incorrect wave file"};
+	}
 
+	//ställ monstern i kö
+	for (int i{0}; i < amount; i++)
+	{
+	    for (unsigned int j{0}; j < sequence.size(); j++)
+	    {
+		pushMonster(sequence[j], 1);
+	    }
+	}
+	    
+    }
+    
+    std::cout << "done!"<< std::endl;
+}
+    
 shptr<Monster> Wave::spawnMonster()
 {
     clock.restart();

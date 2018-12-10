@@ -40,7 +40,7 @@ bool Wave::timeToSpawn()
 }
 
 Wave::Wave()
-    : spawnTile{nullptr}, cooldown{.5f}
+    : spawnTile{nullptr}, clock{}, cooldown{.5f}
 {}
 
 bool Wave::empty()

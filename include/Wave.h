@@ -23,7 +23,7 @@ private:
     void pushMonster(int, int);
     shptr<Tile> spawnTile;
     sf::Clock clock;
-    float cooldown{2.f};
+    float cooldown;
     std::queue<shptr<Monster>> monsterQueue{};
 }; 
 

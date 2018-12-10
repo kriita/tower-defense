@@ -15,6 +15,11 @@ shptr<Monster> Wave::spawnMonster()
     monsterQueue.pop();
     return temp;
 }
+
+void readWaveData(std::string fileName)
+{
+    (void) fileName;
+}
      
 bool Wave::timeToSpawn()
 {

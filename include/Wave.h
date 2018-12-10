@@ -14,6 +14,7 @@ public:
     Wave(); //lägg kanske till vilo intervallet
     ~Wave() = default;
     void setSpawnTile(shptr<Tile> init_spawnTile);
+    void readWaveData(std::string fileName);
     shptr<Monster> spawnMonster();
     bool timeToSpawn();
     bool empty();

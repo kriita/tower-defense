@@ -29,7 +29,8 @@ public:
 
     void render(sf::RenderTarget &target);
     void update();
-    void setupMap();
+    //void setupMap();
+    void makePreview(float xNew, float yNew, float scale);
     int getPathNeighbors(int xPos, int yPos);
     std::vector<bool> getSpriteNeighbors(int xTile, int yTile);
     shptr<Tile> getTile(int x, int y);

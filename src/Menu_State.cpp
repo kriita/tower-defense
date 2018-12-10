@@ -2,6 +2,7 @@
 #include "Events.h"
 #include "Game_State.h"
 #include "Manager.h"
+#include "Map.h"
 
 #include <string>
 
@@ -24,6 +25,10 @@ Menu_State :: Menu_State ()
              16 },
       play { false }
 {
+    maps.push_back(make_unique<Map> ("Forest"));
+    maps.push_back(make_unique<Map> ("Gauntlet"));
+    maps[0]->makePreview(200, 200, 0.2);
+    maps[1]->makePreview(400, 200, 0.2);
 }
 
 /*
@@ -74,6 +79,9 @@ void Menu_State :: render (RenderTarget & target)
                       (size.y - bounds.height) / 2);
     
     target.draw (text);
+
+    maps[0]->render(target);
+    maps[1]->render(target);
 }
 
 /*

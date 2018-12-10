@@ -47,6 +47,17 @@ void Map::update()
     }
 }
 
+void Map::makePreview(float xNew, float yNew, float scale)
+{
+    for (int y {0}; y < yTilesMax; ++y)
+    {
+        for (int x {0}; x < xTilesMax; ++x)
+        {
+            getTile(x, y)->resize(xNew, yNew, scale);
+        }
+    }
+}
+
 void Map::readMapData()
 {
     mapTiles.resize(xTilesMax, vector<shptr<Tile>>(yTilesMax, nullptr));

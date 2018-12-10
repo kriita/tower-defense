@@ -2,8 +2,12 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "defs.h"
+#include "Map.h"
 #include "State.h"
 #include "Go_Back_State.h"
+
+#include <vector>
 
 /*
  * A simple state containing a short welcome message.
@@ -42,4 +46,6 @@ private:
      */
     bool play;
     
+    // Holds maps able for New game
+    std::vector<ptr<Map>> maps {};
 };

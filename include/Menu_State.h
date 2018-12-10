@@ -8,6 +8,7 @@
 #include "Go_Back_State.h"
 
 #include <vector>
+#include <string>
 
 /*
  * A simple state containing a short welcome message.
@@ -46,6 +47,8 @@ private:
      */
     bool play;
     
+    std::string level {};
+
     // Holds maps able for New game
     std::vector<ptr<Map>> maps {};
 };

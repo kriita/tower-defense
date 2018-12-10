@@ -13,8 +13,9 @@
 #include <sstream>
 
 using namespace sf;
+using std::string;
 
-Game_State::Game_State()
+Game_State::Game_State(string level)
 {
     if(!gameOverlayTexture.loadFromFile("resources/images/overlay.png"))
     {
@@ -22,7 +23,7 @@ Game_State::Game_State()
     }
     gameOverlay.setTexture(gameOverlayTexture);
 
-    gameMap = make_unique<Map>("Forest");
+    gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
     wave = make_unique<Wave>();

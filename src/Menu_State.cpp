@@ -40,6 +40,23 @@ Menu_State :: Menu_State ()
 void Menu_State :: handle_event (Event event)
 {
     Go_Back_State::handle_event (event);
+    if ( event.type == Event::MouseButtonReleased )
+    {
+        auto mouse { event.mouseButton };
+        if ( mouse.button == Mouse::Button::Left )
+        {
+            if (mouse.x > 85 && mouse.x < 315 && mouse.y > 85 && mouse.y < 315)
+            {
+                level = "Forest";
+                play = true;
+            }
+            else if (mouse.x > 285 && mouse.x < 515 && mouse.y > 85 && mouse.y < 315)
+            {
+                level = "Gauntlet";
+                play = true;
+            }
+        }
+    }
     if ( event.type == Event::KeyPressed )
     {
         if ( event.key.code == Keyboard::Key::Return )
@@ -64,7 +81,7 @@ Game_Event Menu_State :: update ()
     {
         play = false;
         return Game_Event::create<Switch_State> (
-            move (std::make_unique<Game_State> ()));
+            move (std::make_unique<Game_State> (level)));
     }
     
     return Go_Back_State::update ();

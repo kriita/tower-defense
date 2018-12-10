@@ -11,6 +11,7 @@
 #include "Wave.h"
 #include <vector>
 #include <memory>
+#include <string>
 
 /*
  * This class represents the "game".
@@ -37,7 +38,7 @@ class Game_State : public Go_Back_State
 {
 public:
 
-    Game_State ();
+    Game_State (std::string level);
 
     void handle_event (sf::Event event) override;
     Game_Event update () override;

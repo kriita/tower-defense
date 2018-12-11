@@ -49,10 +49,24 @@ void Map::update()
     }
 }
 
-void Map::handle(vector<shptr<Monster>> monsters, vector<shptr<Tower>> towers,
-                shptr<Monster> focusMonster, shptr<Tower> focusTower)
+void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shptr<Tower>> & towers,
+                ptr<Resources> & resources)
 {
-    //
+    auto mouse { event.mouseButton };
+    shptr<Tile> tmpTile {getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
+                                 static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
+    if (tmpTile->checkPlaceable())
+    {
+        towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+        tmpTile->switchPlaceable();
+    }
+    else
+    {
+        monsters.push_back(make_shared<Orc> (getSpawnPoint(), 1));
+        monsters.push_back(make_shared<Flash> (getSpawnPoint(), 1));
+        monsters.push_back(make_shared<Tank> (getSpawnPoint(), 1));
+        monsters.push_back(make_shared<Derp> (getSpawnPoint(), 1));
+    }
 }
 
 void Map::makePreview(float xNew, float yNew, float scale)

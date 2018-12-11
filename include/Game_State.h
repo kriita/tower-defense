@@ -56,8 +56,8 @@ private:
     ptr<Sidebar> gameSidebar {};
     ptr<Wave> wave {};
 
-    shptr<Monster> focusMonster {};
-    shptr<Tower> focusTower {};
+    //shptr<Monster> focusMonster {};
+    //shptr<Tower> focusTower {};
 
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};

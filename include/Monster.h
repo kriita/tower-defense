@@ -18,7 +18,7 @@ protected:
 public:
     Monster(shptr<Tile> tile);     //provide spawnpoint and level
     Monster(Monster const&) = delete;
-    Monster& operator=(Monster const& other) = delete;
+    Monster& operator=(Monster const& other) = default;
     virtual void setSprite();
     virtual ~Monster() = default;
     virtual void update();    

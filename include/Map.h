@@ -31,10 +31,10 @@ public:
 
     void render(sf::RenderTarget &target);
     void update();
-    void handle(std::vector<shptr<Monster>> monsters,
-                std::vector<shptr<Tower>> towers,
-                shptr<Monster> focusMonster,
-                shptr<Tower> focusTower);
+    void handle(sf::Event event,
+                std::vector<shptr<Monster>> & monsters,
+                std::vector<shptr<Tower>> & towers,
+                ptr<Resources> & resources);
     void makePreview(float xNew, float yNew, float scale);
     int getPathNeighbors(int xPos, int yPos);
     std::vector<bool> getSpriteNeighbors(int xTile, int yTile);

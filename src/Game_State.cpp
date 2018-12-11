@@ -54,24 +54,12 @@ void Game_State :: handle_event (Event event)
                 // Go back to main menu
                 go_back = true;
             }
-            else
+            else if (mouse.x > mapBorderOffset && mouse.y > mapBorderOffset &&
+                     mouse.x < mapBorderOffset + tileWidth * xTilesMax &&
+                     mouse.y < mapBorderOffset + tileWidth * yTilesMax)
             {
-                shptr<Tile> tmpTile {gameMap->getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
-                                                      static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
-                if (tmpTile->checkPlaceable())
-                {
-                    towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
-                    tmpTile->switchPlaceable();
-                }
-                else 
-                {
-                    monsters.push_back(make_shared<Orc> (gameMap->getSpawnPoint(), 1));
-                    monsters.push_back(make_shared<Flash> (gameMap->getSpawnPoint(), 1));
-                    monsters.push_back(make_shared<Tank> (gameMap->getSpawnPoint(), 1));
-                    monsters.push_back(make_shared<Derp> (gameMap->getSpawnPoint(), 1));
-                }
-
-                //projectiles.push_back(make_shared<Anvil>((event.mouseButton).x, 0, 0, 1));
+                // Click on map
+                gameMap->handle(event, monsters, towers, gameResources);
             }
         }
     }

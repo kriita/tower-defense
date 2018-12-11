@@ -28,7 +28,7 @@ public:
     void setSpawnTile(shptr<Tile>);
     void addMonsterType(shptr<Monster>);
     void scrambleMonsterSequence();
-    void IterateIndex();
+    void iterateIndex();
     bool readyToSpawn();
     shptr<Monster> spawnMonster();
     

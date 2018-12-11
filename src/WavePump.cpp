@@ -22,46 +22,14 @@ void WavePump::scrambleMonsterSequence()
 {
     for (unsigned int i{0}; i < monsterSequence.size(); i++)
     {
-	shptr<Monster> tempMonster{};
-	tempMonster = std::make_shared<Monster>(*(monsterTypes[0]));
-	std::cout << "fuck yeah!!" << std::endl;
-	
-/*
-	int randomNumber = std::rand()%4;
-	shptr<Monster> tempMonster{};
-	switch(randomNumber)
-	{
-	case 0:
-	    randomNumber = std::rand()%(monsterLevelRoof-monsterLevelFloor) +
-		monsterLevelFloor;
-	    tempMonster = std::make_shared<Orc>(spawnTile, randomNumber);
-	    monsterSequence[i] = std::move(tempMonster);
-	    break;
-	    case 1:
-	    randomNumber = std::rand()%(monsterLevelRoof-monsterLevelFloor) +
-		monsterLevelFloor;
-	    tempMonster = std::make_shared<Flash>(spawnTile, randomNumber);
-	    monsterSequence[i] = std::move(tempMonster);
-	    break;
-	case 2:
-	    randomNumber = std::rand()%(monsterLevelRoof-monsterLevelFloor) +
-		monsterLevelFloor;
-	    tempMonster = std::make_shared<Tank>(spawnTile, randomNumber);
-	    monsterSequence[i] = std::move(tempMonster);
-	    break;
-	case 3:
-	    randomNumber = std::rand()%(monsterLevelRoof-monsterLevelFloor) +
-		monsterLevelFloor;
-	    tempMonster = std::make_shared<Derp>(spawnTile, randomNumber);
-	    monsterSequence[i] = std::move(tempMonster);
-	    break;
-	default: throw WavePumpError{"This should not happen!"};
-	}
-*/
+	int randomNumber{};
+	randomNumber = (std::rand() % monsterTypes.size());
+	monsterSequence[i] =
+	    std::make_shared<Monster>(*(monsterTypes[randomNumber]));
     }
 }
 
-void WavePump::IterateIndex()
+void WavePump::iterateIndex()
 {
     if (++monsterSequenceIndex < static_cast<int>(monsterSequence.size()))
     {
@@ -74,8 +42,12 @@ bool WavePump::readyToSpawn()
     return clock.getElapsedTime().asSeconds() > spawnCooldown;
 }
 
-shptr<Monster> spawnMonster()
+shptr<Monster> WavePump::spawnMonster()
 {
-    //return )(/&)(/&¤)(/&#/(¤&!!!!
-    return nullptr;
+    shptr<Monster> tempMonster{};
+    tempMonster = std::make_shared<Monster>(
+	*(monsterSequence[monsterSequenceIndex]));
+    iterateIndex();
+    clock.restart();
+    return tempMonster;
 }

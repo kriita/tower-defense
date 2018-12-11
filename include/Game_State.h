@@ -70,8 +70,8 @@ private:
     sf::Sprite gameOverlay {};
 
     sf::FloatRect mapScreen { mapBorderOffset, mapBorderOffset,
-                              mapBorderOffset + xTilesMax * tileWidth,
-                              mapBorderOffset + yTilesMax * tileWidth };
+                              xTilesMax * tileWidth,
+                              yTilesMax * tileWidth};
 
     /*
      * Remove all balls which are no longer visible on the

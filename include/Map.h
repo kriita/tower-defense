@@ -3,6 +3,7 @@
 
 #include "defs.h"
 #include "Monster.h"
+#include "Resources.h"
 #include "Tower.h"
 #include "Tile.h"
 #include "Spritesheet.h"

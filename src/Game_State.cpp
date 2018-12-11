@@ -54,9 +54,7 @@ void Game_State :: handle_event (Event event)
                 // Go back to main menu
                 go_back = true;
             }
-            else if (mouse.x > mapBorderOffset && mouse.y > mapBorderOffset &&
-                     mouse.x < mapBorderOffset + tileWidth * xTilesMax &&
-                     mouse.y < mapBorderOffset + tileWidth * yTilesMax)
+            else if (mapScreen.contains(mouse.x, mouse.y))
             {
                 // Click on map
                 gameMap->handle(event, monsters, towers, gameResources);

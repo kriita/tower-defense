@@ -1,6 +1,7 @@
 #include "constants.h"
 #include "Map.h"
 #include "Monster.h"
+#include "Resources.h"
 #include "Tower.h"
 #include "Tile.h"
 #include <vector>
@@ -62,11 +63,20 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
     }
     else
     {
+        //resources->setFocus();
+
+        // temp
         monsters.push_back(make_shared<Orc> (getSpawnPoint(), 1));
         monsters.push_back(make_shared<Flash> (getSpawnPoint(), 1));
         monsters.push_back(make_shared<Tank> (getSpawnPoint(), 1));
         monsters.push_back(make_shared<Derp> (getSpawnPoint(), 1));
     }
+/*
+    for (auto & t : towers)
+    {
+        t->get
+    }
+    */
 }
 
 void Map::makePreview(float xNew, float yNew, float scale)

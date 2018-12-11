@@ -85,7 +85,7 @@ void Game_State :: handle_event (Event event)
             {
                 towers.erase(towers.begin() + i);
             }
-
+            go_back = true;
         }
     }
 

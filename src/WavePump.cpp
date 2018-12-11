@@ -20,9 +20,9 @@ void WavePump::addMonsterType(shptr<Monster> monster)
 
 void WavePump::scrambleMonsterSequence()
 {
+    int randomNumber{};
     for (unsigned int i{0}; i < monsterSequence.size(); i++)
     {
-	int randomNumber{};
 	randomNumber = (std::rand() % monsterTypes.size());
 	monsterSequence[i] =
 	    std::make_shared<Monster>(*(monsterTypes[randomNumber]));
@@ -31,7 +31,8 @@ void WavePump::scrambleMonsterSequence()
 
 void WavePump::iterateIndex()
 {
-    if (++monsterSequenceIndex < static_cast<int>(monsterSequence.size()))
+    monsterSequenceIndex++;
+    if (monsterSequenceIndex >= static_cast<int>(monsterSequence.size()))
     {
 	monsterSequenceIndex = 0;
     }

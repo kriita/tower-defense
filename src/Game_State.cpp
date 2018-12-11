@@ -28,18 +28,24 @@ Game_State::Game_State(string level)
     gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
-    wave = make_unique<Wave>();
+    //wave = make_unique<Wave>();
     wavePump = make_unique<WavePump>();
 
-    wave->setSpawnTile(gameMap->getSpawnPoint());
+    //wave->setSpawnTile(gameMap->getSpawnPoint());
     //std::istringstream test_iss{"1 0 0 0 1 0 0 1 0 1 1 0 0 0 3 4"};
     //*wave >> test_iss;
-    wave->readWaveData("test");
+    //wave->readWaveData("test");
     
     shptr<Tile> tempTile = gameMap->getSpawnPoint();
     wavePump->setSpawnTile(tempTile);
     shptr<Monster> tempMonster{};
     tempMonster = std::make_shared<Orc>(tempTile, 0);
+    wavePump->addMonsterType(tempMonster);
+    tempMonster = std::make_shared<Flash>(tempTile, 0);
+    wavePump->addMonsterType(tempMonster);
+    tempMonster = std::make_shared<Tank>(tempTile, 0);
+    wavePump->addMonsterType(tempMonster);
+    tempMonster = std::make_shared<Derp>(tempTile, 0);
     wavePump->addMonsterType(tempMonster);
     wavePump->scrambleMonsterSequence();
 
@@ -148,11 +154,17 @@ Game_Event Game_State :: update ()
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
         }
 
-        //Update wave
+        /*///Update wave
         if (wave->timeToSpawn())
         {
             monsters.push_back(wave->spawnMonster());
-        }
+        }/*/
+
+	//Update wavePump
+	if (wavePump->readyToSpawn())
+	{
+	    monsters.push_back(wavePump->spawnMonster());
+	}
 
     }
 

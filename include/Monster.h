@@ -52,7 +52,7 @@ protected:
     shptr<Tile> prevTile {};
     sf::Sprite monsterSprite {};
     Spritesheet monsterSheet {"resources/images/monsters.png", 32, 32};
-    std::string monsterType {"Kevin"};
+    std::string monsterType {};
 
     int xDir{};
     int yDir{};
@@ -94,10 +94,10 @@ public:
 private:
     std::string monsterType {"Flash"};
     unsigned level{};
-    std::vector<double> healths {50, 100, 250, 500, 1000};
-    std::vector<double> armours {1, 3, 5, 10, 20};
-    std::vector<double> speeds {1, 1.5, 2, 2.5, 2.5};
-    std::vector<double> bountys {20, 50, 100, 250, 500};
+    double healths [5] = {50, 100, 250, 500, 1000};
+    double armours [5] = {1, 3, 5, 10, 20};
+    double speeds [5]  {1, 1, 2, 2.5, 2.5};
+    double bountys [5] {20, 50, 100, 250, 500};
 };
 
 class Tank : public Monster
@@ -106,10 +106,10 @@ public:
     Tank(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
     unsigned level{};
-    std::vector<double> healths {50, 100, 250, 500, 1000};
-    std::vector<double> armours {10, 30, 50, 100, 250};
-    std::vector<double> speeds {1, 2, 2, 2.5, 2.5};
-    std::vector<double> bountys {20, 50, 100, 250, 500};
+    double healths [5] = {50, 100, 250, 500, 1000};
+    double armours [5] = {1, 3, 5, 10, 20};
+    double speeds [5]  {1, 1, 2, 2.5, 2.5};
+    double bountys [5] {20, 50, 100, 250, 500};
 };
 
 class Derp : public Monster
@@ -118,10 +118,10 @@ public:
     Derp(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
     unsigned level{};
-    std::vector<double> healths {50, 100, 250, 500, 1000};
-    std::vector<double> armours {10, 30, 50, 100, 250};
-    std::vector<double> speeds {1, 3, 2, 2.5, 2.5};
-    std::vector<double> bountys {20, 50, 100, 250, 500};
+    double healths [5] = {50, 100, 250, 500, 1000};
+    double armours [5] = {1, 3, 5, 10, 20};
+    double speeds [5]  {1, 1, 2, 2.5, 2.5};
+    double bountys [5] {20, 50, 100, 250, 500};
 };
 
 

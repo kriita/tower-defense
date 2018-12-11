@@ -29,6 +29,9 @@ public:
 	void changeMoney(int const diff);
 	void changeHP(int const diff);
 	void changeCurrentWave(int const diff);
+	void setHP(int HP) {hitpoints = HP;};
+	void setMoney(int cash) {money = cash;};
+	void setWave(int waveNr) {currentWave = waveNr;};
 
 protected:
 	int hitpoints{30};

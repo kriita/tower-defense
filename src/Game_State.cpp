@@ -15,6 +15,8 @@
 using namespace sf;
 using std::string;
 
+static bool gameOver = false;
+
 Game_State::Game_State(string level)
 {
     if(!gameOverlayTexture.loadFromFile("resources/images/overlay.png"))
@@ -22,6 +24,7 @@ Game_State::Game_State(string level)
         throw Game_StateError{"Couldn't load overlay texture"};
     }
     gameOverlay.setTexture(gameOverlayTexture);
+
 
     gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
@@ -56,7 +59,7 @@ void Game_State :: handle_event (Event event)
         {
         	if (mouse.x > sidebarPosX)
         	{
-        		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources);
+    //    		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources);
         	}
             else if (pause)
             {
@@ -69,6 +72,14 @@ void Game_State :: handle_event (Event event)
                 gameMap->handle(event, monsters, towers, gameResources);
             }
         }
+        if (gameOver)
+        {
+            gameResources->setHP(100);
+            gameResources->setMoney(100);
+            gameResources->setWave(1);
+            gameOver = false;
+        }
+        
     }
 
     if (event.type == sf::Event::KeyPressed)
@@ -103,7 +114,7 @@ void Game_State :: handle_event (Event event)
 Game_Event Game_State :: update ()
 {
     // Only update when game not paused
-    if (!pause)
+    if (!pause && !gameOver)
     {
         // Update map
         gameMap->update();
@@ -128,6 +139,10 @@ Game_Event Game_State :: update ()
         {
             p->update(monsters);
         }
+
+        // Update Resouces
+        if (gameResources->getHP() < 0)
+            gameOver = true;
 
         // Update monsters
         for (auto & m : monsters)
@@ -195,6 +210,23 @@ void Game_State :: render (RenderTarget & target)
              Font_Manager::load ("resources/fonts/font.ttf"),
              30 };
         Text text2 { "Paused",
+             Font_Manager::load ("resources/fonts/font.ttf"),
+             30 };
+
+        text.setPosition (250, 300);
+        text2.setPosition (252, 302);
+        text2.setFillColor(Color::Black);
+    
+        target.draw (text2);
+        target.draw (text);
+    }
+
+    if (gameOver)
+    {
+        Text text { "Game over",
+             Font_Manager::load ("resources/fonts/font.ttf"),
+             30 };
+        Text text2 { "Game over",
              Font_Manager::load ("resources/fonts/font.ttf"),
              30 };
 

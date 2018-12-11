@@ -85,6 +85,7 @@ void Game_State :: handle_event (Event event)
             {
                 towers.erase(towers.begin() + i);
             }
+
         }
     }
 
@@ -164,11 +165,20 @@ Game_Event Game_State :: update ()
         {
             monsters.push_back(wave->spawnMonster());
         }
+
     }
 
     cleanup();
-
+    /*
+    if (gameOver)
+    {
+        gameOver = false;
+        return Game_Event::create<Switch_State> (
+            move (std::make_unique<Menu_State>));
+    }
+    
     // Let the base class perform it's update
+    */
     return Go_Back_State::update ();
 }
 

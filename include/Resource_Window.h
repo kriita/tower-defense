@@ -43,11 +43,13 @@ private:
 	sf::Texture HPTexture {};
 	sf::Sprite HPSprite {};
 	sf::Text HPText {"", Font_Manager::load("resources/fonts/font.ttf"),
-			H2};
+			H3};
 
 	sf::Texture moneyTexture {};
 	sf::Sprite moneySprite {};
 	sf::Text moneyText {"", Font_Manager::load("resources/fonts/font.ttf"),
-			   H2};
-	//sf::Text waveText;
+			   H3};
+
+	sf::Text waveText {"", Font_Manager::load("resources/fonts/font.ttf"),
+			H4};
 };

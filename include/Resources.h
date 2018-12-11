@@ -21,10 +21,13 @@ public:
 
 	int getMoney();
 	int getHP();
+	int getCurrentWave();
 	void changeMoney(int const diff);
 	void changeHP(int const diff);
+	void changeCurrentWave(int const diff);
 
 protected:
 	int hitpoints{30};
 	int money{100};
+	int currentWave{0};
 };

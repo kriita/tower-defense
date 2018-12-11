@@ -23,6 +23,11 @@ int Resources::getHP()
 	return hitpoints;
 }
 
+int Resources::getCurrentWave()
+{
+	return currentWave;
+}
+
 void Resources::changeMoney(int const diff)
 {
 	money = money + diff;
@@ -31,4 +36,9 @@ void Resources::changeMoney(int const diff)
 void Resources::changeHP(int const diff)
 {
 	hitpoints = hitpoints + diff;
+}
+
+void Resources::changeCurrentWave(int const diff)
+{
+	currentWave = currentWave + diff;
 }

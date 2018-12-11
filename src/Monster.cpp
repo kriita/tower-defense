@@ -39,6 +39,7 @@ Orc::Orc(shptr<Tile> tile, unsigned level)
     refSpeed = speeds[level];
     bounty = bountys[level];
     extraXOffset = 6;
+    monsterType = "Orc";
 
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
@@ -54,8 +55,10 @@ Flash::Flash(shptr<Tile> tile, unsigned level)
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
+    monsterType = "Flash";
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+  
 }
 
 
@@ -70,6 +73,8 @@ Tank::Tank(shptr<Tile> tile, unsigned level)
     bounty = bountys[level];
     extraXOffset = 9;
     extraYOffset = 4;
+    monsterType = "Tank";
+
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
@@ -85,6 +90,8 @@ Derp::Derp(shptr<Tile> tile, unsigned level)
     bounty = bountys[level];
     extraXOffset = 3;
     extraYOffset = 4;
+    monsterType = "Derp";
+
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }

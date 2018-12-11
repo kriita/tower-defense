@@ -22,10 +22,11 @@ void WavePump::scrambleMonsterSequence()
 {
     for (unsigned int i{0}; i < monsterSequence.size(); i++)
     {
-	//need copy constructor for monster, nuvarnade lösning
-	//använder inte monsterType som tänkt.
-      //shptr<Monster> tempMonster = std::make_shared<Monster>(monsterTypes[0]);
+	shptr<Monster> tempMonster{};
+	tempMonster = std::make_shared<Monster>(*(monsterTypes[0]));
+	std::cout << "fuck yeah!!" << std::endl;
 	
+/*
 	int randomNumber = std::rand()%4;
 	shptr<Monster> tempMonster{};
 	switch(randomNumber)
@@ -36,7 +37,7 @@ void WavePump::scrambleMonsterSequence()
 	    tempMonster = std::make_shared<Orc>(spawnTile, randomNumber);
 	    monsterSequence[i] = std::move(tempMonster);
 	    break;
-	case 1:
+	    case 1:
 	    randomNumber = std::rand()%(monsterLevelRoof-monsterLevelFloor) +
 		monsterLevelFloor;
 	    tempMonster = std::make_shared<Flash>(spawnTile, randomNumber);
@@ -56,6 +57,7 @@ void WavePump::scrambleMonsterSequence()
 	    break;
 	default: throw WavePumpError{"This should not happen!"};
 	}
+*/
     }
 }
 

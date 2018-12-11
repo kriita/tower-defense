@@ -17,7 +17,7 @@ protected:
     double radius{};
 public:
     Monster(shptr<Tile> tile);     //provide spawnpoint and level
-    Monster(Monster const&) = delete;
+    Monster(Monster const&) = default;
     Monster& operator=(Monster const& other) = default;
     virtual void setSprite();
     virtual ~Monster() = default;
@@ -52,7 +52,7 @@ protected:
     shptr<Tile> prevTile {};
     sf::Sprite monsterSprite {};
     Spritesheet monsterSheet {"resources/images/monsters.png", 32, 32};
-    std::string monsterType {"Monster"};
+    std::string monsterType {"Kevin"};
 
     int xDir{};
     int yDir{};
@@ -80,9 +80,8 @@ class Orc : public Monster
 public:
     Orc(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    std::string monsterType {"Orc"};
     unsigned level{};
-    std::vector<double> healths {50, 100, 250, 500, 1000};
+    std::vector<double> healths {50, 120, 250, 500, 1000};
     std::vector<double> armours {1, 3, 5, 10, 20};
     std::vector<double> speeds {1, 1, 2, 2.5, 2.5};
     std::vector<double> bountys {20, 50, 100, 250, 500};
@@ -106,7 +105,6 @@ class Tank : public Monster
 public:
     Tank(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    std::string monsterType {"Tank"};
     unsigned level{};
     std::vector<double> healths {50, 100, 250, 500, 1000};
     std::vector<double> armours {10, 30, 50, 100, 250};
@@ -119,7 +117,6 @@ class Derp : public Monster
 public:
     Derp(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    std::string monsterType {"Tank"};
     unsigned level{};
     std::vector<double> healths {50, 100, 250, 500, 1000};
     std::vector<double> armours {10, 30, 50, 100, 250};

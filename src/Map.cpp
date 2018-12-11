@@ -1,5 +1,7 @@
 #include "constants.h"
 #include "Map.h"
+#include "Monster.h"
+#include "Tower.h"
 #include "Tile.h"
 #include <vector>
 #include <memory>
@@ -45,6 +47,12 @@ void Map::update()
     {
         tile->update();
     }
+}
+
+void Map::handle(vector<shptr<Monster>> monsters, vector<shptr<Tower>> towers,
+                shptr<Monster> focusMonster, shptr<Tower> focusTower)
+{
+    //
 }
 
 void Map::makePreview(float xNew, float yNew, float scale)

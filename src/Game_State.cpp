@@ -45,7 +45,11 @@ void Game_State :: handle_event (Event event)
         auto mouse { event.mouseButton };
         if ( mouse.button == Mouse::Button::Left )
         {
-            if (pause)
+        	if (mouse.x > sidebarPosX)
+        	{
+        		gameSidebar -> handle_event(mouse.x, mouse.y);
+        	}
+            else if (pause)
             {
                 // Go back to main menu
                 go_back = true;
@@ -137,7 +141,6 @@ Game_Event Game_State :: update ()
 
             if (m->getHealth() <= 20 && (rand() % 100) <= 10)
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
-            //cout << m->isDead() << m->getHealth() << endl;
         }
 
         //Update wave

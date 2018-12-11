@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <iostream>
+//#include <iostream>
 
 using std::vector;
 
@@ -26,8 +26,6 @@ void Tile::resize(float xNew, float yNew, float scale)
     tileSprite.scale(scale, scale);
     tileSprite.setPosition(xNew + (xTile - xTilesMax / 2) * tileWidth * scale,
                            yNew + (yTile - yTilesMax / 2) * tileWidth * scale);
-    std::cout << xNew + (xTile - xTilesMax / 2) * tileWidth * scale << " "
-        << yNew + (yTile - yTilesMax / 2) * tileWidth * scale << "\n";
 }
 
 int Tile::getTileX() const

@@ -56,7 +56,7 @@ void Game_State :: handle_event (Event event)
         {
         	if (mouse.x > sidebarPosX)
         	{
-        		gameSidebar -> handle_event(mouse.x, mouse.y);
+        		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources);
         	}
             else if (pause)
             {

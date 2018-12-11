@@ -46,11 +46,13 @@ public:
     sf::FloatRect getBounds();
     double getRadius() {return radius;};
     bool shallLoseHP() {return loseHP;};
+    std::string getType() const {return monsterType;};
 protected:
     shptr<Tile> nextTile {};
     shptr<Tile> prevTile {};
     sf::Sprite monsterSprite {};
     Spritesheet monsterSheet {"resources/images/monsters.png", 32, 32};
+    std::string monsterType {"Monster"};
 
     int xDir{};
     int yDir{};
@@ -77,7 +79,6 @@ class Orc : public Monster
 {
 public:
     Orc(shptr<Tile>, unsigned level);          //provide spawnpoint and level
-    std::string getType() const {return monsterType;};
 private:
     std::string monsterType {"Orc"};
     unsigned level{};
@@ -91,7 +92,6 @@ class Flash : public Monster
 {
 public:
     Flash(shptr<Tile>, unsigned level);          //provide spawnpoint and level
-    std::string getType() const {return monsterType;};
 private:
     std::string monsterType {"Flash"};
     unsigned level{};
@@ -105,7 +105,6 @@ class Tank : public Monster
 {
 public:
     Tank(shptr<Tile>, unsigned level);          //provide spawnpoint and level
-    std::string getType() const {return monsterType;};
 private:
     std::string monsterType {"Tank"};
     unsigned level{};
@@ -119,7 +118,6 @@ class Derp : public Monster
 {
 public:
     Derp(shptr<Tile>, unsigned level);          //provide spawnpoint and level
-    std::string getType() const {return monsterType;};
 private:
     std::string monsterType {"Tank"};
     unsigned level{};

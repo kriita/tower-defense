@@ -18,6 +18,8 @@ class Wave
 {
 public:
     Wave(); //lägg kanske till vilo intervallet
+    Wave(shptr<Tile> init_spawnTile, float init_cooldown,
+	 int init_monsterLevel, std::istream init_monsterFeed);
     ~Wave() = default;
     void setSpawnTile(shptr<Tile> init_spawnTile);
     void readWaveData(std::string fileName);
@@ -31,6 +33,7 @@ private:
     shptr<Tile> spawnTile;
     sf::Clock clock;
     float cooldown;
+    int monsterLevel;
     std::queue<shptr<Monster>> monsterQueue{};
 }; 
 

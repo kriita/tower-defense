@@ -24,8 +24,8 @@ public:
 	int getMoney();
 	int getHP();
 	int getCurrentWave();
-	void setFocus(Tower const & tower1);
-	void setFocus(Monster const & monster1);
+	void setFocus(shptr<Tower> const & tower);
+	void setFocus(shptr<Monster> const & monster);
 	void changeMoney(int const diff);
 	void changeHP(int const diff);
 	void changeCurrentWave(int const diff);

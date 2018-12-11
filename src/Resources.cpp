@@ -30,12 +30,12 @@ int Resources::getCurrentWave()
 	return currentWave;
 }
 
-void Resources::setFocus(Tower tower1)
+void Resources::setFocus(shptr<Tower> const & tower)
 {
 
 }
 
-void Resources::setFocus(Monster monster1)
+void Resources::setFocus(shptr<Monster> const & monster)
 {
 
 }

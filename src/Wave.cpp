@@ -121,7 +121,7 @@ bool Wave::timeToSpawn()
 }
 
 Wave::Wave()
-    : spawnTile{nullptr}, clock{}, cooldown{.5f}
+    : spawnTile{nullptr}, clock{}, cooldown{.5f}, monsterLevel{1}
 {}
 
 bool Wave::empty()

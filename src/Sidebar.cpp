@@ -55,6 +55,11 @@ void Sidebar::render(sf::RenderTarget &target, std::vector<shptr<Tower>>(& avail
 //	sidebarInfo.render();
 }
 
+void Sidebar::handle_event(int mousePosX, int mousePosY)
+{
+	sidebarShop -> handle_event(mousePosX, mousePosY);
+}
+
 int Sidebar::getX()
 {
 	return x;

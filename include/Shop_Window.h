@@ -31,6 +31,7 @@ public:
 
 	void update(std::vector<shptr<Tower>>(& availableTowers));
 	void render(sf::RenderTarget &target, std::vector<shptr<Tower>>(&availableTowers));
+	void handle_event(int mousePosX, int mousePosY);
 
 private:
 	int x;

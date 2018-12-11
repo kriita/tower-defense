@@ -32,3 +32,8 @@ void Shop_Window::render(sf::RenderTarget &target, std::vector<shptr<Tower>>( &a
 	availableTowers[0] -> render(target);
 	target.draw(price1);
 }
+
+void Shop_Window::handle_event(int mousePosX, int mousePosY)
+{
+
+}

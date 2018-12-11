@@ -47,13 +47,14 @@ public:
     double getRadius() {return radius;};
     bool shallLoseHP() {return loseHP;};
     std::string getType() const {return monsterType;};
+    void setLevel(unsigned lvl) {level = lvl;};
 protected:
     shptr<Tile> nextTile {};
     shptr<Tile> prevTile {};
     sf::Sprite monsterSprite {};
     Spritesheet monsterSheet {"resources/images/monsters.png", 32, 32};
     std::string monsterType {};
-
+    unsigned level{};
     int xDir{};
     int yDir{};
     double y{};                     // Position in pixels
@@ -80,11 +81,10 @@ class Orc : public Monster
 public:
     Orc(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    unsigned level{};
-    std::vector<double> healths {50, 120, 250, 500, 1000};
-    std::vector<double> armours {1, 3, 5, 10, 20};
-    std::vector<double> speeds {1, 1, 2, 2.5, 2.5};
-    std::vector<double> bountys {20, 50, 100, 250, 500};
+    double healths [5] = {50, 100, 250, 500, 1000};
+    double armours [5] = {1, 3, 5, 10, 20};
+    double speeds [5]  {1, 1, 2, 2.5, 2.5};
+    double bountys [5] {20, 50, 100, 250, 500};
 };
 
 class Flash : public Monster
@@ -93,10 +93,9 @@ public:
     Flash(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
     std::string monsterType {"Flash"};
-    unsigned level{};
     double healths [5] = {50, 100, 250, 500, 1000};
     double armours [5] = {1, 3, 5, 10, 20};
-    double speeds [5]  {1, 1, 2, 2.5, 2.5};
+    double speeds [5]  {1.5, 2, 3, 3.5, 4};
     double bountys [5] {20, 50, 100, 250, 500};
 };
 
@@ -105,7 +104,6 @@ class Tank : public Monster
 public:
     Tank(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    unsigned level{};
     double healths [5] = {50, 100, 250, 500, 1000};
     double armours [5] = {1, 3, 5, 10, 20};
     double speeds [5]  {1, 1, 2, 2.5, 2.5};
@@ -117,9 +115,8 @@ class Derp : public Monster
 public:
     Derp(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    unsigned level{};
     double healths [5] = {50, 100, 250, 500, 1000};
-    double armours [5] = {1, 3, 5, 10, 20};
+    double armours [5] = {5, 10, 50, 100, 250};
     double speeds [5]  {1, 1, 2, 2.5, 2.5};
     double bountys [5] {20, 50, 100, 250, 500};
 };

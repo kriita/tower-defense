@@ -30,9 +30,10 @@ Monster::Monster(shptr<Tile> tile)
     radius = 8;
 }
 
-Orc::Orc(shptr<Tile> tile, unsigned level)
+Orc::Orc(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 {
+    level = lvl;
     health = healths[level];
     armour = armours[level];
     speed = speeds[level];
@@ -46,10 +47,11 @@ Orc::Orc(shptr<Tile> tile, unsigned level)
 }
 
 
-Flash::Flash(shptr<Tile> tile, unsigned level)
+Flash::Flash(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
+    level = lvl;
     health = healths[level];
     armour = armours[level];
     speed = speeds[level];
@@ -62,10 +64,11 @@ Flash::Flash(shptr<Tile> tile, unsigned level)
 }
 
 
-Tank::Tank(shptr<Tile> tile, unsigned level)
+Tank::Tank(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
+    level = lvl;
     health = healths[level];
     armour = armours[level];
     speed = speeds[level];
@@ -79,10 +82,11 @@ Tank::Tank(shptr<Tile> tile, unsigned level)
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
-Derp::Derp(shptr<Tile> tile, unsigned level)
+Derp::Derp(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
+    level = lvl;
     health = healths[level];
     armour = armours[level];
     speed = speeds[level];

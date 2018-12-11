@@ -18,12 +18,14 @@
  * 
  */
 
-#include "Sidebar.h"
 #include "constants.h"
-#include <SFML/Graphics.hpp>
-#include "Resource_Window.h"
-//#include "Shop_Window.h"
 //#include "Info_Window.h"
+#include "Resource_Window.h"
+#include "Shop_Window.h"
+#include "Sidebar.h"
+#include "Tower.h"
+
+#include <SFML/Graphics.hpp>
 #include <memory>
 
 #include "Manager.h"
@@ -32,23 +34,24 @@ using std::make_unique;
 
 Sidebar::Sidebar(int xPos)
 : x {xPos}
-//sidebarShop {new Shop_Window(xPos, availableTowers)},
 //sidebarInfo {new Info_Window(xPos)}
 {
 	sidebarResources = make_unique<Resource_Window>(xPos);
+	sidebarShop = make_unique<Shop_Window>(xPos);
 }
 
-void Sidebar::update(ptr<Resources> (& gameResources))
+void Sidebar::update(ptr<Resources> (& gameResources),
+		     std::vector<shptr<Tower>>(& availableTowers))
 {
 	sidebarResources -> update(gameResources);
-//	sidebarShop.update();
+	sidebarShop -> update(availableTowers);
 //	sidebarInfo.update();
 }
 
-void Sidebar::render(sf::RenderTarget &target)
+void Sidebar::render(sf::RenderTarget &target, std::vector<shptr<Tower>>(& availableTowers))
 {
 	sidebarResources -> render(target);
-//	sidebarShop.render();
+	sidebarShop -> render(target, availableTowers);
 //	sidebarInfo.render();
 }
 

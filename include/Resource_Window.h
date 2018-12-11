@@ -11,13 +11,14 @@
  * IDEA: Make errors subclass of SidebarWindowError?
  */
 
-#include "Resources.h"
 #include "constants.h"
 #include "defs.h"
 #include "Map.h"
-#include <stdexcept>
-#include <SFML/Graphics.hpp>
+#include "Resources.h"
+
 #include <memory>
+#include <SFML/Graphics.hpp>
+#include <stdexcept>
 
 #include "Manager.h"
 

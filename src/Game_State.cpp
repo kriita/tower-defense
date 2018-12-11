@@ -33,7 +33,9 @@ Game_State::Game_State(string level)
     wave->readWaveData("test");
     
 
-    availableTowers.push_back(make_shared<MinigunTower>(sidebarPosX + mapBorderOffset, 156 + mapBorderOffset));
+    availableTowers.push_back(
+    	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
 }
 
 void Game_State :: handle_event (Event event)
@@ -108,7 +110,7 @@ Game_Event Game_State :: update ()
         gameMap->update();
 
         // Update sidebar
-        gameSidebar->update(gameResources);
+        gameSidebar->update(gameResources, availableTowers);
 
         // Update blood effect
         for (auto & b : bloodFX)
@@ -157,7 +159,7 @@ void Game_State :: render (RenderTarget & target)
     gameMap->render(target);
 
     // Render sidebar
-    gameSidebar->render(target);
+    gameSidebar->render(target, availableTowers);
 
     // Render blood
     if (blood)

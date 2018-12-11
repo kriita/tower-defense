@@ -44,7 +44,6 @@ public:
     void handle_event (sf::Event event) override;
     Game_Event update () override;
     void render (sf::RenderTarget & target) override;
-    bool getGameOver() {return gameOver;};
 private:
 
     bool pause {false};

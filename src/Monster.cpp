@@ -167,7 +167,7 @@ void Monster::setDir()
         yDir /= abs(yDir);
 }
 
-void Monster::helpDamage(double dmg, bool pureDmg)
+void Monster::helpDamage(double const& dmg, bool pureDmg)
 {
     if (pureDmg)
         takePureDmg(dmg);
@@ -175,7 +175,7 @@ void Monster::helpDamage(double dmg, bool pureDmg)
         takeDamage(dmg);    
 }
 
-void Monster::takeDamage(double damage)  
+void Monster::takeDamage(double const& damage)  
 {
     health -= damage/armour;
     if (health <= 0)
@@ -184,7 +184,7 @@ void Monster::takeDamage(double damage)
     }
 }
 
-void Monster::takePureDmg(double damage)  
+void Monster::takePureDmg(double const& damage)  
 {
     health -= damage;
     if (health <= 0)
@@ -192,7 +192,7 @@ void Monster::takePureDmg(double damage)
         dead = true;
     }
 }
-void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part
+void Monster::takeSlowDmg(double const& dmg, double const& slow, double const& duration, bool pureDmg) // takes in 0-1 slow part
 {
     helpDamage(dmg, pureDmg);
     speed = refSpeed*slow;
@@ -200,7 +200,7 @@ void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg
     slowTime = duration;
 }
 
-void Monster::takeCritDamge(double damage, unsigned critChance, bool pureDmg)
+void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg)
 {
     for (unsigned i = 1; i>= critChance; i++)
     {
@@ -212,7 +212,7 @@ void Monster::takeCritDamge(double damage, unsigned critChance, bool pureDmg)
     }
 }
 
-void Monster::takePushBackDmg(double damage, int pushBack, bool pureDmg)     // pushBack percentage to push back
+void Monster::takePushBackDmg(double const& damage, int const& pushBack, bool pureDmg)     // pushBack percentage to push back
 {
     helpDamage(damage, pureDmg);
     if ((rand() % 100) > (100 - pushBack))

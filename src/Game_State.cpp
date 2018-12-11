@@ -15,7 +15,6 @@
 using namespace sf;
 using std::string;
 
-static bool gameOver = false;
 
 Game_State::Game_State(string level)
 {
@@ -76,10 +75,17 @@ void Game_State :: handle_event (Event event)
         {
             gameResources->setHP(100);
             gameResources->setMoney(100);
-            gameResources->setWave(1);
+            gameResources->setWave(0);
             gameOver = false;
+            for (unsigned i = 0; i < monsters.size(); )
+            {
+                monsters.erase(monsters.begin() + i);
+            }
+            for (unsigned i = 0; i < towers.size(); )
+            {
+                towers.erase(towers.begin() + i);
+            }
         }
-        
     }
 
     if (event.type == sf::Event::KeyPressed)

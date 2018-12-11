@@ -51,7 +51,7 @@ private:
     bool pauseButtonPressed {false};
     bool blood {true};
     bool bloodButtonPressed {false};
-
+    bool gameOver {false};
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};
     ptr<Sidebar> gameSidebar {};

@@ -9,6 +9,7 @@
 #include "Tile.h"
 #include "Tower.h"
 #include "Wave.h"
+#include "WavePump.h"
 #include <vector>
 #include <memory>
 #include <string>
@@ -55,6 +56,7 @@ private:
     ptr<Resources> gameResources {};
     ptr<Sidebar> gameSidebar {};
     ptr<Wave> wave {};
+    ptr<WavePump> wavePump {};
 
     //shptr<Monster> focusMonster {};
     //shptr<Tower> focusTower {};

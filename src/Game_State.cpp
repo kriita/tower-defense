@@ -27,11 +27,20 @@ Game_State::Game_State(string level)
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
     wave = make_unique<Wave>();
+    wavePump = make_unique<WavePump>();
+
     wave->setSpawnTile(gameMap->getSpawnPoint());
     //std::istringstream test_iss{"1 0 0 0 1 0 0 1 0 1 1 0 0 0 3 4"};
     //*wave >> test_iss;
     wave->readWaveData("test");
     
+    shptr<Tile> tempTile = gameMap->getSpawnPoint();
+    wavePump->setSpawnTile(tempTile);
+    shptr<Monster> tempMonster{};
+    tempMonster = std::make_shared<Orc>(tempTile, 0);
+    wavePump->addMonsterType(tempMonster);
+    wavePump->scrambleMonsterSequence();
+
 
     availableTowers.push_back(
     	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),

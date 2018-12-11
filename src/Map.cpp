@@ -73,7 +73,9 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
     // Focus tower
     for (auto & t : towers)
     {
-        sf::FloatRect bounds {t->getX() - tileWidth/2, t->getY() - tileWidth/2, tileWidth, tileWidth};
+        sf::FloatRect bounds {static_cast<float>(t->getX() - tileWidth/2),
+                              static_cast<float>(t->getY() - tileWidth/2),
+                              tileWidth, tileWidth};
         if (bounds.contains(mouse.x, mouse.y))
         {
             resources->setFocus(t);
@@ -83,8 +85,10 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
     // Foxus monster
     for (auto & m : monsters)
     {
-        sf::FloatRect bounds {m->getX() - m->getRadius(), m->getY() - m->getRadius(),
-                              m->getRadius(), m->getRadius()};
+        sf::FloatRect bounds {static_cast<float>(m->getX() - m->getRadius()),
+                              static_cast<float>(m->getY() - m->getRadius()),
+                              static_cast<float>(m->getRadius()),
+                              static_cast<float>(m->getRadius())};
         if (bounds.contains(mouse.x, mouse.y))
         {
             resources->setFocus(m);

@@ -6,6 +6,8 @@
  * Header file for Resources.cpp.
  */
 
+#include "Monster.h"
+#include "Tower.h"
 #include <stdexcept>
 
 class ResourcesError : public std::logic_error
@@ -22,6 +24,8 @@ public:
 	int getMoney();
 	int getHP();
 	int getCurrentWave();
+	void setFocus(Tower const & tower1);
+	void setFocus(Monster const & monster1);
 	void changeMoney(int const diff);
 	void changeHP(int const diff);
 	void changeCurrentWave(int const diff);

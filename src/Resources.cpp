@@ -8,7 +8,9 @@
  * Functions: getMoney, getHP, changeMoney, changeHP
  */
 
+#include "Monster.h"
 #include "Resources.h"
+#include "Tower.h"
 
 Resources::Resources(int initHitpoints, int initMoney)
 : hitpoints {initHitpoints}, money {initMoney} {}
@@ -26,6 +28,16 @@ int Resources::getHP()
 int Resources::getCurrentWave()
 {
 	return currentWave;
+}
+
+void Resources::setFocus(Tower tower1)
+{
+
+}
+
+void Resources::setFocus(Monster monster1)
+{
+
 }
 
 void Resources::changeMoney(int const diff)

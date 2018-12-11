@@ -61,22 +61,35 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
         towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
         tmpTile->switchPlaceable();
     }
-    else
+    else if (tmpTile->getType() == pathChar)
     {
-        //resources->setFocus();
-
         // temp
         monsters.push_back(make_shared<Orc> (getSpawnPoint(), 1));
         monsters.push_back(make_shared<Flash> (getSpawnPoint(), 1));
         monsters.push_back(make_shared<Tank> (getSpawnPoint(), 1));
         monsters.push_back(make_shared<Derp> (getSpawnPoint(), 1));
     }
-/*
+
+    // Focus tower
     for (auto & t : towers)
     {
-        t->get
+        sf::FloatRect bounds {t->getX() - tileWidth/2, t->getY() - tileWidth/2, tileWidth, tileWidth};
+        if (bounds.contains(mouse.x, mouse.y))
+        {
+            resources->setFocus(t);
+        }
     }
-    */
+
+    // Foxus monster
+    for (auto & m : monsters)
+    {
+        sf::FloatRect bounds {m->getX() - m->getRadius(), m->getY() - m->getRadius(),
+                              m->getRadius(), m->getRadius()};
+        if (bounds.contains(mouse.x, mouse.y))
+        {
+            resources->setFocus(m);
+        }
+    }
 }
 
 void Map::makePreview(float xNew, float yNew, float scale)

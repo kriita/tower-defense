@@ -245,7 +245,7 @@ void MissileTower::attack(std::vector<shptr<Projectile>> & projectiles)
     projectiles.push_back(std::make_shared<MissileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle, target));
 }
 
-int MissileTower::getPrice() {return 420;}
+int MissileTower::getPrice() {return 42;}
 
 // SlowTower
 

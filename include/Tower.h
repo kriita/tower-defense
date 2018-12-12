@@ -22,7 +22,7 @@ public:
 
     virtual ~Tower() = default;
 
-    void render(sf::RenderTarget &target);
+    virtual void render(sf::RenderTarget &target);
     void update(std::vector<shptr<Monster>> & monstervector, 
                 std::vector<shptr<Projectile>> & projectiles);
 

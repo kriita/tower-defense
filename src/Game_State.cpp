@@ -48,8 +48,22 @@ Game_State::Game_State(string level)
     gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX, availableTowers);
-    //wave = make_unique<Wave>();
     wavePump = make_unique<WavePump>();
+
+    shptr<Tile> tempTile = gameMap->getSpawnPoint();
+    Monster * tempMonster{};
+    tempMonster = new BrownRabbit(tempTile, 0);    
+    wavePump->addMonsterType(*tempMonster);
+    tempMonster = new Squirrel(tempTile, 0);
+    wavePump->addMonsterType(*tempMonster);
+    tempMonster = new Fox(tempTile, 0);
+    wavePump->addMonsterType(*tempMonster);
+    tempMonster = new WhiteRabbit(tempTile, 0);
+    wavePump->addMonsterType(*tempMonster);
+    tempMonster = nullptr;
+    //std::cout << wavePump->getMonsterTypes() << std::endl;
+
+    wavePump->readFromFile("test2");
 
 
 
@@ -155,7 +169,7 @@ Game_Event Game_State :: update ()
         }
 
 	//Update wavePump
-
+	wavePump->update(monsters);
 
     }
 

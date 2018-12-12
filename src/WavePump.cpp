@@ -82,7 +82,7 @@ void WavePump::readFromFile(std::string name,
 			    std::string path,
 			    std::string suffix)
 {
-    std::cout << "readning file..." << std::endl;
+    //std::cout << "readning file..." << std::endl;
 
     std::ifstream fileData((path + name + suffix).c_str());
     if (!fileData)

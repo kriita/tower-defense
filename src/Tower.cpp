@@ -124,6 +124,7 @@ void Tower::setPosition(double x, double y)
 {
     xPos = x;
     yPos = y;
+    towerSprite.setPosition(xPos,yPos);
 }
 
 Tower::Tower(double x, double y)

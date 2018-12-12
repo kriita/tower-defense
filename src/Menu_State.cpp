@@ -24,7 +24,7 @@ using namespace sf;
  * (in pixels) of the text.
  */
 Menu_State :: Menu_State ()
-    : text { "", Font_Manager::load ("resources/fonts/font.ttf"),16 },
+    : text { "", Font_Manager::load ("resources/fonts/font.ttf"),24 },
       play { false }
 {
     maps.push_back(make_unique<Map> ("Forest"));
@@ -34,26 +34,23 @@ Menu_State :: Menu_State ()
 
     std::stringstream ss;
 
-    ss << "Welcome to totally awesome tower defence." << endl
-       << "The game for people who like to kill cute animals." << endl
+    ss << "Welcome to Totally Awesome Tower Defence" << endl
+       << "The game for people who like to kill cute animals" << endl
        << "Click the rabbit to select map!";
 
     text.setString(ss.str());
-    /*
-    rect.setSize(Vector2f(mapSize, mapSize));
-    rect.setOutlineColor(Color::Red);
-    rect.setOutlineThickness(2);
-    rect.setFillColor(Color::Transparent);
-    rect.setPosition(firstMapX + 150,firstMapY);
-    */
-
+    text.setPosition (40, 80);
+    text.setFillColor(Color::Cyan);
+    text.setStyle(Text::Bold);
+    text.setOutlineColor(Color::Black);
+    text.setOutlineThickness(3);
 
     if(!menuOverlayTexture.loadFromFile("resources/images/menuWindow.png"))
     {
         throw Game_StateError{"Couldn't load overlay texture"};
     }
     menuOverlay.setTexture(menuOverlayTexture);
-    menuOverlay.setPosition(screen_width/2, screen_height/2);
+    menuOverlay.setPosition(screen_width/2, screen_height/2-10);
     menuOverlay.setOrigin(250, 200 );
     if(!rabbitOverlayTexture.loadFromFile("resources/images/background.jpg"))
     {
@@ -123,22 +120,17 @@ Game_Event Menu_State :: update ()
         return Game_Event::create<Switch_State> (
             move (std::make_unique<Game_State> (level)));
     }
+    if (showMaps)
+    {
+        text.setString("Choose map:");
+        text.setPosition(310, 105);
+    }
     return Go_Back_State::update ();
 }
 
 void Menu_State :: render (RenderTarget & target)
 {
-    auto bounds { text.getGlobalBounds () };
-    auto size   { target.getSize () };
-    
-    text.setPosition ((size.x - bounds.width) / 2,
-                      (size.y - bounds.height) / 8);
-    
-
-
     target.draw(rabbitOverlay);
-    if (!showMaps)
-        target.draw (text);
 
     if (showMaps)
     {
@@ -146,7 +138,7 @@ void Menu_State :: render (RenderTarget & target)
         maps[0]->render(target);
         maps[1]->render(target);
     }
-//    target.draw(rect);
+    target.draw (text);
 }
 
 /*

@@ -45,14 +45,12 @@ private:
      * of an image.
      */
     sf::Text text;
-    sf::Text textBana1;
     /*
      * Flag to determine wheter or not the 'enter' key has been
      * pressed (see Menu_State.cpp for details).
      */
     bool play;
     bool showMaps{false};
-    sf::RectangleShape rect;
     sf::Texture menuOverlayTexture {};
     sf::Sprite menuOverlay {};
     std::string level {};

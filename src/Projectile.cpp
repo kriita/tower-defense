@@ -247,7 +247,9 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, sh
 : Projectile(x, y , xDir, yDir)
 {
     target = target;
-    projectileSprite = missileSheet.get_sprite(0, 0);
+    projectileTexture.loadFromFile("resources/images/missileProjectile.png");
+    projectileSprite.setTexture(projectileTexture);
+    //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     speed = 4;
@@ -259,9 +261,9 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, sh
 MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDir)
 :Projectile(x, y , xDir, yDir)
 {
-    //projectileTexture.loadFromFile("resources/images/missileProjectile.png");
-    //projectileSprite.setTexture(projectileTexture);
-    projectileSprite = missileSheet.get_sprite(0, 0);
+    projectileTexture.loadFromFile("resources/images/missileProjectile.png");
+    projectileSprite.setTexture(projectileTexture);
+    //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     speed = 4;
@@ -272,9 +274,9 @@ MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDi
 MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
 :Projectile(x, y, dirByRadians)
 {
-    //projectileTexture.loadFromFile("resources/images/missileProjectile.png");
-    //projectileSprite.setTexture(projectileTexture);
-    projectileSprite = missileSheet.get_sprite(0, 0);
+    projectileTexture.loadFromFile("resources/images/missileProjectile.png");
+    projectileSprite.setTexture(projectileTexture);
+    //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     speed = 4;
@@ -298,7 +300,8 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
         if (currSprite < 3)
         {
             currSprite++;
-            projectileSprite = missileSheet.get_sprite(0, currSprite);
+            //projectileSprite = missileSheet.get_sprite(0, currSprite);
+            return void();
         }
         else
         {
@@ -307,7 +310,7 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
         }
     }
     move();
-    for (shptr<Monster> aMonster : allMonsters)
+    /*for (shptr<Monster> aMonster : allMonsters)
     {
         if (checkHit(aMonster))
         {
@@ -316,6 +319,7 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
                 dealDamage(anotherMonster);
             }
             currSprite++;
+            return void();
         }
-    }   
+    }*/
 }

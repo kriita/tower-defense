@@ -91,7 +91,7 @@ class MissileProjectile : public Projectile
     MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> target);
     MissileProjectile(double x, double y, double xDir, double yDir);
     MissileProjectile(double x, double y, double dirByRadians);
-    Spritesheet missileSheet {"resources/MissileProjectileSheet.png", 32, 32};
+    Spritesheet missileSheet {"resources/images/MissileProjectileSheet.png", 32, 32};
     void dealDamage(shptr<Monster> &aMonster) override;
     void update(std::vector<shptr<Monster>> &allMonsters) override;
 

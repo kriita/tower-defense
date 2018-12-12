@@ -17,8 +17,8 @@
 
 #include <iostream>
 
-Shop_Window::Shop_Window(int xPos)
-: x {xPos}, y {140}
+Shop_Window::Shop_Window(int xPos, std::vector<shptr<Tower>> (&availableTowers1))
+: x {xPos}, y {140}, availableTowers {availableTowers1}
 {
 	for (unsigned int i = 0; i < 6; ++i)
 	{
@@ -28,37 +28,29 @@ Shop_Window::Shop_Window(int xPos)
 	
 
 	// Gör om till for-loop i = 0; i < 181; i += 90
-	prices[0] -> setPosition(x + 20, y + 40);
-	prices[1] -> setPosition(x + 140, y + 40);
-	prices[2] -> setPosition(x + 20, y + 130);
-	prices[3] -> setPosition(x + 140, y + 130);
-	prices[4] -> setPosition(x + 20, y + 220);
-	prices[5] -> setPosition(x + 140, y + 220);
+	
+	for (unsigned int i = 0; i < 141; i += 70)
+	{
 
-	items.push_back(std::make_shared<sf::Rect<int>>(
-		static_cast<int>(sidebarPosX + mapBorderOffset),
-    		static_cast<int>(y),
-    		48, 48));
-	items.push_back(std::make_shared<sf::Rect<int>>(
-		static_cast<int>(sidebarPosX + mapBorderOffset + 120),
-    		static_cast<int>(y),
-    		48, 48));
-	items.push_back(std::make_shared<sf::Rect<int>>(
-		static_cast<int>(sidebarPosX + mapBorderOffset),
-    		static_cast<int>(y + 90),
-    		48, 48));
-	items.push_back(std::make_shared<sf::Rect<int>>(
-		static_cast<int>(sidebarPosX + mapBorderOffset + 120),
-    		static_cast<int>(y + 90),
-    		48, 48));
-	items.push_back(std::make_shared<sf::Rect<int>>(
-		static_cast<int>(sidebarPosX + mapBorderOffset),
-    		static_cast<int>(y + 180),
-    		48, 48));
-	items.push_back(std::make_shared<sf::Rect<int>>(
-		static_cast<int>(sidebarPosX + mapBorderOffset + 120),
-    		static_cast<int>(y + 180),
-    		48, 48));
+		availableTowers[i / 35] -> setPosition(
+			static_cast<double>(x + 36), 
+			static_cast<double>(y + 28 + i));
+		availableTowers[i / 35 + 1] -> setPosition(
+			static_cast<double>(x + 36 + 120), 
+			static_cast<double>(y + 28 + i));
+
+		prices[i / 35] -> setPosition(x + 20, y + 40 + i);
+		prices[i / 35 + 1] -> setPosition(x + 140, y + 40 + i);
+
+		items.push_back(std::make_shared<sf::Rect<int>>(
+			static_cast<int>(sidebarPosX + mapBorderOffset),
+    			static_cast<int>(y + i),
+    			48, 48));
+		items.push_back(std::make_shared<sf::Rect<int>>(
+			static_cast<int>(sidebarPosX + mapBorderOffset + 120),
+    			static_cast<int>(y + i),
+    			48, 48));
+	}
 
 	buildModeText.setPosition(x + 20,
 			   y + 200);

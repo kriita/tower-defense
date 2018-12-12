@@ -62,10 +62,20 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
 
     if (tmpTile->checkPlaceable() && resources->getBuildMode())
     {
-        if (dynamic_cast<MinigunTower*> (&(*(resources->getFocusTower()))))
-            towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+        if (resources->getMoney() >= resources->getFocusTower()->getPrice())
+        {
+            if (dynamic_cast<MinigunTower*> (&(*(resources->getFocusTower()))))
+                towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+            else if (dynamic_cast<MissileTower*> (&(*(resources->getFocusTower()))))
+                towers.push_back(make_shared<MissileTower> (tmpTile->getX(), tmpTile->getY()));
+            else if (dynamic_cast<SlowTower*> (&(*(resources->getFocusTower()))))
+                towers.push_back(make_shared<SlowTower> (tmpTile->getX(), tmpTile->getY()));
+            else if (dynamic_cast<LaserTower*> (&(*(resources->getFocusTower()))))
+                towers.push_back(make_shared<LaserTower> (tmpTile->getX(), tmpTile->getY()));
 
-        tmpTile->switchPlaceable();
+            resources->changeMoney(-(resources->getFocusTower()->getPrice()));
+            tmpTile->switchPlaceable();
+        }
         resources->switchBuildMode();
     }
     else if (!(tmpTile->checkPlaceable()) && !(resources->getBuildMode()))
@@ -99,7 +109,7 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
     }
     else 
     {
-        resources -> deselect();
+        resources->deselect();
     }
 }
 

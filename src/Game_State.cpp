@@ -25,9 +25,29 @@ Game_State::Game_State(string level)
     gameOverlay.setTexture(gameOverlayTexture);
 
 
+    availableTowers.push_back(
+    	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+    availableTowers.push_back(
+    	make_shared<MissileTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+    availableTowers.push_back(
+    	make_shared<LaserTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+                availableTowers.push_back(
+    	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+    availableTowers.push_back(
+    	make_shared<MissileTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+    availableTowers.push_back(
+    	make_shared<LaserTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+
+
     gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
-    gameSidebar = make_unique<Sidebar>(sidebarPosX);
+    gameSidebar = make_unique<Sidebar>(sidebarPosX, availableTowers);
     //wave = make_unique<Wave>();
     wavePump = make_unique<WavePump>();
 
@@ -48,26 +68,6 @@ Game_State::Game_State(string level)
     //tempMonster = std::make_shared<WhiteRabbit>(tempTile, 0);
     //wavePump->addMonsterType(tempMonster);
     wavePump->scrambleMonsterSequence();
-
-
-    availableTowers.push_back(
-    	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
-    		static_cast<double>(156 + mapBorderOffset)));
-    availableTowers.push_back(
-    	make_shared<MissileTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
-    		static_cast<double>(156 + mapBorderOffset)));
-    availableTowers.push_back(
-    	make_shared<LaserTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
-    		static_cast<double>(156 + mapBorderOffset)));
-                availableTowers.push_back(
-    	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
-    		static_cast<double>(156 + mapBorderOffset)));
-    availableTowers.push_back(
-    	make_shared<MissileTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
-    		static_cast<double>(156 + mapBorderOffset)));
-    availableTowers.push_back(
-    	make_shared<LaserTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
-    		static_cast<double>(156 + mapBorderOffset)));
 
 
 }

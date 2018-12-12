@@ -33,12 +33,12 @@
 
 using std::make_unique;
 
-Sidebar::Sidebar(int xPos)
-: x {xPos}
+Sidebar::Sidebar(int xPos, std::vector<shptr<Tower>>(&availableTowers1))
+: x {xPos}, availableTowers {availableTowers1}
 //sidebarInfo {new Info_Window(xPos)}
 {
 	sidebarResources = make_unique<Resource_Window>(xPos);
-	sidebarShop = make_unique<Shop_Window>(xPos);
+	sidebarShop = make_unique<Shop_Window>(xPos, availableTowers);
 }
 
 void Sidebar::update(ptr<Resources> (& gameResources),

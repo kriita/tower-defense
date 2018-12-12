@@ -57,7 +57,9 @@ private:
     std::string level {};
     sf::Texture rabbitOverlayTexture {};
     sf::Sprite rabbitOverlay {};    
-
+    unsigned firstMapX = 190;
+    unsigned firstMapY = 140;
+    unsigned mapSize = 112;
     // Holds maps able for New game
     std::vector<ptr<Map>> maps {};
 };

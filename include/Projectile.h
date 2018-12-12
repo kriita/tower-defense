@@ -54,6 +54,7 @@ class Projectile
     bool checkHit (shptr<Monster> &aMonster);
     double getRadius();
 
+
     protected:
     double damage {};
     shptr<Monster> target {};
@@ -66,6 +67,9 @@ class Projectile
     sf::Sprite projectileSprite {};
     sf::Texture projectileTexture {};
     double radius {}; // radius in pixels
+    virtual void setAngle();
+    double angle {};
+
 };
 
 

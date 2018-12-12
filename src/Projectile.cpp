@@ -121,6 +121,7 @@ void Projectile::move()
         y += yDir * speed / abs(PMy);
         */
         projectileSprite.setRotation(getDirByRadians() * 360 / (2 * 3.1415));
+        setAngle();
     }
     x += xDir * speed;
     y += yDir * speed;
@@ -199,6 +200,19 @@ double Projectile::getRadius()
 {
     return radius;
 }
+
+
+void Projectile::setAngle()
+{
+        double xPos{target->getX() - x};
+        double yPos{target->getY() - y};
+        angle = atan2(yPos,xPos);         
+        projectileSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
+        xDir = cos(angle);
+        yDir = sin(angle);
+}
+
+//Anvil
 
 
 

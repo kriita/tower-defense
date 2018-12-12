@@ -56,7 +56,7 @@ bool WavePump::readyToSpawn()
 
 shptr<Monster> WavePump::spawnMonster()
 {
-    std::cout << "spawned" << std::endl;
+    //std::cout << "spawned" << std::endl;
     remainingMonsters--;
 
     if (remainingMonsters <= 0)

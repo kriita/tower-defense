@@ -48,6 +48,7 @@ public:
     bool shallLoseHP() const {return loseHP;};
     std::string getType() const {return monsterType;};
     void setLevel(unsigned const& lvl) {level = lvl;};
+    bool isBleeding() {return bleeding;};
 protected:
     shptr<Tile> nextTile {};
     shptr<Tile> prevTile {};
@@ -59,7 +60,7 @@ protected:
     int yDir{};
     double y{};                     // Position in pixels
     double x{};
-    sf::Clock slowClock {};             // Time for sloweffect
+
     bool dead{false};
     double health{};
     double armour{};
@@ -73,7 +74,10 @@ protected:
     unsigned extraXOffset{};
     unsigned extraYOffset{};
     sf::Clock animClock {};         // Clock for animation
+    sf::Clock slowClock {};             // Time for sloweffect
+    sf::Clock bleedingClock {};
     bool loseHP{false};             // Decrase HP with lifeLoss when true
+    bool bleeding{false};
 };
 
 class BrownRabbit : public Monster      // Tanky unit

@@ -279,6 +279,8 @@ void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bo
         if ((rand() % 100) > 95)
         {
             helpDamage(damage, pureDmg);
+            bleeding = true;
+            bleedingClock.restart();
         }
         helpDamage(damage, pureDmg);
     }
@@ -310,6 +312,8 @@ void Monster::walk()
     }
     if ((slowClock.getElapsedTime()).asSeconds() > slowTime)
         speed = refSpeed;
+    if ((bleedingClock.getElapsedTime()).asSeconds() > 1)
+        bleeding = false;
     x += speed*xDir;
     y += speed*yDir;
 }

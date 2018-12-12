@@ -52,6 +52,7 @@ private:
     std::vector<shptr<Monster>> monsterSequence{};
     int monsterSequenceIndex{};
     shptr<Tile> spawnTile{};
+    bool active {false};
     
 };
 

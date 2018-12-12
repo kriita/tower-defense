@@ -142,7 +142,7 @@ Game_Event Game_State :: update ()
         }
 
         // Update Resouces
-        if (gameResources->getHP() < 0)
+        if (gameResources->getHP() <= 0)
             gameOver = true;
 
         // Update monsters
@@ -150,7 +150,7 @@ Game_Event Game_State :: update ()
         {
             m->update();
 
-            if (m->getHealth() <= 20 && (rand() % 100) <= 10)
+            if (m->isBleeding() && (rand() % 100) <= 50)
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
         }
 

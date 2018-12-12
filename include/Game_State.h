@@ -53,7 +53,6 @@ private:
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};
     ptr<Sidebar> gameSidebar {};
-//    ptr<Wave> wave {};
     ptr<WavePump> wavePump {};
 
     //shptr<Monster> focusMonster {};

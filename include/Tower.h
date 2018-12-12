@@ -38,6 +38,7 @@ public:
     void upgradeRange(int & cash);                      //Takes the player's cash as argument to subtract the upgrade price if there's sufficient funds to upgrade.
     void upgradeAttackPower(int & cash);
     void upgradeFireRate(int & cash);
+    void setPosition(double x, double y);
     
     
 

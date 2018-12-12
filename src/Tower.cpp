@@ -120,6 +120,12 @@ void Tower::upgradeAttackPower(int & cash)
     }
 }
 
+void Tower::setPosition(double x, double y)
+{
+    xPos = x;
+    yPos = y;
+}
+
 Tower::Tower(double x, double y)
     :   xPos{x}, yPos{y} {}
 
@@ -243,7 +249,7 @@ void MissileTower::attack(std::vector<shptr<Projectile>> & projectiles)
     projectiles.push_back(std::make_shared<MissileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
 }
 
-int MissileTower::getPrice() {return 9000;}
+int MissileTower::getPrice() {return 420;}
 
 // SlowTower
 

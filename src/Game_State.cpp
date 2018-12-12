@@ -64,7 +64,7 @@ void Game_State :: handle_event (Event event)
         {
         	if (mouse.x > sidebarPosX)
         	{
-        		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources, availableTowers);
+    //    		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources);
         	}
             else if (pause)
             {
@@ -188,7 +188,7 @@ void Game_State :: render (RenderTarget & target)
     gameMap->render(target);
 
     // Render sidebar
-    gameSidebar->render(target, gameResources, availableTowers);
+    gameSidebar->render(target, availableTowers);
 
     // Render blood
     if (blood)

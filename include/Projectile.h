@@ -28,7 +28,7 @@ class Projectile
     public:
     Projectile() = default;
     Projectile(double x, double y, double xDir, double yDir);
-    Projectile(double x, double y, double dirByRadians);
+    Projectile(double x, double y, double dirByRadians);    // OBS! positive radians clockwise
     virtual ~Projectile() = default;
     virtual void targetHit();   // Checks if the target has been hit, deals damgae if true
     virtual void explodeAnim() {}; // renders the explode animation
@@ -92,6 +92,8 @@ class MissileProjectile : public Projectile
     public:
     MissileProjectile(double x, double y, double xDir, double yDir);
     MissileProjectile(double x, double y, double dirByRadians);
+    //void dealDamage(shptr<Monster> &aMonster) override;
+    //void update(std::vector<shptr<Monster>> &allMonsters) override;
 
 };
 #endif

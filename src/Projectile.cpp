@@ -11,7 +11,6 @@
 /*
  *  Funktioner kvar att definiera:
     virtual void explodeAnim() // renders the explode animation
-    void isOutsideMap() // Behövs inte om cleanup körs i Gamestate? 
  */
 
 
@@ -175,8 +174,7 @@ sf::FloatRect Projectile::getBounds()
 
 bool Projectile::checkHit(shptr<Monster> &aMonster)
 {
-    if //(aMonster->getBounds().intersects(getBounds()))
-    (sqrt( pow( aMonster->getX() - x, 2 ) + pow( aMonster->getY() - y, 2 ) ) -
+    if (sqrt( pow( aMonster->getX() - x, 2 ) + pow( aMonster->getY() - y, 2 ) ) -
         (aMonster->getRadius() + radius) < 0)
     {
         return true;
@@ -270,3 +268,28 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
     damage = 30;
     radius = 8;
 }
+/*
+// Deals damage too all Monsters within an circle of 20 pixels of the missile when it hits
+void MissileProjectile::dealDamage(shptr<Monster> &aMonster)
+{
+    if (pow(aMonster->getX() - getX(), 2) + pow(aMonster-getY() - getY(), 2) < 20)
+    {
+        dealDamage(aMonster);
+    }
+}
+
+void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
+{
+    for (shptr<Monster> aMonster : allMonsters)
+    {
+        if (checkHit(aMonster))
+        {
+            for (shptr<Monster> anotherMonster : allMonsters)
+            {
+                dealDamage(anotherMonster);
+            }
+
+            return void();
+        }
+    }
+}*/

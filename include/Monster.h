@@ -96,9 +96,9 @@ class Squirrel : public Monster         // Fast unit
 public:
     Squirrel(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    double healths [10] = {20, 50, 75, 100, 200};
-    double armours [10] = {1, 1, 2, 2, 2, 2, 2 , 2, 2, 2};
-    double speeds [10] = {1.5, 2, 3, 3.5, 4, 5, 5, 5, 5, 5};
+    double healths [10] = {20, 50, 75, 100, 200, 250, 400, 500, 750, 1000};
+    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
     double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
 };
 
@@ -107,9 +107,9 @@ class Fox : public Monster
 public:
     Fox(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    double healths [10] = {50, 100, 250, 500, 1000};
-    double armours [10] = {1, 3, 5, 10, 20};
-    double speeds [10] = {1, 1, 2, 2.5, 2.5};
+    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
     double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
 };
 

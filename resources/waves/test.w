@@ -1,1 +1,5 @@
-1 2 3 4 0 0 1*10 (1,2,3)*5
+BrownRabbit*12
+BrownRabbit nop nop nop BrownRabbit*2 BrownRabbit nop nop Fox BrownRabbit*10
+BrownRabbit*25 nop*7 WhiteRabbit
+BrownRabbit*100
+WhiteRabbit*1000

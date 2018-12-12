@@ -13,8 +13,10 @@
 #include <sstream>
 
 using namespace sf;
+using std::string;
 
-Game_State::Game_State()
+
+Game_State::Game_State(string level)
 {
     if(!gameOverlayTexture.loadFromFile("resources/images/overlay.png"))
     {
@@ -22,16 +24,35 @@ Game_State::Game_State()
     }
     gameOverlay.setTexture(gameOverlayTexture);
 
-    gameMap = make_unique<Map>("map.dat");
+
+    gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX);
-    wave = make_unique<Wave>();
-    wave->setSpawnTile(gameMap->getSpawnPoint());
-    std::istringstream test_iss{"1 0 0 0 1 0 0 1 0 1 1 0 0 0 3 4"};
-    *wave >> test_iss;
-    
+    //wave = make_unique<Wave>();
+    wavePump = make_unique<WavePump>();
 
-    availableTowers.push_back(make_shared<MinigunTower>(sidebarPosX + mapBorderOffset, 156 + mapBorderOffset));
+    //wave->setSpawnTile(gameMap->getSpawnPoint());
+    //std::istringstream test_iss{"1 0 0 0 1 0 0 1 0 1 1 0 0 0 3 4"};
+    //*wave >> test_iss;
+    //wave->readWaveData("test");
+    
+    shptr<Tile> tempTile = gameMap->getSpawnPoint();
+    wavePump->setSpawnTile(tempTile);
+    shptr<Monster> tempMonster{};
+    tempMonster = std::make_shared<Orc>(tempTile, 0);
+    wavePump->addMonsterType(tempMonster);
+    tempMonster = std::make_shared<Flash>(tempTile, 0);
+    wavePump->addMonsterType(tempMonster);
+    tempMonster = std::make_shared<Tank>(tempTile, 0);
+    wavePump->addMonsterType(tempMonster);
+    tempMonster = std::make_shared<Derp>(tempTile, 0);
+    wavePump->addMonsterType(tempMonster);
+    wavePump->scrambleMonsterSequence();
+
+
+    availableTowers.push_back(
+    	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
 }
 
 void Game_State :: handle_event (Event event)
@@ -41,30 +62,24 @@ void Game_State :: handle_event (Event event)
         auto mouse { event.mouseButton };
         if ( mouse.button == Mouse::Button::Left )
         {
-            if (pause)
+        	if (mouse.x > sidebarPosX)
+        	{
+    //    		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources);
+        	}
+            else if (pause)
             {
                 // Go back to main menu
                 go_back = true;
             }
-            else
+            else if (mapScreen.contains(mouse.x, mouse.y))
             {
-                shptr<Tile> tmpTile {gameMap->getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
-                                                      static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
-                if (tmpTile->checkPlaceable())
-                {
-                    towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
-                    tmpTile->switchPlaceable();
-                }
-                else 
-                {
-                    monsters.push_back(make_shared<Orc> (gameMap->getSpawnPoint(), 1));
-                    monsters.push_back(make_shared<Flash> (gameMap->getSpawnPoint(), 1));
-                    monsters.push_back(make_shared<Tank> (gameMap->getSpawnPoint(), 1));
-                    monsters.push_back(make_shared<Derp> (gameMap->getSpawnPoint(), 1));
-                }
-
-                //projectiles.push_back(make_shared<Anvil>((event.mouseButton).x, 0, 0, 1));
+                // Click on map
+                gameMap->handle(event, monsters, towers, gameResources);
             }
+        }
+        if (gameOver)
+        {
+            go_back = true;
         }
     }
 
@@ -100,13 +115,13 @@ void Game_State :: handle_event (Event event)
 Game_Event Game_State :: update ()
 {
     // Only update when game not paused
-    if (!pause)
+    if (!pause && !gameOver)
     {
         // Update map
         gameMap->update();
 
         // Update sidebar
-        gameSidebar->update(gameResources);
+        gameSidebar->update(gameResources, availableTowers);
 
         // Update blood effect
         for (auto & b : bloodFX)
@@ -126,6 +141,10 @@ Game_Event Game_State :: update ()
             p->update(monsters);
         }
 
+        // Update Resouces
+        if (gameResources->getHP() < 0)
+            gameOver = true;
+
         // Update monsters
         for (auto & m : monsters)
         {
@@ -133,19 +152,33 @@ Game_Event Game_State :: update ()
 
             if (m->getHealth() <= 20 && (rand() % 100) <= 10)
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
-            //cout << m->isDead() << m->getHealth() << endl;
         }
 
-        //Update wave
+        /*///Update wave
         if (wave->timeToSpawn())
         {
             monsters.push_back(wave->spawnMonster());
-        }
+        }/*/
+
+	//Update wavePump
+	if (wavePump->readyToSpawn())
+	{
+	    monsters.push_back(wavePump->spawnMonster());
+	}
+
     }
 
     cleanup();
-
+    /*
+    if (gameOver)
+    {
+        gameOver = false;
+        return Game_Event::create<Switch_State> (
+            move (std::make_unique<Menu_State>));
+    }
+    
     // Let the base class perform it's update
+    */
     return Go_Back_State::update ();
 }
 
@@ -155,7 +188,7 @@ void Game_State :: render (RenderTarget & target)
     gameMap->render(target);
 
     // Render sidebar
-    gameSidebar->render(target);
+    gameSidebar->render(target, availableTowers);
 
     // Render blood
     if (blood)
@@ -186,7 +219,6 @@ void Game_State :: render (RenderTarget & target)
 
     target.draw(gameOverlay);
 
-
     // Render pause-screen <-- temporär pause-text
     if (pause)
     {
@@ -194,6 +226,23 @@ void Game_State :: render (RenderTarget & target)
              Font_Manager::load ("resources/fonts/font.ttf"),
              30 };
         Text text2 { "Paused",
+             Font_Manager::load ("resources/fonts/font.ttf"),
+             30 };
+
+        text.setPosition (250, 300);
+        text2.setPosition (252, 302);
+        text2.setFillColor(Color::Black);
+    
+        target.draw (text2);
+        target.draw (text);
+    }
+
+    if (gameOver)
+    {
+        Text text { "Game over",
+             Font_Manager::load ("resources/fonts/font.ttf"),
+             30 };
+        Text text2 { "Game over",
              Font_Manager::load ("resources/fonts/font.ttf"),
              30 };
 
@@ -234,6 +283,11 @@ void Game_State :: cleanup ()
         if (monsters[i]->isDead())
         {
             // Spawn some blood and erase
+            if (monsters[i]->shallLoseHP())
+                gameResources->changeHP(- monsters[i]->getHPLoss());
+            else
+                gameResources->changeMoney(monsters[i]->getBounty());
+            
             if (monsters[i]->getHealth() <= 0)
                 bloodFX.push_back(make_unique<Blood> (monsters[i]->getX(), monsters[i]->getY()));
             monsters.erase(monsters.begin() + i);

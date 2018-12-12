@@ -30,39 +30,45 @@ Monster::Monster(shptr<Tile> tile)
     radius = 8;
 }
 
-Orc::Orc(shptr<Tile> tile, unsigned level)
+Orc::Orc(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 {
+    level = lvl;
     health = healths[level];
     armour = armours[level];
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
     extraXOffset = 6;
+    monsterType = "Orc";
 
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 
-Flash::Flash(shptr<Tile> tile, unsigned level)
+Flash::Flash(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
+    level = lvl;
     health = healths[level];
     armour = armours[level];
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
+    monsterType = "Flash";
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+  
 }
 
 
-Tank::Tank(shptr<Tile> tile, unsigned level)
+Tank::Tank(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
+    level = lvl;
     health = healths[level];
     armour = armours[level];
     speed = speeds[level];
@@ -70,14 +76,17 @@ Tank::Tank(shptr<Tile> tile, unsigned level)
     bounty = bountys[level];
     extraXOffset = 9;
     extraYOffset = 4;
+    monsterType = "Tank";
+
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
-Derp::Derp(shptr<Tile> tile, unsigned level)
+Derp::Derp(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
+    level = lvl;
     health = healths[level];
     armour = armours[level];
     speed = speeds[level];
@@ -85,6 +94,8 @@ Derp::Derp(shptr<Tile> tile, unsigned level)
     bounty = bountys[level];
     extraXOffset = 3;
     extraYOffset = 4;
+    monsterType = "Derp";
+
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
@@ -156,7 +167,7 @@ void Monster::setDir()
         yDir /= abs(yDir);
 }
 
-void Monster::helpDamage(double dmg, bool pureDmg)
+void Monster::helpDamage(double const& dmg, bool pureDmg)
 {
     if (pureDmg)
         takePureDmg(dmg);
@@ -164,27 +175,24 @@ void Monster::helpDamage(double dmg, bool pureDmg)
         takeDamage(dmg);    
 }
 
-void Monster::takeDamage(double damage)  
+void Monster::takeDamage(double const& damage)  
 {
     health -= damage/armour;
     if (health <= 0)
     {
         dead = true;
-        getBounty = true;    
     }
 }
 
-void Monster::takePureDmg(double damage)  
+void Monster::takePureDmg(double const& damage)  
 {
     health -= damage;
     if (health <= 0)
     {
         dead = true;
-        getBounty = true;    
     }
 }
-
-void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg) // takes in 0-1 slow part
+void Monster::takeSlowDmg(double const& dmg, double const& slow, double const& duration, bool pureDmg) // takes in 0-1 slow part
 {
     helpDamage(dmg, pureDmg);
     speed = refSpeed*slow;
@@ -192,11 +200,11 @@ void Monster::takeSlowDmg(double dmg, double slow, double duration, bool pureDmg
     slowTime = duration;
 }
 
-void Monster::takeCritDamge(double damage, unsigned critChance, bool pureDmg)
+void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg)
 {
     for (unsigned i = 1; i>= critChance; i++)
     {
-        if (getCritDamage())
+        if ((rand() % 100) > 95)
         {
             helpDamage(damage, pureDmg);
         }
@@ -204,11 +212,17 @@ void Monster::takeCritDamge(double damage, unsigned critChance, bool pureDmg)
     }
 }
 
-bool Monster::getCritDamage()
+void Monster::takePushBackDmg(double const& damage, int const& pushBack, bool pureDmg)     // pushBack percentage to push back
 {
-    return ((rand() % 100) > 95);
+    helpDamage(damage, pureDmg);
+    if ((rand() % 100) > (100 - pushBack))
+    {
+        nextTile = prevTile;
+        x = nextTile->getX();
+        y = nextTile->getY();
+        walk();
+    }
 }
-
 
 void Monster::walk()
 {
@@ -216,6 +230,7 @@ void Monster::walk()
     if (   (pow((nextTile->getX() - x), 2) <= tolerance)
         && (pow((nextTile->getY() - y), 2) <= tolerance))
     {
+        prevTile = nextTile;
         x = nextTile->getX();
         y = nextTile->getY();
         Monster::setNextTile();
@@ -234,6 +249,6 @@ void Monster::setNextTile()
     else
     {
         dead = true;
-//        loseHP = true;
+        loseHP = true;
     }
 }

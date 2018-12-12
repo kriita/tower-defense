@@ -38,6 +38,7 @@ public:
     void upgradeAttackPower(int & cash);
     void upgradeFireRate(int & cash);
     
+    
 
 protected:
     double xPos{};
@@ -50,6 +51,7 @@ protected:
     std::vector<double> attackPowerPrice = {100, 200, 300, 400};
     std::vector<double> range = {70.0, 130.0, 180.0, 230.0, 270.0};
     std::vector<double> rangePrice = {100, 200, 300, 400};
+    virtual void setAngle();
 
     sf::Clock attackClock{};
 
@@ -93,6 +95,7 @@ public:
     MinigunTower(shptr<Tile> tile);
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;
+    void setAngle() override;
 };
 
 class MissileTower : public Tower

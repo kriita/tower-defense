@@ -1,5 +1,8 @@
 #include "constants.h"
 #include "Map.h"
+#include "Monster.h"
+#include "Resources.h"
+#include "Tower.h"
 #include "Tile.h"
 #include <vector>
 #include <memory>
@@ -47,13 +50,70 @@ void Map::update()
     }
 }
 
+void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shptr<Tower>> & towers,
+                ptr<Resources> & resources)
+{
+    auto mouse { event.mouseButton };
+    shptr<Tile> tmpTile {getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
+                                 static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
+    if (tmpTile->checkPlaceable())
+    {
+        towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+        tmpTile->switchPlaceable();
+    }
+    else if (tmpTile->getType() == pathChar)
+    {
+        // temp
+        monsters.push_back(make_shared<Orc> (getSpawnPoint(), 1));
+        monsters.push_back(make_shared<Flash> (getSpawnPoint(), 1));
+        monsters.push_back(make_shared<Tank> (getSpawnPoint(), 1));
+        monsters.push_back(make_shared<Derp> (getSpawnPoint(), 1));
+    }
+
+    // Focus tower
+    for (auto & t : towers)
+    {
+        sf::FloatRect bounds {static_cast<float>(t->getX() - tileWidth/2),
+                              static_cast<float>(t->getY() - tileWidth/2),
+                              tileWidth, tileWidth};
+        if (bounds.contains(mouse.x, mouse.y))
+        {
+            resources->setFocus(t);
+        }
+    }
+
+    // Foxus monster
+    for (auto & m : monsters)
+    {
+        sf::FloatRect bounds {static_cast<float>(m->getX() - m->getRadius()),
+                              static_cast<float>(m->getY() - m->getRadius()),
+                              static_cast<float>(m->getRadius()),
+                              static_cast<float>(m->getRadius())};
+        if (bounds.contains(mouse.x, mouse.y))
+        {
+            resources->setFocus(m);
+        }
+    }
+}
+
+void Map::makePreview(float xNew, float yNew, float scale)
+{
+    for (int y {0}; y < yTilesMax; ++y)
+    {
+        for (int x {0}; x < xTilesMax; ++x)
+        {
+            getTile(x, y)->resize(xNew, yNew, scale);
+        }
+    }
+}
+
 void Map::readMapData()
 {
     mapTiles.resize(xTilesMax, vector<shptr<Tile>>(yTilesMax, nullptr));
 
     string mapFolder {"resources/maps/"};
 
-    ifstream mapFile((mapFolder + fileName).c_str());
+    ifstream mapFile((mapFolder + fileName + ".map").c_str());
     if (!mapFile)
         throw MapError{"Cannot open map file"};
 
@@ -169,10 +229,7 @@ void Map::setTileSprites()
     {
         for (int x {0}; x < xTilesMax; ++x)
         {           
-            if (getTile(x, y)->getType() == pathChar)
-                getTile(x, y)->setSprite(getSpriteNeighbors(x, y));
-            else
-                getTile(x, y)->setSprite(getSpriteNeighbors(x, y));
+            getTile(x, y)->setSprite(getSpriteNeighbors(x, y));
         }
     }
 }

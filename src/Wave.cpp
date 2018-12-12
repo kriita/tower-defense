@@ -1,5 +1,8 @@
 #include "Wave.h"
 #include <utility>
+#include <string>
+#include <fstream>
+#include <sstream> 
 
 #include <iostream>
 
@@ -8,6 +11,84 @@ void Wave::setSpawnTile(shptr<Tile> init_spawnTile)
     spawnTile = std::move(init_spawnTile);    
 }
 
+
+std::vector<int> readSequence(int & amount, std::string word)
+{
+    std::istringstream iss{word};
+    std::vector<int> sequence{};
+    int type{};
+    char symbol{};
+    while(iss >> symbol)
+    {
+	if (symbol == ')')
+	{
+	    iss >> symbol;
+	    iss >> amount;
+	    break;
+	}
+	else
+	{
+	    iss >> type;
+	    sequence.push_back(type);
+	    continue;
+	}
+    }
+    return sequence;
+}
+
+std::vector<int> readOneType(int & amount, std::string word)
+{
+    std::istringstream iss{word};
+    std::vector<int> sequence{};
+    int type{};
+    char symbol{};
+    iss >> type;
+    iss >> symbol;
+    iss >> amount;
+    sequence.push_back(type);
+    return sequence;
+
+}
+
+void Wave::readWaveData(std::string fileName)
+{
+    std::string filePath {"resources/waves/"};
+    std::ifstream waveFile((filePath + fileName + ".w").c_str());
+    if(!waveFile)
+	throw WaveError{"Cannot open wave file"};
+
+    //tolka .w filen till monster typer och mängd monster
+    std::string word{};
+    std::string numberString{"1234567890"};
+    int amount{1};
+    std::vector<int> sequence{};
+    while(getline(waveFile, word, ' '))
+    {
+	if (word.front() == '(')
+	{
+	    sequence = readSequence(amount, word);
+	}
+	else if (numberString.find(word.front()) != std::string::npos)
+	{
+	    sequence = readOneType(amount, word);
+	}
+	else 
+	{
+	    throw WaveError{"incorrect wave file"};
+	}
+
+	//ställ monstern i kö
+	for (int i{0}; i < amount; i++)
+	{
+	    for (unsigned int j{0}; j < sequence.size(); j++)
+	    {
+		pushMonster(sequence[j], 1);
+	    }
+	}
+	    
+    }
+}
+    
 shptr<Monster> Wave::spawnMonster()
 {
     clock.restart();
@@ -40,7 +121,7 @@ bool Wave::timeToSpawn()
 }
 
 Wave::Wave()
-    : spawnTile{nullptr}, cooldown{.5f}
+    : spawnTile{nullptr}, clock{}, cooldown{.5f}, monsterLevel{1}
 {}
 
 bool Wave::empty()
@@ -73,7 +154,7 @@ void Wave::pushMonster(int MonsterType, int level)
     }
     
 }
- 
+
 std::istream& Wave::operator>>(std::istream& reqruits)
 {
     if (reqruits)
@@ -88,6 +169,7 @@ std::istream& Wave::operator>>(std::istream& reqruits)
 	}
 
     }
+    return reqruits;
 }
 
 

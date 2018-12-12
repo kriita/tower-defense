@@ -2,6 +2,9 @@
 #define MAP_H
 
 #include "defs.h"
+#include "Monster.h"
+#include "Resources.h"
+#include "Tower.h"
 #include "Tile.h"
 #include "Spritesheet.h"
 #include <SFML/Graphics.hpp>
@@ -29,7 +32,11 @@ public:
 
     void render(sf::RenderTarget &target);
     void update();
-    void setupMap();
+    void handle(sf::Event event,
+                std::vector<shptr<Monster>> & monsters,
+                std::vector<shptr<Tower>> & towers,
+                ptr<Resources> & resources);
+    void makePreview(float xNew, float yNew, float scale);
     int getPathNeighbors(int xPos, int yPos);
     std::vector<bool> getSpriteNeighbors(int xTile, int yTile);
     shptr<Tile> getTile(int x, int y);

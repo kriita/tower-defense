@@ -1,5 +1,3 @@
-#pragma once
-
 /*
  * Resources.cpp
  * 
@@ -10,7 +8,10 @@
  * Functions: getMoney, getHP, changeMoney, changeHP
  */
 
+#include "Monster.h"
 #include "Resources.h"
+#include "Tower.h"
+#include <iostream>
 
 Resources::Resources(int initHitpoints, int initMoney)
 : hitpoints {initHitpoints}, money {initMoney} {}
@@ -25,6 +26,34 @@ int Resources::getHP()
 	return hitpoints;
 }
 
+int Resources::getCurrentWave()
+{
+	return currentWave;
+}
+
+bool Resources::getBuildMode()
+{
+	return buildMode;
+}
+
+void Resources::setFocus(shptr<Tower> const & tower)
+{
+	focusTower = tower;
+	focusMonster = nullptr;
+}
+
+void Resources::setFocus(shptr<Monster> const & monster)
+{
+	focusMonster = monster;
+	focusTower = nullptr;
+}
+
+void Resources::deselect()
+{
+	focusMonster = nullptr;
+	focusTower = nullptr;
+}
+
 void Resources::changeMoney(int const diff)
 {
 	money = money + diff;
@@ -33,4 +62,14 @@ void Resources::changeMoney(int const diff)
 void Resources::changeHP(int const diff)
 {
 	hitpoints = hitpoints + diff;
+}
+
+void Resources::changeCurrentWave(int const diff)
+{
+	currentWave = currentWave + diff;
+}
+
+void Resources::switchBuildMode()
+{
+	buildMode = !buildMode;
 }

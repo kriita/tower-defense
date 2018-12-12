@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <iostream>
+//#include <iostream>
 
 using std::vector;
 
@@ -19,6 +19,13 @@ Tile::Tile(int x, int y, char type)
 void Tile::render(sf::RenderTarget &target)
 {
     target.draw(tileSprite);
+}
+
+void Tile::resize(float xNew, float yNew, float scale)
+{
+    tileSprite.scale(scale, scale);
+    tileSprite.setPosition(xNew + (xTile - xTilesMax / 2) * tileWidth * scale,
+                           yNew + (yTile - yTilesMax / 2) * tileWidth * scale);
 }
 
 int Tile::getTileX() const

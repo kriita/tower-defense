@@ -13,11 +13,12 @@ class Tile
 {
 public:
     Tile(int x, int y, char type);
-    Tile(Tile const&) = default;
+    Tile(Tile const&) = delete;
     virtual ~Tile() = default;
 
     void render(sf::RenderTarget &target);
     void virtual update() = 0;
+    void resize(float xNew, float yNew, float scale);
     int getTileX() const;
     int getTileY() const;
     double getX() const;

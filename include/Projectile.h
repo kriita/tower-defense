@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "Map.h"
 #include "defs.h"
 #include "Monster.h"
 #include "Spritesheet.h"

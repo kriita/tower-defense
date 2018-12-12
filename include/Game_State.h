@@ -9,8 +9,10 @@
 #include "Tile.h"
 #include "Tower.h"
 #include "Wave.h"
+#include "WavePump.h"
 #include <vector>
 #include <memory>
+#include <string>
 
 /*
  * This class represents the "game".
@@ -37,23 +39,26 @@ class Game_State : public Go_Back_State
 {
 public:
 
-    Game_State ();
+    Game_State (std::string level);
 
     void handle_event (sf::Event event) override;
     Game_Event update () override;
     void render (sf::RenderTarget & target) override;
-
 private:
 
     bool pause {false};
     bool pauseButtonPressed {false};
     bool blood {true};
     bool bloodButtonPressed {false};
-
+    bool gameOver {false};
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};
     ptr<Sidebar> gameSidebar {};
     ptr<Wave> wave {};
+    ptr<WavePump> wavePump {};
+
+    //shptr<Monster> focusMonster {};
+    //shptr<Tower> focusTower {};
 
     std::vector<shptr<Monster>> monsters {};
     std::vector<shptr<Tower>> towers {};
@@ -66,8 +71,8 @@ private:
     sf::Sprite gameOverlay {};
 
     sf::FloatRect mapScreen { mapBorderOffset, mapBorderOffset,
-                              mapBorderOffset + xTilesMax * tileWidth,
-                              mapBorderOffset + yTilesMax * tileWidth };
+                              xTilesMax * tileWidth,
+                              yTilesMax * tileWidth};
 
     /*
      * Remove all balls which are no longer visible on the

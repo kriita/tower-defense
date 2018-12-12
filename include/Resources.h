@@ -25,11 +25,15 @@ public:
 	int getHP();
 	int getCurrentWave();
 	bool getBuildMode();
+	Tower getFocusTower();
+
 	void setFocus(shptr<Tower> const & tower);
 	void setFocus(shptr<Monster> const & monster);
+	
 	void changeMoney(int const diff);
 	void changeHP(int const diff);
 	void changeCurrentWave(int const diff);
+	
 	void switchBuildMode();
 	void deselect();
 

@@ -36,6 +36,11 @@ bool Resources::getBuildMode()
 	return buildMode;
 }
 
+Tower Resources::getFocusTower()
+{
+	return focusTower;
+}
+
 void Resources::setFocus(shptr<Tower> const & tower)
 {
 	focusTower = tower;

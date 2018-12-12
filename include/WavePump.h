@@ -34,10 +34,14 @@ public:
     bool isIntermission();
     shptr<Monster> spawnMonster();
     
+    int getWaveCount();
+    int getRemainingMonsters();
+    int getRemainingIntermission();
+    
+
 private:
-    bool active{}; //används ej
     int waveCount{};
-    int spawnCount{};
+    int remainingMonsters{};
     int monsterLevelRoof{};
     int monsterLevelFloor{};
     float spawnCooldown{};

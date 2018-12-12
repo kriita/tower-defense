@@ -27,7 +27,7 @@ class SidebarError : public std::logic_error
 class Sidebar
 {
 public:
-	Sidebar(int xPos);
+	Sidebar(int xPos, std::vector<shptr<Tower>>(&availableTowers1));
 	~Sidebar() = default;
 	
 	void update(ptr<Resources> & gameResources, std::vector<shptr<Tower>>(& availableTowers));
@@ -43,5 +43,6 @@ private:
 
 	ptr<Resource_Window> sidebarResources {};
 	ptr<Shop_Window> sidebarShop {};
+	std::vector<shptr<Tower>> availableTowers{};
 	//shptr<Info_Window> sidebarInfo {};
 };

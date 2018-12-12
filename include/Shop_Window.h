@@ -27,7 +27,7 @@ class Shop_Window_Error : public std::logic_error
 class Shop_Window
 {
 public:
-	Shop_Window(int xPos);
+	Shop_Window(int xPos, std::vector<shptr<Tower>> (&availableTowers1));
 	~Shop_Window() = default;
 
 	void update(std::vector<shptr<Tower>>(& availableTowers));
@@ -41,6 +41,7 @@ private:
 //	sf::Text price1 {"", Font_Manager::load("resources/fonts/font.ttf"), H4};
 	std::vector<shptr<sf::Rect<int>>> items {};
 	std::vector<shptr<sf::Text>> prices {};
+	std::vector<shptr<Tower>> availableTowers{};
 
 	sf::Text buildModeText {"BUILD MODE", Font_Manager::load("resources/fonts/font.ttf"), H4};
 };

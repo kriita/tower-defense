@@ -18,6 +18,11 @@
  */
 class Menu_State : public Go_Back_State
 {
+/*
+Free to use picture
+ https://freephotos.cc/animal#372166
+
+*/
 
 public:
 
@@ -46,8 +51,12 @@ private:
      * pressed (see Menu_State.cpp for details).
      */
     bool play;
-    
+    bool showMaps{false};
+    sf::Texture menuOverlayTexture {};
+    sf::Sprite menuOverlay {};
     std::string level {};
+    sf::Texture rabbitOverlayTexture {};
+    sf::Sprite rabbitOverlay {};    
 
     // Holds maps able for New game
     std::vector<ptr<Map>> maps {};

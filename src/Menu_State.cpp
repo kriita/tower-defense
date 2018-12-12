@@ -3,6 +3,7 @@
 #include "Game_State.h"
 #include "Manager.h"
 #include "Map.h"
+#include "constants.h"
 
 #include <string>
 
@@ -20,15 +21,28 @@ using namespace sf;
  * (in pixels) of the text.
  */
 Menu_State :: Menu_State ()
-    : text { "Press <Enter> to start",
+    : text { "Welcome to this amazing tower defence! Press any key",
              Font_Manager::load ("resources/fonts/font.ttf"),
              16 },
       play { false }
 {
     maps.push_back(make_unique<Map> ("Forest"));
     maps.push_back(make_unique<Map> ("Gauntlet"));
-    maps[0]->makePreview(200, 200, 0.2);
+    maps[0]->makePreview(250, 200, 0.2);
     maps[1]->makePreview(400, 200, 0.2);
+
+    if(!menuOverlayTexture.loadFromFile("resources/images/menuWindow.png"))
+    {
+        throw Game_StateError{"Couldn't load overlay texture"};
+    }
+    menuOverlay.setTexture(menuOverlayTexture);
+    menuOverlay.setPosition(screen_width/2, screen_height/2);
+    menuOverlay.setOrigin(250, 200 );
+    if(!rabbitOverlayTexture.loadFromFile("resources/images/background.jpg"))
+    {
+        throw Game_StateError{"Couldn't load overlay texture"};
+    }
+    rabbitOverlay.setTexture(rabbitOverlayTexture);
 }
 
 /*
@@ -40,21 +54,24 @@ Menu_State :: Menu_State ()
 void Menu_State :: handle_event (Event event)
 {
     Go_Back_State::handle_event (event);
+
+
     if ( event.type == Event::MouseButtonReleased )
     {
         auto mouse { event.mouseButton };
         if ( mouse.button == Mouse::Button::Left )
         {
-            if (mouse.x > 85 && mouse.x < 315 && mouse.y > 85 && mouse.y < 315)
+            if (mouse.x > 85 && mouse.x < 315 && mouse.y > 85 && mouse.y < 315  && showMaps)
             {
                 level = "Forest";
                 play = true;
             }
-            else if (mouse.x > 285 && mouse.x < 515 && mouse.y > 85 && mouse.y < 315)
+            else if (mouse.x > 285 && mouse.x < 515 && mouse.y > 85 && mouse.y < 315  && showMaps)
             {
                 level = "Gauntlet";
                 play = true;
             }
+            showMaps = true;
         }
     }
     if ( event.type == Event::KeyPressed )
@@ -83,7 +100,10 @@ Game_Event Menu_State :: update ()
         return Game_Event::create<Switch_State> (
             move (std::make_unique<Game_State> (level)));
     }
-    
+    if ( showMaps)
+    {
+
+    }
     return Go_Back_State::update ();
 }
 
@@ -96,9 +116,15 @@ void Menu_State :: render (RenderTarget & target)
                       (size.y - bounds.height) / 2);
     
     target.draw (text);
+    
+    target.draw(rabbitOverlay);
 
-    maps[0]->render(target);
-    maps[1]->render(target);
+    if (showMaps)
+    {
+        target.draw (menuOverlay);
+        maps[0]->render(target);
+        maps[1]->render(target);
+    }
 }
 
 /*

@@ -88,15 +88,16 @@ class minigunProjectile : public Projectile
 class MissileProjectile : public Projectile
 {
     public:
-    MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> target);
-    MissileProjectile(double x, double y, double xDir, double yDir);
+    MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> Monstertarget); // Sätt vinkel
+    MissileProjectile(double x, double y, double xDir, double yDir); // Sätt vinkel
     MissileProjectile(double x, double y, double dirByRadians);
     Spritesheet missileSheet {"resources/images/MissileProjectileSheet.png", 32, 32};
     void dealDamage(shptr<Monster> &aMonster) override;
     void update(std::vector<shptr<Monster>> &allMonsters) override;
 
+
     private:
-    unsigned currSprite {0}; // Where in the spriteSheet should we read
+    int currSprite {0}; // Where in the spriteSheet should we read
 
 };
 #endif

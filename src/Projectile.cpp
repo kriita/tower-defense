@@ -101,16 +101,31 @@ void Projectile::setTarget(shptr<Monster> newTarget)
 
 void Projectile::move()
 {
-    if (getTarget())    // Update coords. if Projectile has target
+    if (getTarget() != nullptr)    // Update coords. if Projectile has target
     {
-        xDir = (x*x - (target->getX() * target->getX()))/
-        abs(x*x + (target->getX() * target->getX()));
-        yDir = (y*y - (target->getY() * target->getY()))/
-        abs(y*y + (target->getY() * target->getY()));
+
+        double PMx = -(x*x - (target->getX() * target->getX()));
+        double PMy = -(y*y - (target->getY() * target->getY()));
+
+        xDir = PMx/abs(PMx);
+        yDir = PMy/abs(PMy);
+        /*
+        double PMx = -(x*x - (target->getX() * target->getX()));
+
+        
+        double PMy = -(y*y - (target->getY() * target->getY()));
+        
+        xDir = PMx/abs(PMx);
+        yDir = PMx/abs(PMy);
+        x += xDir * speed / abs(PMx);
+        y += yDir * speed / abs(PMy);
+        */
+        projectileSprite.setRotation(getDirByRadians() * 360 / (2 * 3.1415));
     }
     x += xDir * speed;
     y += yDir * speed;
     projectileSprite.setPosition(x, y);
+    
 }
 
 void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
@@ -147,8 +162,8 @@ void Projectile::dealDamage(shptr<Monster> &aMonster)
 void Projectile::removeProjectile()
 {
     speed = 0;
-    x = -10;
-    y = -10;
+    projectileSprite.setPosition(-100,-100);
+    y = -100;
 }
 
 void Projectile::render(sf::RenderTarget &window)
@@ -243,15 +258,16 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians)
     radius = 2.5;
 }
 
-MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> target)
-: Projectile(x, y , xDir, yDir)
+MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> Monstertarget)
+: Projectile(x, y, dirByRadians)
 {
-    target = target;
+    target = Monstertarget;
     projectileTexture.loadFromFile("resources/images/missileProjectile.png");
     projectileSprite.setTexture(projectileTexture);
     //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
+    projectileSprite.setRotation(+ dirByRadians * 360 / (2 * 3.1415));
     speed = 4;
     damage = 30;
     radius = 8;
@@ -266,6 +282,7 @@ MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDi
     //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
+    projectileSprite.setRotation(atan2(yDir,xDir));
     speed = 4;
     damage = 30;
     radius = 8;
@@ -279,6 +296,7 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
     //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
+    projectileSprite.setRotation(dirByRadians * 360 / (2 * 3.1415));
     speed = 4;
     damage = 30;
     radius = 8;
@@ -289,7 +307,7 @@ void MissileProjectile::dealDamage(shptr<Monster> &aMonster)
 {
     if (pow(aMonster->getX() - getX(), 2) + pow(aMonster->getY() - getY(), 2) < 400)
     {
-        dealDamage(aMonster);
+        aMonster->takeDamage(damage);
     }
 }
 
@@ -297,20 +315,20 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
 {
    if (currSprite > 0)
     {
-        if (currSprite < 3)
+        if (currSprite > 3)
         {
-            currSprite++;
             //projectileSprite = missileSheet.get_sprite(0, currSprite);
-            return void();
-        }
-        else
-        {
             removeProjectile();
             return void();
         }
+        
+        
+            currSprite = currSprite + 1;
+            return void();
+        
     }
     move();
-    /*for (shptr<Monster> aMonster : allMonsters)
+    for (shptr<Monster> aMonster : allMonsters)
     {
         if (checkHit(aMonster))
         {
@@ -318,8 +336,8 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
             {
                 dealDamage(anotherMonster);
             }
-            currSprite++;
+            currSprite = currSprite + 1;
             return void();
         }
-    }*/
+    }
 }

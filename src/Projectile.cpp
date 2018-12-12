@@ -103,13 +103,13 @@ void Projectile::move()
 {
     if (getTarget() != nullptr)    // Update coords. if Projectile has target
     {
-
+/*
         double PMx = -(x*x - (target->getX() * target->getX()));
         double PMy = -(y*y - (target->getY() * target->getY()));
 
         xDir = PMx/abs(PMx);
         yDir = PMy/abs(PMy);
-        /*
+        
         double PMx = -(x*x - (target->getX() * target->getX()));
 
         

@@ -23,7 +23,7 @@ public:
     virtual ~Tower() = default;
 
     virtual void render(sf::RenderTarget &target);
-    void update(std::vector<shptr<Monster>> & monstervector, 
+    virtual void update(std::vector<shptr<Monster>> & monstervector, 
                 std::vector<shptr<Projectile>> & projectiles);
 
     virtual void attack(std::vector<shptr<Projectile>> & projectiles) = 0;
@@ -133,6 +133,8 @@ class LaserTower : public Tower
 public:
     LaserTower(double x, double y);
     LaserTower(shptr<Tile> tile);
+    void update(std::vector<shptr<Monster>> & monstervector, 
+                std::vector<shptr<Projectile>> & projectiles) override;
     void render(sf::RenderTarget &target) override;
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;  
@@ -143,6 +145,7 @@ public:
 private:
     double transparency{0};
     void setTransparency(double newTransparency) {transparency = newTransparency;};
+    shptr<Projectile> laserBeam{};
 
 };
 

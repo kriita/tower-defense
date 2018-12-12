@@ -30,10 +30,15 @@ Menu_State :: Menu_State ()
     maps.push_back(make_unique<Map> ("Gauntlet"));
     maps[0]->makePreview(250, 200, 0.2);
     maps[1]->makePreview(400, 200, 0.2);
-    sf::RectangleShape rect;
-    rect.setSize(Vector2f(100,50));
+
+    rect.setSize(Vector2f(mapSize, mapSize));
     rect.setOutlineColor(Color::Red);
-    rect.setOutlineThickness(5);
+    rect.setOutlineThickness(2);
+    rect.setFillColor(Color::Transparent);
+    rect.setPosition(firstMapX,firstMapY);
+
+
+
     if(!menuOverlayTexture.loadFromFile("resources/images/menuWindow.png"))
     {
         throw Game_StateError{"Couldn't load overlay texture"};
@@ -114,12 +119,6 @@ void Menu_State :: render (RenderTarget & target)
     text.setPosition ((size.x - bounds.width) / 2,
                       (size.y - bounds.height) / 8);
     
-    sf::RectangleShape rect;
-    rect.setSize(Vector2f(mapSize, mapSize));
-    rect.setOutlineColor(Color::Red);
-    rect.setOutlineThickness(2);
-    rect.setPosition(firstMapX,firstMapY);
-    rect.setFillColor(Color::Transparent);
 
 
     target.draw(rabbitOverlay);

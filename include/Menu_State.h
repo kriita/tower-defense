@@ -52,6 +52,7 @@ private:
      */
     bool play;
     bool showMaps{false};
+    sf::RectangleShape rect;
     sf::Texture menuOverlayTexture {};
     sf::Sprite menuOverlay {};
     std::string level {};

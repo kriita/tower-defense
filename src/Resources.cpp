@@ -57,6 +57,7 @@ void Resources::deselect()
 {
 	focusMonster = nullptr;
 	focusTower = nullptr;
+	buildMode = false;
 }
 
 void Resources::changeMoney(int const diff)

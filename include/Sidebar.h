@@ -38,8 +38,8 @@ public:
 	int getY();
 	
 private:
-	int x;
-	int y;
+	int x {};
+	int y {};
 
 	ptr<Resource_Window> sidebarResources {};
 	ptr<Shop_Window> sidebarShop {};

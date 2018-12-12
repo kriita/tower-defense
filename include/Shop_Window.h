@@ -35,12 +35,12 @@ public:
 	void handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(&availableTowers));
 
 private:
-	int x;
-	int y;
+	int x {};
+	int y {};
 
-	sf::Text price1 {"", Font_Manager::load("resources/fonts/font.ttf"), H4};
-	sf::Rect<int> item1;
+//	sf::Text price1 {"", Font_Manager::load("resources/fonts/font.ttf"), H4};
 	std::vector<shptr<sf::Rect<int>>> items {};
+	std::vector<shptr<sf::Text>> prices {};
 
 	sf::Text buildModeText {"BUILD MODE", Font_Manager::load("resources/fonts/font.ttf"), H4};
 };

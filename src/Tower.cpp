@@ -320,13 +320,13 @@ LaserTower::LaserTower(shptr<Tile> tile)
 
 void LaserTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-    //target->
+    target->takePureDmg(attackPower.front());
 }
 
 int LaserTower::getPrice() {return 9000;}
-/*
-void Tower::render(sf::RenderTarget &target)
+
+void LaserTower::render(sf::RenderTarget &target)
 {
     target.draw(towerSprite);
-    
-}*/
+    target.draw(laserSprite);
+}

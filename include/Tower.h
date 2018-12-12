@@ -40,7 +40,7 @@ public:
     void upgradeFireRate(int & cash);
     void setPosition(double x, double y);
     
-    
+ 
 
 protected:
     double xPos{};
@@ -133,8 +133,10 @@ class LaserTower : public Tower
 public:
     LaserTower(double x, double y);
     LaserTower(shptr<Tile> tile);
+    void render(sf::RenderTarget &target) override;
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;  
+    sf::Sprite laserSprite{};
 };
 
 #endif

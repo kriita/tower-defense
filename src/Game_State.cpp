@@ -41,12 +41,12 @@ Game_State::Game_State(string level)
     shptr<Monster> tempMonster{};
     tempMonster = std::make_shared<BrownRabbit>(tempTile, 0);
     wavePump->addMonsterType(tempMonster);
-    tempMonster = std::make_shared<Squirrel>(tempTile, 0);
-    wavePump->addMonsterType(tempMonster);
-    tempMonster = std::make_shared<Fox>(tempTile, 0);
-    wavePump->addMonsterType(tempMonster);
-    tempMonster = std::make_shared<WhiteRabbit>(tempTile, 0);
-    wavePump->addMonsterType(tempMonster);
+    //tempMonster = std::make_shared<Squirrel>(tempTile, 0);
+    //wavePump->addMonsterType(tempMonster);
+    //tempMonster = std::make_shared<Fox>(tempTile, 0);
+    //wavePump->addMonsterType(tempMonster);
+    //tempMonster = std::make_shared<WhiteRabbit>(tempTile, 0);
+    //wavePump->addMonsterType(tempMonster);
     wavePump->scrambleMonsterSequence();
 
 

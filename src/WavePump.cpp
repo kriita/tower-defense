@@ -2,7 +2,7 @@
 
 WavePump::WavePump()
     :active{false}, waveCount{0}, remainingMonsters{0}, monsterLevelRoof{5},
-    monsterLevelFloor{1}, spawnCooldown{0.1f}, intermissionSpan{3.f}, clock{},
+    monsterLevelFloor{1}, spawnCooldown{1.f}, intermissionSpan{3.f}, clock{},
     intermissionClock{}, monsterTypes{}, monsterSequence{7},
     monsterSequenceIndex{0}, spawnTile{nullptr}
 {

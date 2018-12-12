@@ -2,7 +2,7 @@
 CXX := g++
 
 WARN := -Wall -Wextra -Weffc++ -Wpedantic
-LIBS := -lsfml-window -lsfml-graphics -lsfml-system
+LIBS := -lsfml-window -lsfml-graphics -lsfml-system -lsfml-audio
 
 # flags, note that $(FLAGS) is empty unless specified in the prompt
 # i.e. one can write: 'make all FLAGS="-g -O0"' for example

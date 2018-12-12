@@ -24,16 +24,21 @@ public:
 	int getMoney();
 	int getHP();
 	int getCurrentWave();
+	bool getBuildMode();
 	void setFocus(shptr<Tower> const & tower);
 	void setFocus(shptr<Monster> const & monster);
 	void changeMoney(int const diff);
 	void changeHP(int const diff);
 	void changeCurrentWave(int const diff);
 	void switchBuildMode();
+	void deselect();
 
 protected:
 	int hitpoints{30};
 	int money{100};
 	int currentWave{0};
 	bool buildMode{false};
+
+	shptr<Tower> focusTower {};
+	shptr<Monster> focusMonster {};
 };

@@ -11,6 +11,7 @@
 #include "Monster.h"
 #include "Resources.h"
 #include "Tower.h"
+#include <iostream>
 
 Resources::Resources(int initHitpoints, int initMoney)
 : hitpoints {initHitpoints}, money {initMoney} {}
@@ -30,14 +31,27 @@ int Resources::getCurrentWave()
 	return currentWave;
 }
 
+bool Resources::getBuildMode()
+{
+	return buildMode;
+}
+
 void Resources::setFocus(shptr<Tower> const & tower)
 {
-
+	focusTower = tower;
+	focusMonster = nullptr;
 }
 
 void Resources::setFocus(shptr<Monster> const & monster)
 {
+	focusMonster = monster;
+	focusTower = nullptr;
+}
 
+void Resources::deselect()
+{
+	focusMonster = nullptr;
+	focusTower = nullptr;
 }
 
 void Resources::changeMoney(int const diff)

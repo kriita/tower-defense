@@ -29,14 +29,15 @@ Menu_State :: Menu_State ()
     maps.push_back(make_unique<Map> ("Forest"));
     maps.push_back(make_unique<Map> ("Gauntlet"));
     maps[0]->makePreview(250, 200, 0.2);
-    maps[1]->makePreview(400, 200, 0.2);
+    maps[1]->makePreview(250 + xOffset, 200, 0.2);
 
+    /*
     rect.setSize(Vector2f(mapSize, mapSize));
     rect.setOutlineColor(Color::Red);
     rect.setOutlineThickness(2);
     rect.setFillColor(Color::Transparent);
-    rect.setPosition(firstMapX,firstMapY);
-
+    rect.setPosition(firstMapX + 150,firstMapY);
+    */
 
 
     if(!menuOverlayTexture.loadFromFile("resources/images/menuWindow.png"))
@@ -69,12 +70,18 @@ void Menu_State :: handle_event (Event event)
         auto mouse { event.mouseButton };
         if ( mouse.button == Mouse::Button::Left )
         {
-            if (mouse.x > 85 && mouse.x < 315 && mouse.y > 85 && mouse.y < 315  && showMaps)
+            if (mouse.x > firstMapX && mouse.x < firstMapX + mapSize 
+             && mouse.y > firstMapY && mouse.y < firstMapY + mapSize
+             && showMaps)
             {
                 level = "Forest";
                 play = true;
             }
-            else if (mouse.x > 285 && mouse.x < 515 && mouse.y > 85 && mouse.y < 315  && showMaps)
+            else if (mouse.x > firstMapX + xOffset 
+                    && mouse.x < firstMapX + xOffset + mapSize
+                    && mouse.y > firstMapY 
+                    && mouse.y < firstMapY + mapSize
+                    && showMaps)
             {
                 level = "Gauntlet";
                 play = true;
@@ -131,7 +138,7 @@ void Menu_State :: render (RenderTarget & target)
         maps[0]->render(target);
         maps[1]->render(target);
     }
-    target.draw(rect);
+//    target.draw(rect);
 }
 
 /*

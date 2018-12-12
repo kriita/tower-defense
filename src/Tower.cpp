@@ -32,11 +32,6 @@ void Tower::update(std::vector<shptr<Monster>> & monstervector,
     else if (inRange(target) && !(target->isDead()))
     {
         setAngle();
-      /*  double x{target->getX() - xPos};
-        double y{target->getY() - yPos};
-        angle = atan2(y,x);         //använd setangle istället
-        towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
-*/
         if (attackClock.getElapsedTime().asSeconds() > fireRate.front())
         {
             attack(projectiles);
@@ -51,7 +46,7 @@ void Tower::setAngle()
 {
         double x{target->getX() - xPos};
         double y{target->getY() - yPos};
-        angle = atan2(y,x);         //använd setangle istället
+        angle = atan2(y,x);         
         towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
 }
 
@@ -217,7 +212,7 @@ void MinigunTower::setAngle()
 {
         double x{target->getX() + target->getXDir() * target->getSpeed() * 7 - xPos};
         double y{target->getY() + target->getYDIr() * target->getSpeed() * 7 - yPos};
-        angle = atan2(y,x);         //använd setangle istället
+        angle = atan2(y,x);         
         towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
 }
 
@@ -234,7 +229,7 @@ MissileTower::MissileTower(double x, double y)
     fireRatePrice = {100, 200, 300, 400};
     attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
     attackPowerPrice = {100, 200, 300, 400};
-    range = {70.0, 130.0, 180.0, 230.0, 270.0};
+    range = {170.0, 130.0, 180.0, 230.0, 270.0};
     rangePrice = {100, 200, 300, 400};
 } 
 
@@ -247,7 +242,7 @@ MissileTower::MissileTower(shptr<Tile> tile)
 
 void MissileTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-    projectiles.push_back(std::make_shared<MissileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
+    projectiles.push_back(std::make_shared<MissileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle, target));
 }
 
 int MissileTower::getPrice() {return 420;}
@@ -275,7 +270,7 @@ void SlowTower::attack(std::vector<shptr<Projectile>> & projectiles)
     target->takeSlowDmg(attackPower.front(),attackPower.front(),1,true);
 }
 
-int SlowTower::getPrice() {return 9000;}
+int SlowTower::getPrice() {return 500;}
 
 void SlowTower::upgradeSlow(int & cash)
 {
@@ -306,6 +301,10 @@ LaserTower::LaserTower(double x, double y)
     towerSprite = sf::Sprite{texture};    
     towerSprite.setPosition (xPos,yPos);
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
+    laserTexture.loadFromFile("resources/images/laserBeam.png");
+    laserSprite = sf::Sprite{laserTexture};
+    laserSprite.setPosition(xPos,yPos);
+    laserSprite.setColor(sf::Color(255, 255, 255, 0));
     fireRate = {2.5, 2, 1.5, 1.0, 0.5};   //Time in seconds between each attack.
     fireRatePrice = {100, 200, 300, 400};
     attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
@@ -329,4 +328,13 @@ void LaserTower::render(sf::RenderTarget &target)
 {
     target.draw(towerSprite);
     target.draw(laserSprite);
+}
+
+void LaserTower::setAngle()
+{
+        double x{target->getX() - xPos};
+        double y{target->getY() - yPos};
+        angle = atan2(y,x);         
+        towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
+        laserSprite.setRotation(towerSprite.getRotation());        
 }

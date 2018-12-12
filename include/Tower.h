@@ -136,7 +136,14 @@ public:
     void render(sf::RenderTarget &target) override;
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;  
+    void setAngle() override;
     sf::Sprite laserSprite{};
+    sf::Texture laserTexture{};
+
+private:
+    double transparency{0};
+    void setTransparency(double newTransparency) {transparency = newTransparency;};
+
 };
 
 #endif

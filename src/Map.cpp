@@ -11,6 +11,7 @@
 #include <string>
 #include <stdlib.h>
 
+#include <typeinfo>
 #include <iostream>
 
 using std::string;
@@ -61,9 +62,9 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
 
     if (tmpTile->checkPlaceable() && resources->getBuildMode())
     {
-        //resources->getFocusTower()
-        //towers.push_back();
-        //towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+        if (dynamic_cast<MinigunTower*> (&(*(resources->getFocusTower()))))
+            towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+
         tmpTile->switchPlaceable();
         resources->switchBuildMode();
     }

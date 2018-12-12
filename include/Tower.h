@@ -18,10 +18,11 @@ public:
     Tower(int x, int y);
     Tower(double x, double y);
     Tower(shptr<Tile> tile);
+    Tower(Tower const&) = default;
 
     virtual ~Tower() = default;
 
-    void render(sf::RenderTarget &target);
+    virtual void render(sf::RenderTarget &target);
     void update(std::vector<shptr<Monster>> & monstervector, 
                 std::vector<shptr<Projectile>> & projectiles);
 
@@ -37,8 +38,9 @@ public:
     void upgradeRange(int & cash);                      //Takes the player's cash as argument to subtract the upgrade price if there's sufficient funds to upgrade.
     void upgradeAttackPower(int & cash);
     void upgradeFireRate(int & cash);
+    void setPosition(double x, double y);
     
-    
+ 
 
 protected:
     double xPos{};
@@ -125,5 +127,16 @@ public:
 
 };
 
+
+class LaserTower : public Tower
+{
+public:
+    LaserTower(double x, double y);
+    LaserTower(shptr<Tile> tile);
+    void render(sf::RenderTarget &target) override;
+    void attack(std::vector<shptr<Projectile>> & projectiles) override;
+    int getPrice() override;  
+    sf::Sprite laserSprite{};
+};
 
 #endif

@@ -11,6 +11,7 @@
 #include <string>
 #include <stdlib.h>
 
+#include <typeinfo>
 #include <iostream>
 
 using std::string;
@@ -54,45 +55,51 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
                 ptr<Resources> & resources)
 {
     auto mouse { event.mouseButton };
+
+    // Build tower?
     shptr<Tile> tmpTile {getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
                                  static_cast<int>((mouse.y - mapBorderOffset) / tileWidth))};
-    if (tmpTile->checkPlaceable())
+
+    if (tmpTile->checkPlaceable() && resources->getBuildMode())
     {
-        towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+        if (dynamic_cast<MinigunTower*> (&(*(resources->getFocusTower()))))
+            towers.push_back(make_shared<MinigunTower> (tmpTile->getX(), tmpTile->getY()));
+
         tmpTile->switchPlaceable();
+        resources->switchBuildMode();
     }
-    else if (tmpTile->getType() == pathChar)
+    else if (!(tmpTile->checkPlaceable()) && !(resources->getBuildMode()))
     {
-        // temp
-        monsters.push_back(make_shared<Orc> (getSpawnPoint(), 1));
-        monsters.push_back(make_shared<Flash> (getSpawnPoint(), 1));
-        monsters.push_back(make_shared<Tank> (getSpawnPoint(), 1));
-        monsters.push_back(make_shared<Derp> (getSpawnPoint(), 1));
-    }
+        resources->deselect();
 
-    // Focus tower
-    for (auto & t : towers)
-    {
-        sf::FloatRect bounds {static_cast<float>(t->getX() - tileWidth/2),
-                              static_cast<float>(t->getY() - tileWidth/2),
-                              tileWidth, tileWidth};
-        if (bounds.contains(mouse.x, mouse.y))
+        // Focus tower
+        for (auto & t : towers)
         {
-            resources->setFocus(t);
+            sf::FloatRect bounds {static_cast<float>(t->getX() - tileWidth/2),
+                                static_cast<float>(t->getY() - tileWidth/2),
+                                tileWidth, tileWidth};
+            if (bounds.contains(mouse.x, mouse.y))
+            {
+                resources->setFocus(t);
+            }
+        }
+
+        // Foxus monster
+        for (auto & m : monsters)
+        {
+            sf::FloatRect bounds {static_cast<float>(m->getX() - m->getRadius()),
+                                static_cast<float>(m->getY() - m->getRadius()),
+                                static_cast<float>(m->getRadius()),
+                                static_cast<float>(m->getRadius())};
+            if (bounds.contains(mouse.x, mouse.y))
+            {
+                resources->setFocus(m);
+            }
         }
     }
-
-    // Foxus monster
-    for (auto & m : monsters)
+    else 
     {
-        sf::FloatRect bounds {static_cast<float>(m->getX() - m->getRadius()),
-                              static_cast<float>(m->getY() - m->getRadius()),
-                              static_cast<float>(m->getRadius()),
-                              static_cast<float>(m->getRadius())};
-        if (bounds.contains(mouse.x, mouse.y))
-        {
-            resources->setFocus(m);
-        }
+        resources -> deselect();
     }
 }
 

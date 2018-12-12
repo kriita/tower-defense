@@ -29,20 +29,30 @@ public:
     void addMonsterType(shptr<Monster>);
     void scrambleMonsterSequence();
     void iterateIndex();
+    void intermission();
     bool readyToSpawn();
+    bool isIntermission();
     shptr<Monster> spawnMonster();
     
+    int getWaveCount();
+    int getRemainingMonsters();
+    int getRemainingIntermission();
+    
+
 private:
     int waveCount{};
-    int spawnCount{};
+    int remainingMonsters{};
     int monsterLevelRoof{};
     int monsterLevelFloor{};
     float spawnCooldown{};
+    float intermissionSpan{};
     sf::Clock clock{};
+    sf::Clock intermissionClock{};
     std::vector<shptr<Monster>> monsterTypes{};
     std::vector<shptr<Monster>> monsterSequence{};
     int monsterSequenceIndex{};
     shptr<Tile> spawnTile{};
+    bool active {false};
     
 };
 

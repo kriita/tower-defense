@@ -36,6 +36,11 @@ bool Resources::getBuildMode()
 	return buildMode;
 }
 
+shptr<Tower> Resources::getFocusTower()
+{
+	return focusTower;
+}
+
 void Resources::setFocus(shptr<Tower> const & tower)
 {
 	focusTower = tower;
@@ -52,6 +57,7 @@ void Resources::deselect()
 {
 	focusMonster = nullptr;
 	focusTower = nullptr;
+	buildMode = false;
 }
 
 void Resources::changeMoney(int const diff)

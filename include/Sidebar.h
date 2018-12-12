@@ -13,6 +13,7 @@
 #include "constants.h"
 #include <SFML/Graphics.hpp>
 #include "Resource_Window.h"
+#include "Resources.h"
 #include "Shop_Window.h"
 //#include "Info_Window.h"
 #include "Tower.h"
@@ -30,15 +31,15 @@ public:
 	~Sidebar() = default;
 	
 	void update(ptr<Resources> & gameResources, std::vector<shptr<Tower>>(& availableTowers));
-	void render(sf::RenderTarget &target, std::vector<shptr<Tower>>(& availableTowers));
-	void handle_event(int mousePosX, int mousePosY);
+	void render(sf::RenderTarget &target, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(& availableTowers));
+	void handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(&availableTowers));
 
 	int getX();
 	int getY();
 	
 private:
-	int x;
-	int y;
+	int x {};
+	int y {};
 
 	ptr<Resource_Window> sidebarResources {};
 	ptr<Shop_Window> sidebarShop {};

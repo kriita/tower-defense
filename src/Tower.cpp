@@ -120,6 +120,13 @@ void Tower::upgradeAttackPower(int & cash)
     }
 }
 
+void Tower::setPosition(double x, double y)
+{
+    xPos = x;
+    yPos = y;
+    towerSprite.setPosition(xPos,yPos);
+}
+
 Tower::Tower(double x, double y)
     :   xPos{x}, yPos{y} {}
 
@@ -131,7 +138,7 @@ Tower::Tower(shptr<Tile> tile)
     :   Tower{tile->getX(), tile->getY()} {}
 
 // Tower1
-
+/*
 Tower1::Tower1(double x, double y)
     : Tower{x,y} 
 {
@@ -174,7 +181,7 @@ AnvilTower::AnvilTower(shptr<Tile> tile)
 void AnvilTower::attack(std::vector<shptr<Projectile>> & projectiles) {}
 
 int AnvilTower::getPrice() {return 9000;}
-
+*/
 // MinigunTower
 
 MinigunTower::MinigunTower(double x, double y)
@@ -204,7 +211,7 @@ void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles)
     projectiles.push_back(std::make_shared<minigunProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
 }
 
-int MinigunTower::getPrice() {return 9000;}
+int MinigunTower::getPrice() {return 50;}
 
 void MinigunTower::setAngle()
 {
@@ -219,7 +226,7 @@ void MinigunTower::setAngle()
 MissileTower::MissileTower(double x, double y)
     : Tower{x,y} 
 {    
-    texture.loadFromFile("resources/images/minigunTowerTemp.png");
+    texture.loadFromFile("resources/images/missileTower.png");
     towerSprite = sf::Sprite{texture};    
     towerSprite.setPosition (xPos,yPos);
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
@@ -240,10 +247,10 @@ MissileTower::MissileTower(shptr<Tile> tile)
 
 void MissileTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-    projectiles.push_back(std::make_shared<minigunProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
+    projectiles.push_back(std::make_shared<MissileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
 }
 
-int MissileTower::getPrice() {return 9000;}
+int MissileTower::getPrice() {return 420;}
 
 // SlowTower
 
@@ -288,4 +295,38 @@ void SlowTower::upgradeDuration(int & cash)
         durationPrice.erase(durationPrice.begin());
         duration.erase(duration.begin());
     }
+}
+
+// Lasertower
+
+LaserTower::LaserTower(double x, double y)
+    : Tower{x,y} 
+{    
+    texture.loadFromFile("resources/images/laserTower.png");
+    towerSprite = sf::Sprite{texture};    
+    towerSprite.setPosition (xPos,yPos);
+    towerSprite.setOrigin (tileWidth/2, tileWidth/2);
+    fireRate = {2.5, 2, 1.5, 1.0, 0.5};   //Time in seconds between each attack.
+    fireRatePrice = {100, 200, 300, 400};
+    attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
+    attackPowerPrice = {100, 200, 300, 400};
+    range = {70.0, 130.0, 180.0, 230.0, 270.0};
+    rangePrice = {100, 200, 300, 400};
+} 
+
+
+LaserTower::LaserTower(shptr<Tile> tile)
+    :   LaserTower{tile->getX(), tile->getY()} {}
+
+void LaserTower::attack(std::vector<shptr<Projectile>> & projectiles) 
+{
+    target->takePureDmg(attackPower.front());
+}
+
+int LaserTower::getPrice() {return 9000;}
+
+void LaserTower::render(sf::RenderTarget &target)
+{
+    target.draw(towerSprite);
+    target.draw(laserSprite);
 }

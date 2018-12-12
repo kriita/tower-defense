@@ -47,7 +47,8 @@ public:
     double getRadius() const {return radius;};
     bool shallLoseHP() const {return loseHP;};
     std::string getType() const {return monsterType;};
-    void setLevel(unsigned lvl) {level = lvl;};
+    void setLevel(unsigned const& lvl) {level = lvl;};
+    bool isBleeding() {return bleeding;};
 protected:
     shptr<Tile> nextTile {};
     shptr<Tile> prevTile {};
@@ -59,7 +60,7 @@ protected:
     int yDir{};
     double y{};                     // Position in pixels
     double x{};
-    sf::Clock slowClock {};             // Time for sloweffect
+
     bool dead{false};
     double health{};
     double armour{};
@@ -73,53 +74,98 @@ protected:
     unsigned extraXOffset{};
     unsigned extraYOffset{};
     sf::Clock animClock {};         // Clock for animation
+    sf::Clock slowClock {};             // Time for sloweffect
+    sf::Clock bleedingClock {};
     bool loseHP{false};             // Decrase HP with lifeLoss when true
+    bool bleeding{false};
 };
 
-class Orc : public Monster
+class BrownRabbit : public Monster      // Tanky unit
 {
 public:
-    Orc(shptr<Tile>, unsigned level);          //provide spawnpoint and level
+    BrownRabbit(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    double healths [5] = {50, 100, 250, 500, 1000};
-    double armours [5] = {1, 3, 5, 10, 20};
-    double speeds [5]  {1, 1, 2, 2.5, 2.5};
-    double bountys [5] {20, 50, 100, 250, 500};
+    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
 };
 
-class Flash : public Monster
+class Squirrel : public Monster         // Fast unit
 {
 public:
-    Flash(shptr<Tile>, unsigned level);          //provide spawnpoint and level
+    Squirrel(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    std::string monsterType {"Flash"};
-    double healths [5] = {50, 100, 250, 500, 1000};
-    double armours [5] = {1, 3, 5, 10, 20};
-    double speeds [5]  {1.5, 2, 3, 3.5, 4};
-    double bountys [5] {20, 50, 100, 250, 500};
+    double healths [10] = {20, 50, 75, 100, 200};
+    double armours [10] = {1, 1, 2, 2, 2, 2, 2 , 2, 2, 2};
+    double speeds [10] = {1.5, 2, 3, 3.5, 4, 5, 5, 5, 5, 5};
+    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
 };
 
-class Tank : public Monster
+class Fox : public Monster
 {
 public:
-    Tank(shptr<Tile>, unsigned level);          //provide spawnpoint and level
+    Fox(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    double healths [5] = {50, 100, 250, 500, 1000};
-    double armours [5] = {1, 3, 5, 10, 20};
-    double speeds [5]  {1, 1, 2, 2.5, 2.5};
-    double bountys [5] {20, 50, 100, 250, 500};
+    double healths [10] = {50, 100, 250, 500, 1000};
+    double armours [10] = {1, 3, 5, 10, 20};
+    double speeds [10] = {1, 1, 2, 2.5, 2.5};
+    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
 };
 
-class Derp : public Monster
+class WhiteRabbit : public Monster              // Boss
 {
 public:
-    Derp(shptr<Tile>, unsigned level);          //provide spawnpoint and level
+    WhiteRabbit(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-    double healths [5] = {50, 100, 250, 500, 1000};
-    double armours [5] = {5, 10, 50, 100, 250};
-    double speeds [5]  {1, 1, 2, 2.5, 2.5};
-    double bountys [5] {20, 50, 100, 250, 500};
+    double healths [10] = {500, 1000, 3000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000};
+    double armours [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    double speeds [10] = {1, 1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5};
+    double bountys [10] = {200, 500, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000};
 };
 
+class Hamster : public Monster
+{
+public:
+    Hamster(shptr<Tile>, unsigned level);          //provide spawnpoint and level
+private:
+    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+};
+
+class GrayRacoon : public Monster
+{
+public:
+    GrayRacoon(shptr<Tile>, unsigned level);          //provide spawnpoint and level
+private:
+    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+};
+
+class Hedgehog : public Monster
+{
+public:
+    Hedgehog(shptr<Tile>, unsigned level);          //provide spawnpoint and level
+private:
+    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+};
+
+class BrownRacoon : public Monster
+{
+public:
+    BrownRacoon(shptr<Tile>, unsigned level);        //provide spawnpoint and level
+private:
+    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+};
 
 #endif

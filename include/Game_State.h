@@ -8,7 +8,6 @@
 #include "Sidebar.h"
 #include "Tile.h"
 #include "Tower.h"
-#include "Wave.h"
 #include "WavePump.h"
 #include <vector>
 #include <memory>
@@ -54,7 +53,6 @@ private:
     ptr<Map> gameMap {};
     ptr<Resources> gameResources {};
     ptr<Sidebar> gameSidebar {};
-    ptr<Wave> wave {};
     ptr<WavePump> wavePump {};
 
     //shptr<Monster> focusMonster {};

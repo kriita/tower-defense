@@ -30,7 +30,7 @@ Monster::Monster(shptr<Tile> tile)
     radius = 8;
 }
 
-Orc::Orc(shptr<Tile> tile, unsigned lvl)
+BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 {
     level = lvl;
@@ -40,14 +40,14 @@ Orc::Orc(shptr<Tile> tile, unsigned lvl)
     refSpeed = speeds[level];
     bounty = bountys[level];
     extraXOffset = 6;
-    monsterType = "Orc";
+    monsterType = "BrownRabbit";
 
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 
-Flash::Flash(shptr<Tile> tile, unsigned lvl)
+Squirrel::Squirrel(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
@@ -57,14 +57,14 @@ Flash::Flash(shptr<Tile> tile, unsigned lvl)
     speed = speeds[level];
     refSpeed = speeds[level];
     bounty = bountys[level];
-    monsterType = "Flash";
+    monsterType = "Squirrel";
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
   
 }
 
 
-Tank::Tank(shptr<Tile> tile, unsigned lvl)
+Fox::Fox(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
@@ -76,13 +76,49 @@ Tank::Tank(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     extraXOffset = 9;
     extraYOffset = 4;
-    monsterType = "Tank";
+    monsterType = "Fox";
 
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
-Derp::Derp(shptr<Tile> tile, unsigned lvl)
+
+
+WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
+    : Monster{tile} 
+
+{
+    level = lvl;
+    health = healths[level];
+    armour = armours[level];
+    speed = speeds[level];
+    refSpeed = speeds[level];
+    bounty = bountys[level];
+    extraXOffset = 9;
+    monsterType = "WhiteRabbit";
+
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+}
+
+Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
+    : Monster{tile} 
+
+{
+    level = lvl;
+    health = healths[level];
+    armour = armours[level];
+    speed = speeds[level];
+    refSpeed = speeds[level];
+    bounty = bountys[level];
+    extraXOffset = 3;
+    monsterType = "Hamster";
+
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+}
+
+GrayRacoon::GrayRacoon(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
@@ -94,7 +130,43 @@ Derp::Derp(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     extraXOffset = 3;
     extraYOffset = 4;
-    monsterType = "Derp";
+    monsterType = "GrayRaccon";
+
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+}
+
+
+Hedgehog::Hedgehog(shptr<Tile> tile, unsigned lvl)
+    : Monster{tile} 
+
+{
+    level = lvl;
+    health = healths[level];
+    armour = armours[level];
+    speed = speeds[level];
+    refSpeed = speeds[level];
+    bounty = bountys[level];
+    extraYOffset = 4;
+    monsterType = "Hedgehog";
+
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+}
+
+BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
+    : Monster{tile} 
+
+{
+    level = lvl;
+    health = healths[level];
+    armour = armours[level];
+    speed = speeds[level];
+    refSpeed = speeds[level];
+    bounty = bountys[level];
+    extraXOffset = 6;
+    extraYOffset = 4;
+    monsterType = "BrownRaccon";
 
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
@@ -207,6 +279,8 @@ void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bo
         if ((rand() % 100) > 95)
         {
             helpDamage(damage, pureDmg);
+            bleeding = true;
+            bleedingClock.restart();
         }
         helpDamage(damage, pureDmg);
     }
@@ -238,6 +312,8 @@ void Monster::walk()
     }
     if ((slowClock.getElapsedTime()).asSeconds() > slowTime)
         speed = refSpeed;
+    if ((bleedingClock.getElapsedTime()).asSeconds() > 1)
+        bleeding = false;
     x += speed*xDir;
     y += speed*yDir;
 }

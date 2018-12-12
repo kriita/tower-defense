@@ -39,13 +39,13 @@ Game_State::Game_State(string level)
     shptr<Tile> tempTile = gameMap->getSpawnPoint();
     wavePump->setSpawnTile(tempTile);
     shptr<Monster> tempMonster{};
-    tempMonster = std::make_shared<Orc>(tempTile, 0);
+    tempMonster = std::make_shared<BrownRabbit>(tempTile, 0);
     wavePump->addMonsterType(tempMonster);
-    tempMonster = std::make_shared<Flash>(tempTile, 0);
+    tempMonster = std::make_shared<Squirrel>(tempTile, 0);
     wavePump->addMonsterType(tempMonster);
-    tempMonster = std::make_shared<Tank>(tempTile, 0);
+    tempMonster = std::make_shared<Fox>(tempTile, 0);
     wavePump->addMonsterType(tempMonster);
-    tempMonster = std::make_shared<Derp>(tempTile, 0);
+    tempMonster = std::make_shared<WhiteRabbit>(tempTile, 0);
     wavePump->addMonsterType(tempMonster);
     wavePump->scrambleMonsterSequence();
 
@@ -53,6 +53,23 @@ Game_State::Game_State(string level)
     availableTowers.push_back(
     	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
     		static_cast<double>(156 + mapBorderOffset)));
+    availableTowers.push_back(
+    	make_shared<MissileTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+    availableTowers.push_back(
+    	make_shared<LaserTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+                availableTowers.push_back(
+    	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+    availableTowers.push_back(
+    	make_shared<MissileTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+    availableTowers.push_back(
+    	make_shared<LaserTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    		static_cast<double>(156 + mapBorderOffset)));
+
+
 }
 
 void Game_State :: handle_event (Event event)
@@ -64,7 +81,7 @@ void Game_State :: handle_event (Event event)
         {
         	if (mouse.x > sidebarPosX)
         	{
-    //    		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources);
+        		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources, availableTowers);
         	}
             else if (pause)
             {
@@ -142,7 +159,7 @@ Game_Event Game_State :: update ()
         }
 
         // Update Resouces
-        if (gameResources->getHP() < 0)
+        if (gameResources->getHP() <= 0)
             gameOver = true;
 
         // Update monsters
@@ -150,7 +167,7 @@ Game_Event Game_State :: update ()
         {
             m->update();
 
-            if (m->getHealth() <= 20 && (rand() % 100) <= 10)
+            if (m->isBleeding() && (rand() % 100) <= 50)
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
         }
 
@@ -188,7 +205,7 @@ void Game_State :: render (RenderTarget & target)
     gameMap->render(target);
 
     // Render sidebar
-    gameSidebar->render(target, availableTowers);
+    gameSidebar->render(target, gameResources, availableTowers);
 
     // Render blood
     if (blood)

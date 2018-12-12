@@ -21,6 +21,7 @@
 #include "constants.h"
 //#include "Info_Window.h"
 #include "Resource_Window.h"
+#include "Resources.h"
 #include "Shop_Window.h"
 #include "Sidebar.h"
 #include "Tower.h"
@@ -48,16 +49,16 @@ void Sidebar::update(ptr<Resources> (& gameResources),
 //	sidebarInfo.update();
 }
 
-void Sidebar::render(sf::RenderTarget &target, std::vector<shptr<Tower>>(& availableTowers))
+void Sidebar::render(sf::RenderTarget &target, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(& availableTowers))
 {
 	sidebarResources -> render(target);
-	sidebarShop -> render(target, availableTowers);
+	sidebarShop -> render(target, gameResources, availableTowers);
 //	sidebarInfo.render();
 }
 
-void Sidebar::handle_event(int mousePosX, int mousePosY)
+void Sidebar::handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(&availableTowers))
 {
-	sidebarShop -> handle_event(mousePosX, mousePosY);
+	sidebarShop -> handle_event(mousePosX, mousePosY, gameResources, availableTowers);
 }
 
 int Sidebar::getX()

@@ -34,7 +34,7 @@ public:
     void setTileSprite(sf::Sprite sprite);
     virtual void setSprite(std::vector<bool> bin) = 0;
 
-    Tile& operator = (Tile const &t) = default;
+    Tile& operator = (Tile const&) = delete;
 
 protected:
     int xTile {};

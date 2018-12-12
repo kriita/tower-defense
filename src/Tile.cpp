@@ -4,14 +4,11 @@
 #include <memory>
 #include <vector>
 
-//#include <iostream>
-
 using std::vector;
 
 /*
  *  Tile
  */
-
 Tile::Tile(int x, int y, char type)
 : xTile{x}, yTile{y}, tileType{type}
 {}

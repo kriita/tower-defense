@@ -27,7 +27,7 @@ class Map
 {
 public:
     Map(std::string mapFileName);
-    Map(Map const &m) = delete;
+    Map(Map const&) = delete;
     ~Map() = default;
 
     void render(sf::RenderTarget &target);
@@ -37,17 +37,15 @@ public:
                 std::vector<shptr<Tower>> & towers,
                 ptr<Resources> & resources);
     void makePreview(float xNew, float yNew, float scale);
-    int getPathNeighbors(int xPos, int yPos);
     std::vector<bool> getSpriteNeighbors(int xTile, int yTile);
     shptr<Tile> getTile(int x, int y);
     shptr<Tile> getSpawnPoint();
     shptr<Tile> getEndPoint();
 
-    void operator = (Map const &m) = delete;
+    void operator = (Map const&) = delete;
 
 private:
     std::string fileName {};
-    int timeStamp {};
     shptr<Tile> spawnPoint {};
     shptr<Tile> endPoint {};
     std::vector<std::vector<shptr<Tile>>> mapTiles {};

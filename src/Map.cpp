@@ -11,9 +11,6 @@
 #include <string>
 #include <stdlib.h>
 
-#include <typeinfo>
-#include <iostream>
-
 using std::string;
 using std::vector;
 using std::ifstream;
@@ -51,10 +48,11 @@ void Map::update()
     }
 }
 
-void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shptr<Tower>> & towers,
-                ptr<Resources> & resources)
+void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters,
+                 vector<shptr<Tower>> & towers,
+                 ptr<Resources> & resources)
 {
-    auto mouse { event.mouseButton };
+    auto mouse {event.mouseButton};
 
     // Build tower?
     shptr<Tile> tmpTile {getTile(static_cast<int>((mouse.x - mapBorderOffset) / tileWidth),
@@ -72,6 +70,8 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
                 towers.push_back(make_shared<SlowTower> (tmpTile->getX(), tmpTile->getY()));
             else if (dynamic_cast<LaserTower*> (&(*(resources->getFocusTower()))))
                 towers.push_back(make_shared<LaserTower> (tmpTile->getX(), tmpTile->getY()));
+            else
+                throw MapError{"Unknown tower type to build"};
 
             resources->changeMoney(-(resources->getFocusTower()->getPrice()));
             tmpTile->switchPlaceable();
@@ -86,21 +86,21 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
         for (auto & t : towers)
         {
             sf::FloatRect bounds {static_cast<float>(t->getX() - tileWidth/2),
-                                static_cast<float>(t->getY() - tileWidth/2),
-                                tileWidth, tileWidth};
+                                  static_cast<float>(t->getY() - tileWidth/2),
+                                  tileWidth, tileWidth};
             if (bounds.contains(mouse.x, mouse.y))
             {
                 resources->setFocus(t);
             }
         }
 
-        // Foxus monster
+        // Focus monster
         for (auto & m : monsters)
         {
             sf::FloatRect bounds {static_cast<float>(m->getX() - m->getRadius()),
-                                static_cast<float>(m->getY() - m->getRadius()),
-                                static_cast<float>(m->getRadius()),
-                                static_cast<float>(m->getRadius())};
+                                  static_cast<float>(m->getY() - m->getRadius()),
+                                  static_cast<float>(m->getRadius()),
+                                  static_cast<float>(m->getRadius())};
             if (bounds.contains(mouse.x, mouse.y))
             {
                 resources->setFocus(m);
@@ -115,6 +115,9 @@ void Map::handle(sf::Event event, vector<shptr<Monster>> & monsters, vector<shpt
 
 void Map::makePreview(float xNew, float yNew, float scale)
 {
+    if (scale < 0 || scale > 1)
+        throw MapError{"Preview scale must be in range [0, 1]"};
+
     for (int y {0}; y < yTilesMax; ++y)
     {
         for (int x {0}; x < xTilesMax; ++x)

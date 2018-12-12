@@ -216,16 +216,16 @@ void Game_State :: render (RenderTarget & target)
         }
     }
 
-    // Render towers
-    for (auto & t : towers)
-    {
-        t->render(target);
-    }
-
     // Render projectiles
     for (auto & p : projectiles)
     {
         p->render(target);
+    }
+
+    // Render towers
+    for (auto & t : towers)
+    {
+        t->render(target);
     }
 
     // Render monsters

@@ -1,10 +1,9 @@
 #include "WavePump.h"
 
 WavePump::WavePump()
-    :active{false}, waveCount{1}, spawnCount{25}, monsterLevelRoof{5},
-    monsterLevelFloor{1}, 
-    spawnCooldown{0.1f}, intermissionSpan{3.f}, clock{}, intermissionClock{},
-    monsterTypes{}, monsterSequence{7},
+    :active{false}, waveCount{0}, remainingMonsters{0}, monsterLevelRoof{5},
+    monsterLevelFloor{1}, spawnCooldown{0.1f}, intermissionSpan{3.f}, clock{},
+    intermissionClock{}, monsterTypes{}, monsterSequence{7},
     monsterSequenceIndex{0}, spawnTile{nullptr}
 {
     std::srand(std::time(nullptr));
@@ -43,11 +42,10 @@ void WavePump::iterateIndex()
 void WavePump::intermission()
 {
     //prepare next wave while the player rests
+    waveCount++;
     intermissionClock.restart();
-    spawnCount = 25;
+    remainingMonsters = 25;
     scrambleMonsterSequence();
-    
-
 }
 
 bool WavePump::readyToSpawn()
@@ -58,9 +56,10 @@ bool WavePump::readyToSpawn()
 
 shptr<Monster> WavePump::spawnMonster()
 {
-    spawnCount--;
+    std::cout << "spawned" << std::endl;
+    remainingMonsters--;
 
-    if (spawnCount <= 0)
+    if (remainingMonsters <= 0)
     {
 	intermission();
     }
@@ -76,4 +75,19 @@ shptr<Monster> WavePump::spawnMonster()
 bool WavePump::isIntermission()
 {
     return intermissionClock.getElapsedTime().asSeconds() < intermissionSpan;
+}
+
+int WavePump::getWaveCount()
+{
+    return waveCount;
+}
+
+int WavePump::getRemainingMonsters()
+{
+    return remainingMonsters;
+}
+
+int WavePump::getRemainingIntermission()
+{
+    return static_cast<int>(0); 
 }

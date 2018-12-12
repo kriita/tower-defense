@@ -18,6 +18,7 @@ public:
     Tower(int x, int y);
     Tower(double x, double y);
     Tower(shptr<Tile> tile);
+    Tower(Tower const&) = default;
 
     virtual ~Tower() = default;
 
@@ -125,5 +126,14 @@ public:
 
 };
 
+
+class LaserTower : public Tower
+{
+public:
+    LaserTower(double x, double y);
+    LaserTower(shptr<Tile> tile);
+    void attack(std::vector<shptr<Projectile>> & projectiles) override;
+    int getPrice() override;  
+};
 
 #endif

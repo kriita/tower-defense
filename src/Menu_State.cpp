@@ -4,6 +4,9 @@
 #include "Manager.h"
 #include "Map.h"
 #include "constants.h"
+#include <string>
+#include <iostream>
+#include <sstream>
 
 #include <string>
 
@@ -21,9 +24,7 @@ using namespace sf;
  * (in pixels) of the text.
  */
 Menu_State :: Menu_State ()
-    : text { "Welcome to kill cute animals TD. Click in the rabbit!",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             16 },
+    : text { "", Font_Manager::load ("resources/fonts/font.ttf"),16 },
       play { false }
 {
     maps.push_back(make_unique<Map> ("Forest"));
@@ -31,6 +32,13 @@ Menu_State :: Menu_State ()
     maps[0]->makePreview(250, 200, 0.2);
     maps[1]->makePreview(250 + xOffset, 200, 0.2);
 
+    std::stringstream ss;
+
+    ss << "Welcome to totally awesome tower defence." << endl
+       << "The game for people who like to kill cute animals." << endl
+       << "Click the rabbit to select map!";
+
+    text.setString(ss.str());
     /*
     rect.setSize(Vector2f(mapSize, mapSize));
     rect.setOutlineColor(Color::Red);

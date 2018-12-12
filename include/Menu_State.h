@@ -45,7 +45,7 @@ private:
      * of an image.
      */
     sf::Text text;
-
+    sf::Text textBana1;
     /*
      * Flag to determine wheter or not the 'enter' key has been
      * pressed (see Menu_State.cpp for details).

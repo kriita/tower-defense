@@ -21,7 +21,7 @@ using namespace sf;
  * (in pixels) of the text.
  */
 Menu_State :: Menu_State ()
-    : text { "Welcome to this amazing tower defence! Press any key",
+    : text { "Welcome to kill cute animals TD. Click in the rabbit!",
              Font_Manager::load ("resources/fonts/font.ttf"),
              16 },
       play { false }
@@ -113,11 +113,12 @@ void Menu_State :: render (RenderTarget & target)
     auto size   { target.getSize () };
     
     text.setPosition ((size.x - bounds.width) / 2,
-                      (size.y - bounds.height) / 2);
+                      (size.y - bounds.height) / 8);
     
-    target.draw (text);
-    
+
     target.draw(rabbitOverlay);
+    if (!showMaps)
+        target.draw (text);
 
     if (showMaps)
     {

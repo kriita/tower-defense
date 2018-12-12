@@ -25,7 +25,7 @@ public:
 	int getHP();
 	int getCurrentWave();
 	bool getBuildMode();
-	Tower getFocusTower();
+	shptr<Tower> getFocusTower();
 
 	void setFocus(shptr<Tower> const & tower);
 	void setFocus(shptr<Monster> const & monster);

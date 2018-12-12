@@ -36,7 +36,7 @@ bool Resources::getBuildMode()
 	return buildMode;
 }
 
-Tower Resources::getFocusTower()
+shptr<Tower> Resources::getFocusTower()
 {
 	return focusTower;
 }

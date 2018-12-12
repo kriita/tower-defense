@@ -130,6 +130,21 @@ void Game :: handle_events (State & state)
         // system kills it.
         if ( event.type == Event::Closed )
             running = false;
+        else if (event.type == Event::KeyPressed)
+        {
+            if ( Keyboard::isKeyPressed (Keyboard::Key::F) )
+            {
+                // Toggle fullscreen
+                fullscreen = !fullscreen;
+                window.create(
+                    VideoMode { screen_width, screen_height },
+                    gameTitle,
+                    (fullscreen ? Style::Fullscreen | Style::Titlebar | Style::Close : Style::Titlebar | Style::Close)
+
+                );
+                window.setMouseCursorVisible(false);
+            }
+        }
 
         // Update cursor position
         cursorSprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));

@@ -125,6 +125,8 @@ private:
      */
     bool             running;
 
+    bool fullscreen {false};
+
     // For custom cursor
     sf::Texture cursorTexture {};
     sf::Sprite cursorSprite {};  

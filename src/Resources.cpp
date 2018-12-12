@@ -54,3 +54,8 @@ void Resources::changeCurrentWave(int const diff)
 {
 	currentWave = currentWave + diff;
 }
+
+void Resources::switchBuildMode()
+{
+	buildMode = !buildMode;
+}

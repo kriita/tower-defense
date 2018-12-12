@@ -29,9 +29,11 @@ public:
 	void changeMoney(int const diff);
 	void changeHP(int const diff);
 	void changeCurrentWave(int const diff);
+	void switchBuildMode();
 
 protected:
 	int hitpoints{30};
 	int money{100};
 	int currentWave{0};
+	bool buildMode{false};
 };

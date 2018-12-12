@@ -5,15 +5,14 @@
 #include "Monster.h"
 #include "Tile.h"
 
-#include <vector>
+//#include <vector>
 #include <memory>
 #include <cstdlib>
 #include <iostream>
-#include <ctime>
-
-//notes: vore trevligt att ha monsterVectorn som en pekare här.
-//trevligt också om monster.getType var virutal kom inte åt den i ett test
-//en kopieringskonstructor till monster vore bra!
+//#include <ctime>
+#include <map>
+#include <queue>
+#include <string>
 
 class WavePumpError: public std::logic_error
 {
@@ -23,37 +22,25 @@ class WavePumpError: public std::logic_error
 class WavePump
 {
 public:
-    WavePump();
+    WavePump(float _spawnCooldown = 0.2f, float _intermissionSpan = 7.f);
     ~WavePump() = default;
-    void setSpawnTile(shptr<Tile>);
-    void addMonsterType(shptr<Monster>);
-    void scrambleMonsterSequence();
-    void iterateIndex();
-    void intermission();
     bool readyToSpawn();
     bool isIntermission();
-    shptr<Monster> spawnMonster();
-    
-    int getWaveCount();
-    int getRemainingMonsters();
-    int getRemainingIntermission();
-    
-
+    void addMonsterType(Monster);
+    void update(std::vector<shptr<Monster>> &);
+    void intermission();
+    void pushMonster(std::string word, int multiple = 1);
+    void readFromFile(std::string name, 
+		      std::string path = "resources/waves/",
+		      std::string suffix = ".w");
+    std::string getMonsterTypes(); //test function
 private:
-    int waveCount{};
-    int remainingMonsters{};
-    int monsterLevelRoof{};
-    int monsterLevelFloor{};
-    float spawnCooldown{};
-    float intermissionSpan{};
+    std::map<std::string, Monster> monsterTypes{};
+    std::queue<std::queue<shptr<Monster>>> waves{};
     sf::Clock clock{};
     sf::Clock intermissionClock{};
-    std::vector<shptr<Monster>> monsterTypes{};
-    std::vector<shptr<Monster>> monsterSequence{};
-    int monsterSequenceIndex{};
-    shptr<Tile> spawnTile{};
-    bool active {false};
-    
+    float spawnCooldown{};
+    float intermissionSpan{};
 };
 
 #endif

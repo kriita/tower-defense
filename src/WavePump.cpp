@@ -1,75 +1,17 @@
 #include "WavePump.h"
 
-WavePump::WavePump()
-    :active{false}, waveCount{0}, remainingMonsters{0}, monsterLevelRoof{5},
-    monsterLevelFloor{1}, spawnCooldown{1.f}, intermissionSpan{3.f}, clock{},
-    intermissionClock{}, monsterTypes{}, monsterSequence{7},
-    monsterSequenceIndex{0}, spawnTile{nullptr}
-{
-    std::srand(std::time(nullptr));
-}
+#include <fstream>
+#include <sstream>
 
-void WavePump::setSpawnTile(shptr<Tile> tile)
-{
-    spawnTile = std::move(tile);
-}
+WavePump::WavePump(float _spawnCooldown, float _intermissionSpan)
+    :monsterTypes{}, clock{}, intermissionClock{},
+    spawnCooldown{_spawnCooldown}, intermissionSpan{_intermissionSpan}
+{}
 
-void WavePump::addMonsterType(shptr<Monster> monster)
-{
-    monsterTypes.push_back(monster);
-}
-
-void WavePump::scrambleMonsterSequence()
-{
-    int randomNumber{};
-    for (unsigned int i{0}; i < monsterSequence.size(); i++)
-    {
-	randomNumber = (std::rand() % monsterTypes.size());
-	monsterSequence[i] =
-	    std::make_shared<Monster>(*(monsterTypes[randomNumber]));
-    }
-}
-
-void WavePump::iterateIndex()
-{
-    monsterSequenceIndex++;
-    if (monsterSequenceIndex >= static_cast<int>(monsterSequence.size()))
-    {
-	monsterSequenceIndex = 0;
-    }
-}
-
-void WavePump::intermission()
-{
-    //prepare next wave while the player rests
-    waveCount++;
-    intermissionClock.restart();
-    remainingMonsters = 25;
-    scrambleMonsterSequence();
-}
 
 bool WavePump::readyToSpawn()
 {
-    return !(isIntermission()) && 
-	(clock.getElapsedTime().asSeconds() > spawnCooldown);
-}
-
-shptr<Monster> WavePump::spawnMonster()
-{
-    //std::cout << "spawned" << std::endl;
-    remainingMonsters--;
-
-    if (remainingMonsters <= 0)
-    {
-	intermission();
-    }
-
-    shptr<Monster> tempMonster{};
-    tempMonster = std::make_shared<Monster>(
-	*(monsterSequence[monsterSequenceIndex]));
-    iterateIndex();
-    clock.restart();
-    return tempMonster;
+    return clock.getElapsedTime().asSeconds() > spawnCooldown;
 }
 
 bool WavePump::isIntermission()
@@ -77,17 +19,106 @@ bool WavePump::isIntermission()
     return intermissionClock.getElapsedTime().asSeconds() < intermissionSpan;
 }
 
-int WavePump::getWaveCount()
+void WavePump::addMonsterType(Monster monster)
 {
-    return waveCount;
+    monsterTypes.insert( 
+	std::pair<std::string, Monster>(monster.getType(), monster) );
 }
 
-int WavePump::getRemainingMonsters()
+void WavePump::update(std::vector<shptr<Monster>> & monsters)
 {
-    return remainingMonsters;
+    if ( readyToSpawn() && !isIntermission() )
+    {
+	if (waves.empty())
+	{
+	    return;
+	}
+	else if(waves.front().empty())
+	{
+	    intermission();
+	}
+	else
+	{
+	    clock.restart();
+	    /*/monsters.push_back(std::make_shared<Monster>(
+	      monsterTypes.begin()->second));/*/
+	    shptr<Monster> tempMonster = waves.front().front();
+	    if(tempMonster != nullptr)
+	    {
+		monsters.push_back(std::make_shared<Monster>(*tempMonster));
+	    }
+	    waves.front().pop();
+	}
+    }
+    else
+    {
+	return;
+    }
 }
 
-int WavePump::getRemainingIntermission()
+void WavePump::intermission()
 {
-    return static_cast<int>(0); 
+    waves.pop();
+    intermissionClock.restart();
+}
+
+void WavePump::pushMonster(std::string word, int multiple)
+{
+    for (int i{}; i < multiple; ++i)
+    {
+	if (monsterTypes.find(word) != monsterTypes.end())
+	{
+	    waves.back().push(
+		std::make_shared<Monster>(monsterTypes.at(word)));
+	} else
+	{
+	    waves.back().push(
+		nullptr);
+	}
+    }
+}
+
+void WavePump::readFromFile(std::string name, 
+			    std::string path,
+			    std::string suffix)
+{
+    std::cout << "readning file..." << std::endl;
+
+    std::ifstream fileData((path + name + suffix).c_str());
+    if (!fileData)
+	throw WavePumpError{"Did not find file"};
+
+    std::string row{};
+    while( getline(fileData, row) )
+    {
+	waves.push(*(new std::queue<shptr<Monster>>()));
+	std::istringstream rowStream{row};
+	std::string word{};
+	while ( getline(rowStream, word, ' ') ) //interprit each word here
+	{
+	    //if (monsterTypes.find("BrownRabbit"))
+	    if (word.find('*') != std::string::npos)
+	    {
+		std::istringstream wordStream{word};
+		getline(wordStream, word, '*');
+		int multiple{};
+		wordStream >> multiple;
+		pushMonster(word, multiple);
+	    } else
+	    {
+		pushMonster(word);
+	    }
+	}
+    }
+}
+
+
+std::string WavePump::getMonsterTypes()
+{
+    std::string temp{};
+    for (auto it = monsterTypes.begin(); it != monsterTypes.end(); ++it)
+    {
+	temp += it->first + " ";
+    }
+    return "monsterTypes: " + temp;
 }

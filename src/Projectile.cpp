@@ -132,6 +132,8 @@ void Projectile::move()
 void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
 {
     move();
+
+
     if (getTarget())
     {
         if (checkHit(target))
@@ -141,6 +143,7 @@ void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
             return void();
         }
     }
+
 
     for (shptr<Monster> aMonster : allMonsters)
     {
@@ -204,12 +207,15 @@ double Projectile::getRadius()
 
 void Projectile::setAngle()
 {
+        if (target != nullptr && !target->isDead())
+        {
         double xPos{target->getX() - x};
         double yPos{target->getY() - y};
         angle = atan2(yPos,xPos);         
         projectileSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
         xDir = cos(angle);
         yDir = sin(angle);
+        }
 }
 
 //Anvil

@@ -211,7 +211,7 @@ void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles)
     projectiles.push_back(std::make_shared<minigunProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
 }
 
-int MinigunTower::getPrice() {return 9000;}
+int MinigunTower::getPrice() {return 50;}
 
 void MinigunTower::setAngle()
 {
@@ -320,7 +320,13 @@ LaserTower::LaserTower(shptr<Tile> tile)
 
 void LaserTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-   // projectiles.push_back(std::make_shared<missileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
+    //target->
 }
 
 int LaserTower::getPrice() {return 9000;}
+/*
+void Tower::render(sf::RenderTarget &target)
+{
+    target.draw(towerSprite);
+    
+}*/

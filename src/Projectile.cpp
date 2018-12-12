@@ -1,10 +1,8 @@
 #include "Projectile.h"
 #include "defs.h"
-#include "Map.h"
 #include "Monster.h"
 #include <cmath>
 #include <vector>
-#include "complex"
 #include "constants.h"
 
 #include <iostream>
@@ -245,14 +243,28 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians)
     radius = 2.5;
 }
 
+MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> target)
+: Projectile(x, y , xDir, yDir)
+{
+    target = target;
+    projectileSprite = missileSheet.get_sprite(0, 0);
+    projectileSprite.setOrigin(16, 16);
+    projectileSprite.setPosition(x,y);
+    speed = 4;
+    damage = 30;
+    radius = 8;
+}
+
+
 MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDir)
 :Projectile(x, y , xDir, yDir)
 {
-    projectileTexture.loadFromFile("resources/images/missileProjectile.png");
-    projectileSprite.setTexture(projectileTexture);
+    //projectileTexture.loadFromFile("resources/images/missileProjectile.png");
+    //projectileSprite.setTexture(projectileTexture);
+    projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
-    speed = 8;
+    speed = 4;
     damage = 30;
     radius = 8;
 }
@@ -260,19 +272,20 @@ MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDi
 MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
 :Projectile(x, y, dirByRadians)
 {
-    projectileTexture.loadFromFile("resources/images/missileProjectile.png");
-    projectileSprite.setTexture(projectileTexture);
+    //projectileTexture.loadFromFile("resources/images/missileProjectile.png");
+    //projectileSprite.setTexture(projectileTexture);
+    projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
-    speed = 8;
+    speed = 4;
     damage = 30;
     radius = 8;
 }
-/*
-// Deals damage too all Monsters within an circle of 20 pixels of the missile when it hits
+
+// Deals damage too all Monsters within a circle of 20 pixels of the missile when it hits
 void MissileProjectile::dealDamage(shptr<Monster> &aMonster)
 {
-    if (pow(aMonster->getX() - getX(), 2) + pow(aMonster-getY() - getY(), 2) < 20)
+    if (pow(aMonster->getX() - getX(), 2) + pow(aMonster->getY() - getY(), 2) < 400)
     {
         dealDamage(aMonster);
     }
@@ -280,6 +293,20 @@ void MissileProjectile::dealDamage(shptr<Monster> &aMonster)
 
 void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
 {
+   if (currSprite > 0)
+    {
+        if (currSprite < 3)
+        {
+            currSprite++;
+            projectileSprite = missileSheet.get_sprite(0, currSprite);
+        }
+        else
+        {
+            removeProjectile();
+            return void();
+        }
+    }
+    move();
     for (shptr<Monster> aMonster : allMonsters)
     {
         if (checkHit(aMonster))
@@ -288,8 +315,7 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
             {
                 dealDamage(anotherMonster);
             }
-
-            return void();
+            currSprite++;
         }
-    }
-}*/
+    }   
+}

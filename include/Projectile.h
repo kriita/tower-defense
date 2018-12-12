@@ -7,7 +7,6 @@
 #include "Monster.h"
 #include "Spritesheet.h"
 #include <vector>
-#include "complex"
 
 // Note: Not using reference to vector with all monsters! But it works anyway...
 // ...because of pointers? Hmmm... Yeah that makes sense! :)
@@ -89,10 +88,15 @@ class minigunProjectile : public Projectile
 class MissileProjectile : public Projectile
 {
     public:
+    MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> target);
     MissileProjectile(double x, double y, double xDir, double yDir);
     MissileProjectile(double x, double y, double dirByRadians);
-    //void dealDamage(shptr<Monster> &aMonster) override;
-    //void update(std::vector<shptr<Monster>> &allMonsters) override;
+    Spritesheet missileSheet {"resources/MissileProjectileSheet.png", 32, 32};
+    void dealDamage(shptr<Monster> &aMonster) override;
+    void update(std::vector<shptr<Monster>> &allMonsters) override;
+
+    private:
+    unsigned currSprite {0}; // Where in the spriteSheet should we read
 
 };
 #endif

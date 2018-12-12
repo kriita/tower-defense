@@ -31,11 +31,12 @@ void Tower::update(std::vector<shptr<Monster>> & monstervector,
     }
     else if (inRange(target) && !(target->isDead()))
     {
-        double x{target->getX() - xPos};
+        setAngle();
+      /*  double x{target->getX() - xPos};
         double y{target->getY() - yPos};
-        angle = atan2(y,x);
+        angle = atan2(y,x);         //använd setangle istället
         towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
-
+*/
         if (attackClock.getElapsedTime().asSeconds() > fireRate.front())
         {
             attack(projectiles);
@@ -46,7 +47,13 @@ void Tower::update(std::vector<shptr<Monster>> & monstervector,
         target = nullptr;
 }
 
-
+void Tower::setAngle()
+{
+        double x{target->getX() - xPos};
+        double y{target->getY() - yPos};
+        angle = atan2(y,x);         //använd setangle istället
+        towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
+}
 
 double Tower::getX() const
 {
@@ -183,7 +190,6 @@ MinigunTower::MinigunTower(double x, double y)
     attackPowerPrice = {100, 200, 300, 400};
     range = {70.0, 130.0, 180.0, 230.0, 270.0};
     rangePrice = {100, 200, 300, 400};
-
 } 
 
 MinigunTower::MinigunTower(int x, int y)
@@ -199,6 +205,14 @@ void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles)
 }
 
 int MinigunTower::getPrice() {return 9000;}
+
+void MinigunTower::setAngle()
+{
+        double x{target->getX() + target->getXDir() * target->getSpeed() * 7 - xPos};
+        double y{target->getY() + target->getYDIr() * target->getSpeed() * 7 - yPos};
+        angle = atan2(y,x);         //använd setangle istället
+        towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
+}
 
 // MissileTower
 

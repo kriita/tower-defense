@@ -322,7 +322,7 @@ void LaserTower::attack(std::vector<shptr<Projectile>> & projectiles)
     target->takePureDmg(attackPower.front());
 }
 
-int LaserTower::getPrice() {return 9000;}
+int LaserTower::getPrice() {return 100;}
 
 void LaserTower::render(sf::RenderTarget &target)
 {
@@ -337,4 +337,37 @@ void LaserTower::setAngle()
         angle = atan2(y,x);         
         towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
         laserSprite.setRotation(towerSprite.getRotation());        
+}
+
+void LaserTower::update(std::vector<shptr<Monster>> & monstervector, 
+                   std::vector<shptr<Projectile>> & projectiles)
+{
+    if (target == nullptr)
+    {
+        towerSprite.setRotation(towerSprite.getRotation() + 0);
+        if (!monstervector.empty()) 
+        {
+            for (auto & monster : monstervector)
+            {
+                if (inRange(monster))
+                {
+                target = monster;
+                break;
+                }
+            }
+        }
+    }
+    else if (inRange(target) && !(target->isDead()))
+    {
+        setAngle();
+        if (attackClock.getElapsedTime().asSeconds() > fireRate.front())
+        {
+            attack(projectiles);
+            attackClock.restart();
+        }
+        else if (laserBeam != nullptr)
+        {}
+    }
+    else
+        target = nullptr;
 }

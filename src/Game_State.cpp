@@ -61,9 +61,8 @@ Game_State::Game_State(string level)
     tempMonster = new WhiteRabbit(tempTile, 0);
     wavePump->addMonsterType(*tempMonster);
     tempMonster = nullptr;
-    //std::cout << wavePump->getMonsterTypes() << std::endl;
 
-    wavePump->readFromFile("test2");
+    wavePump->readFromFile("test3");
 
 
 
@@ -170,7 +169,6 @@ Game_Event Game_State :: update ()
 
 	//Update wavePump
 	wavePump->update(monsters);
-
     }
 
     cleanup();

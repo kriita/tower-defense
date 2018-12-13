@@ -5,7 +5,8 @@
 
 WavePump::WavePump(float _spawnCooldown, float _intermissionSpan)
     :monsterTypes{}, clock{}, intermissionClock{},
-    spawnCooldown{_spawnCooldown}, intermissionSpan{_intermissionSpan}
+    spawnCooldown{_spawnCooldown}, intermissionSpan{_intermissionSpan}, 
+    waveCount{0}, active{false}
 {}
 
 
@@ -35,6 +36,7 @@ void WavePump::update(std::vector<shptr<Monster>> & monsters)
 	}
 	else if(waves.front().empty())
 	{
+	    updateActive(monsters);
 	    intermission();
 	}
 	else
@@ -56,8 +58,15 @@ void WavePump::update(std::vector<shptr<Monster>> & monsters)
 
 void WavePump::intermission()
 {
-    waves.pop();
-    intermissionClock.restart();
+    if ( active )
+    {
+	return;
+    }
+    else
+    {
+	waves.pop();
+	intermissionClock.restart();
+    }
 }
 
 void WavePump::pushMonster(std::string word, int multiple)
@@ -107,6 +116,11 @@ void WavePump::readFromFile(std::string name,
     }
 }
 
+void WavePump::updateActive(std::vector<shptr<Monster>> const &  monsters)
+{
+    active = !monsters.empty();
+    //std::cout << "active: " << active <<  std::endl;
+}
 
 std::string WavePump::getMonsterTypes()
 {

@@ -40,8 +40,6 @@ void WavePump::update(std::vector<shptr<Monster>> & monsters)
 	else
 	{
 	    clock.restart();
-	    /*/monsters.push_back(std::make_shared<Monster>(
-	      monsterTypes.begin()->second));/*/
 	    shptr<Monster> tempMonster = waves.front().front();
 	    if(tempMonster != nullptr)
 	    {
@@ -82,8 +80,6 @@ void WavePump::readFromFile(std::string name,
 			    std::string path,
 			    std::string suffix)
 {
-    //std::cout << "readning file..." << std::endl;
-
     std::ifstream fileData((path + name + suffix).c_str());
     if (!fileData)
 	throw WavePumpError{"Did not find file"};
@@ -94,9 +90,8 @@ void WavePump::readFromFile(std::string name,
 	waves.push(*(new std::queue<shptr<Monster>>()));
 	std::istringstream rowStream{row};
 	std::string word{};
-	while ( getline(rowStream, word, ' ') ) //interprit each word here
+	while ( getline(rowStream, word, ' ') )
 	{
-	    //if (monsterTypes.find("BrownRabbit"))
 	    if (word.find('*') != std::string::npos)
 	    {
 		std::istringstream wordStream{word};

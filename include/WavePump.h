@@ -33,6 +33,7 @@ public:
 		      std::string suffix = ".w");
     void updateActive(std::vector<shptr<Monster>> const &);
     std::string getMonsterTypes(); //test function
+    int getWave();
 private:
     std::map<std::string, Monster> monsterTypes{};
     std::queue<std::queue<shptr<Monster>>> waves{};
@@ -41,7 +42,7 @@ private:
     sf::Clock intermissionClock{};
     float spawnCooldown{};
     float intermissionSpan{};
-    int waveCount{}; //not used yeet
+    int totalWaveAmount{}; //not used yeet
     bool active{}; //no monster on the playing feild.
 };
 

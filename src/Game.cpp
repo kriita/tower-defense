@@ -47,7 +47,7 @@ Game :: Game (std::string const & title,
     cursorSprite.setOrigin(2, 0);
 
     // Music
-    if (!backgroundMusic.openFromFile("resources/sound/intermission.ogg"))
+    if (!backgroundMusic.openFromFile("resources/sound/airtone_-_commonGround.ogg"))
 	    throw GameError{"Cannot load music file"};
     backgroundMusic.play();
 }

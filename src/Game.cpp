@@ -4,6 +4,8 @@
 #include "State.h" // include the base state
 #include "constants.h" // include all global constants
 
+#include <SFML/Audio.hpp>
+
 using namespace sf;
 
 /*
@@ -39,9 +41,15 @@ Game :: Game (std::string const & title,
     
     // Custom cursor
     window.setMouseCursorVisible(false);
-    cursorTexture.loadFromFile("resources/images/cursor.png");
+    if (!cursorTexture.loadFromFile("resources/images/cursor.png"))
+        throw GameError{"Cannot load cursor image file"};
     cursorSprite.setTexture(cursorTexture);
     cursorSprite.setOrigin(2, 0);
+
+    // Music
+    if (!backgroundMusic.openFromFile("resources/sound/intermission.ogg"))
+	    throw GameError{"Cannot load music file"};
+    backgroundMusic.play();
 }
 
 void Game :: start ()
@@ -143,6 +151,15 @@ void Game :: handle_events (State & state)
 
                 );
                 window.setMouseCursorVisible(false);
+            }
+            else if ( Keyboard::isKeyPressed (Keyboard::Key::M) )
+            {
+                if (music)
+                    backgroundMusic.play();
+                else
+                    backgroundMusic.stop();
+
+                music = !music;
             }
         }
 

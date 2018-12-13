@@ -4,6 +4,7 @@
 #include "State_Machine.h"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include <string>
 
@@ -32,6 +33,12 @@
  * who in return will pass it on to the actual state machine (see Game.cpp
  * for details).
  */
+
+class GameError : public std::logic_error
+{
+    using std::logic_error::logic_error;
+};
+
 class Game
 {
 public:
@@ -127,7 +134,11 @@ private:
 
     bool fullscreen {false};
 
+    bool music {true};
+
     // For custom cursor
     sf::Texture cursorTexture {};
     sf::Sprite cursorSprite {};  
+
+    sf::Music backgroundMusic {};
 };

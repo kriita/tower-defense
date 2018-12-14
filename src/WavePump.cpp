@@ -1,3 +1,4 @@
+
 #include "WavePump.h"
 
 #include <fstream>
@@ -26,11 +27,14 @@ void WavePump::addMonsterType(Monster monster)
 	std::pair<std::string, Monster>(monster.getType(), monster) );
 }
 
-void WavePump::update(std::vector<shptr<Monster>> & monsters)
+void WavePump::update(std::vector<shptr<Monster>> & monsters,
+		      ptr<Resources> & resources)
 {
     if ( readyToSpawn() && !isIntermission() )
     {
 	updateActive(monsters);
+	resources->changeCurrentWave(getWave());
+	
 	if (waves.empty())
 	{
 	    return;
@@ -38,6 +42,7 @@ void WavePump::update(std::vector<shptr<Monster>> & monsters)
 	else if(waves.front().empty())
 	{
 	    intermission();
+	    
 	}
 	else
 	{
@@ -135,5 +140,5 @@ std::string WavePump::getMonsterTypes()
 
 int WavePump::getWave()
 {
-    return active + totalWaveAmount - waves.size();
+    return 1 + totalWaveAmount - waves.size();
 }

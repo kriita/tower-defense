@@ -4,6 +4,7 @@
 #include "defs.h"
 #include "Monster.h"
 #include "Tile.h"
+#include "Resources.h"
 #include <vector>
 #include <memory>
 #include <cstdlib>
@@ -25,7 +26,7 @@ public:
     bool readyToSpawn();
     bool isIntermission();
     void addMonsterType(Monster);
-    void update(std::vector<shptr<Monster>> &);
+    void update(std::vector<shptr<Monster>> &, ptr<Resources> &);
     void intermission();
     void pushMonster(std::string word, int multiple = 1);
     void readFromFile(std::string name, 

@@ -98,7 +98,7 @@ void Game_State :: handle_event (Event event)
         }
         if ((gameOver || pause) 
         && (mouse.x > 240) && (mouse.x < 240 + 140)
-        && (mouse.y > 320) && (mouse.y < 320 + 40))
+        && (mouse.y > 310) && (mouse.y < 310 + 40))
         {
             go_back = true;
         }
@@ -182,25 +182,26 @@ Game_Event Game_State :: update ()
     if (pause)
     {
         text.setString("Paused");
+        text.setPosition (255, 250);
     }
 
     if (gameOver)
     {
         text.setString("Game over");
+        text.setPosition (235, 250);
     }
 
-    text.setPosition (250, 250);
     text.setFillColor(Color::White);
     text.setOutlineColor(Color::Black);
     text.setOutlineThickness(3);
     
-    rectangle.setSize(sf::Vector2f(140, 40));
+    rectangle.setSize(sf::Vector2f(139, 40));
     rectangle.setOutlineColor(sf::Color::Black);
     rectangle.setFillColor(Color::Red);
     rectangle.setOutlineThickness(2);
-    rectangle.setPosition(230, 320);
+    rectangle.setPosition(230, 310);
 
-    menuText.setPosition (236, 323);
+    menuText.setPosition (235, 313);
     menuText.setFillColor(Color::White);
     menuText.setOutlineColor(Color::Black);
     menuText.setOutlineThickness(3);

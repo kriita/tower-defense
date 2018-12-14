@@ -272,12 +272,13 @@ void Monster::takePureDmg(double const& damage)
         dead = true;
     }
 }
-void Monster::takeSlowDmg(double const& dmg, double const& slow, double const& duration, bool pureDmg) // takes in 0-1 slow part
+void Monster::takeSlowDmg(double const& dmg, double const& slowing, double const& duration, bool pureDmg) // takes in 0-1 slow part
 {
     helpDamage(dmg, pureDmg);
     speed = refSpeed*slow;
     slowClock.restart();
     slowTime = duration;
+    slow = slowing;
 }
 
 void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg)
@@ -299,7 +300,6 @@ void Monster::takePushBackDmg(double const& damage, int const& duration, bool pu
     helpDamage(damage, pureDmg);
     if ((rand() % 100) > (100 - 0.95))
     {
-        slow = speed;
         speed = 0;
         stunClock.restart();
         stunDuration = duration;
@@ -327,8 +327,10 @@ void Monster::walk()
         speed = refSpeed;
     }
 
-    if ((slowClock.getElapsedTime()).asSeconds() > slowTime)
-        speed = refSpeed;
+    if (((slowClock.getElapsedTime()).asSeconds() > slowTime) &&
+        !((stunClock.getElapsedTime()).asSeconds() > stunDuration))
+        speed = slow;
+
     x += speed * xDir;
     y += speed * yDir;
 }

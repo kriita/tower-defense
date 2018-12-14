@@ -24,7 +24,7 @@ using namespace sf;
  * (in pixels) of the text.
  */
 Menu_State :: Menu_State ()
-    : text { "", Font_Manager::load ("resources/fonts/font.ttf"),24 },
+    : text { "", Font_Manager::load ("resources/fonts/font.ttf"), 24},
       play { false }
 {
     maps.push_back(make_unique<Map> ("Forest"));

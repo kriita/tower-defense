@@ -17,6 +17,8 @@ using std::string;
 
 
 Game_State::Game_State(string level)
+    : text { "", Font_Manager::load ("resources/fonts/font.ttf"), 24},
+  menuText {"Main menu", Font_Manager::load ("resources/fonts/font.ttf"), 24}
 {
     if(!gameOverlayTexture.loadFromFile("resources/images/overlay.png"))
     {
@@ -88,18 +90,15 @@ void Game_State :: handle_event (Event event)
         	{
         		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources, availableTowers);
         	}
-            else if (pause)
-            {
-                // Go back to main menu
-                go_back = true;
-            }
             else if (mapScreen.contains(mouse.x, mouse.y))
             {
                 // Click on map
                 gameMap->handle(event, monsters, towers, gameResources);
             }
         }
-        if (gameOver)
+        if ((gameOver || pause) 
+        && (mouse.x > 240) && (mouse.x < 240 + 140)
+        && (mouse.y > 320) && (mouse.y < 320 + 40))
         {
             go_back = true;
         }
@@ -177,20 +176,36 @@ Game_Event Game_State :: update ()
         }
 
 	//Update wavePump
-	wavePump->update(monsters, gameResources);
+	    wavePump->update(monsters, gameResources);
     }
 
-    cleanup();
-    /*
+    if (pause)
+    {
+        text.setString("Paused");
+    }
+
     if (gameOver)
     {
-        gameOver = false;
-        return Game_Event::create<Switch_State> (
-            move (std::make_unique<Menu_State>));
+        text.setString("Game over");
     }
+
+    text.setPosition (250, 250);
+    text.setFillColor(Color::White);
+    text.setOutlineColor(Color::Black);
+    text.setOutlineThickness(3);
     
-    // Let the base class perform it's update
-    */
+    rectangle.setSize(sf::Vector2f(140, 40));
+    rectangle.setOutlineColor(sf::Color::Black);
+    rectangle.setFillColor(Color::Red);
+    rectangle.setOutlineThickness(2);
+    rectangle.setPosition(230, 320);
+
+    menuText.setPosition (236, 323);
+    menuText.setFillColor(Color::White);
+    menuText.setOutlineColor(Color::Black);
+    menuText.setOutlineThickness(3);
+
+    cleanup();
     return Go_Back_State::update ();
 }
 
@@ -234,36 +249,16 @@ void Game_State :: render (RenderTarget & target)
     // Render pause-screen <-- temporär pause-text
     if (pause)
     {
-        Text text { "Paused",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             30 };
-        Text text2 { "Paused",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             30 };
-
-        text.setPosition (250, 300);
-        text2.setPosition (252, 302);
-        text2.setFillColor(Color::Black);
-    
-        target.draw (text2);
-        target.draw (text);
+        target.draw(rectangle);
+        target.draw(text);
+        target.draw(menuText);
     }
 
     if (gameOver)
     {
-        Text text { "Game over",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             30 };
-        Text text2 { "Game over",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             30 };
-
-        text.setPosition (250, 300);
-        text2.setPosition (252, 302);
-        text2.setFillColor(Color::Black);
-    
-        target.draw (text2);
-        target.draw (text);
+        target.draw(rectangle);
+        target.draw(text);
+        target.draw(menuText);
     }
 }
 

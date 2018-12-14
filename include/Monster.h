@@ -27,7 +27,7 @@ public:
     void takeSlowDmg(double const& damage, double const& slow, double const& duration, bool pureDmg);
     void takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg);
     void helpDamage(double const& dmg, bool pureDmg);
-    void takePushBackDmg(double const& damage, int const& pushBack, bool pureDmg);
+    void takePushBackDmg(double const& damage, int const& duration, bool pureDmg);
     void walk();  
     void render(sf::RenderTarget &target);
     double getHealth() const {return health;};
@@ -50,21 +50,23 @@ public:
     void setLevel(unsigned const& lvl) {level = lvl;};
     bool isBleeding() {return bleeding;};
 protected:
-    shptr<Tile> nextTile {};
-    shptr<Tile> prevTile {};
-    sf::Sprite monsterSprite {};
-    Spritesheet monsterSheet {"resources/images/monsters.png", 32, 32};
-    std::string monsterType {};
+    shptr<Tile> nextTile{};
+    sf::Sprite monsterSprite{};
+    Spritesheet monsterSheet{"resources/images/monsters.png", 32, 32};
+    sf::Texture frozenTexture{};
+    sf::Sprite frozenSprite {};
+    std::string monsterType{};
     unsigned level{};
     int xDir{};
     int yDir{};
     double y{};                     // Position in pixels
     double x{};
-
+    double stunDuration{};
     bool dead{false};
     double health{};
     double armour{};
     double refSpeed{};
+    double slow{};          // current slowEffect
     double speed{};
     int HPLoss{1};
     double bounty{1};
@@ -75,6 +77,7 @@ protected:
     unsigned extraYOffset{};
     sf::Clock animClock {};         // Clock for animation
     sf::Clock slowClock {};             // Time for sloweffect
+    sf::Clock stunClock {};
     sf::Clock bleedingClock {};
     bool loseHP{false};             // Decrase HP with lifeLoss when true
     bool bleeding{false};

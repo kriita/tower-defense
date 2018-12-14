@@ -28,6 +28,10 @@ Monster::Monster(shptr<Tile> tile)
     x = tile->getX();
     y = tile->getY();
     radius = 8;
+    frozenTexture.loadFromFile("resources/images/frozen.png");
+    frozenSprite.setTexture(frozenTexture);
+    frozenSprite.setPosition(x, y);
+    frozenSprite.setOrigin(10, 10);
 }
 
 BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
@@ -60,7 +64,6 @@ Squirrel::Squirrel(shptr<Tile> tile, unsigned lvl)
     monsterType = "Squirrel";
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
-  
 }
 
 
@@ -96,6 +99,7 @@ WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     extraXOffset = 9;
     monsterType = "WhiteRabbit";
+    HPLoss = 5;
 
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
@@ -167,7 +171,7 @@ BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
     extraXOffset = 6;
     extraYOffset = 4;
     monsterType = "BrownRaccon";
-
+    HPLoss = 2;
     monsterSprite = monsterSheet.get_sprite(0, 0);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
@@ -209,6 +213,8 @@ void Monster::setSprite()
 void Monster::render(sf::RenderTarget &target)
 { 
     target.draw(monsterSprite);
+    if (speed < refSpeed && speed != 0)
+        target.draw(frozenSprite);
 }
 
 void Monster::update()
@@ -219,6 +225,8 @@ void Monster::update()
                                             xOffset + extraXOffset);
     monsterSprite.setPosition(x, y);
     monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+    frozenSprite.setPosition(x, y);
+    frozenSprite.setOrigin(8, 8);
 }
 
 
@@ -286,15 +294,15 @@ void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bo
     }
 }
 
-void Monster::takePushBackDmg(double const& damage, int const& pushBack, bool pureDmg)     // pushBack percentage to push back
+void Monster::takePushBackDmg(double const& damage, int const& duration, bool pureDmg)     // pushBack percentage to push back
 {
     helpDamage(damage, pureDmg);
-    if ((rand() % 100) > (100 - pushBack))
+    if ((rand() % 100) > (100 - 0.95))
     {
-        nextTile = prevTile;
-        x = nextTile->getX();
-        y = nextTile->getY();
-        walk();
+        slow = speed;
+        speed = 0;
+        stunClock.restart();
+        stunDuration = duration;
     }
 }
 
@@ -304,18 +312,25 @@ void Monster::walk()
     if (   (pow((nextTile->getX() - x), 2) <= tolerance)
         && (pow((nextTile->getY() - y), 2) <= tolerance))
     {
-        prevTile = nextTile;
         x = nextTile->getX();
         y = nextTile->getY();
         Monster::setNextTile();
         Monster::setDir();
     }
+
+    if ((bleedingClock.getElapsedTime()).asSeconds() > 3)
+        bleeding = false;
+    
+    if (((stunClock.getElapsedTime()).asSeconds() > stunDuration) && 
+        ((slowClock.getElapsedTime()).asSeconds() > slowTime))
+    {
+        speed = refSpeed;
+    }
+
     if ((slowClock.getElapsedTime()).asSeconds() > slowTime)
         speed = refSpeed;
-    if ((bleedingClock.getElapsedTime()).asSeconds() > 1)
-        bleeding = false;
-    x += speed*xDir;
-    y += speed*yDir;
+    x += speed * xDir;
+    y += speed * yDir;
 }
 
 void Monster::setNextTile()

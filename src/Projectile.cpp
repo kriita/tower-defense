@@ -369,7 +369,7 @@ LaserProjectile::LaserProjectile(double x, double y, double dirByRadians, double
     projectileTexture.loadFromFile("resources/images/laserBeam.png");
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setPosition(x,y);
-    projectileSprite.setOrigin(0,5);
+    projectileSprite.setOrigin(0,4.5);
     setDirByRadians(dirByRadians);
     speed = 0;
     damage = attackPower;

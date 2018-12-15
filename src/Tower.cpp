@@ -315,6 +315,10 @@ void SlowTower::render(sf::RenderTarget &target)
     target.draw(towerSprite);
 }
 
+void SlowTower::attack(std::vector<shptr<Projectile>> & projectiles) 
+{}
+
+
 // Lasertower
 
 LaserTower::LaserTower(double x, double y)

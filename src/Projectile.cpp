@@ -344,20 +344,23 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
     
         return void();
     }
-
-    move();
-
-    for (shptr<Monster> aMonster : allMonsters)
+    else
     {
-        if (checkHit(aMonster))
+        move();
+
+        for (shptr<Monster> aMonster : allMonsters)
         {
-            for (shptr<Monster> anotherMonster : allMonsters)
+            if (checkHit(aMonster))
             {
-                dealDamage(anotherMonster);
+                for (shptr<Monster> anotherMonster : allMonsters)
+                {
+                    dealDamage(anotherMonster);
+                }
+                // Make an effect for the explosion
+            explodeEffect = std::make_shared<MissileExplosion>(aMonster->getX(),
+                                                               aMonster->getY());
+                return void();
             }
-            // Make an effect for the explosion
-            explodeEffect = std::make_shared<MissileExplosion>(x, y);
-            return void();
         }
     }
 }

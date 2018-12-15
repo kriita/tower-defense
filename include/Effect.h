@@ -64,6 +64,9 @@ private:
     Spritesheet effectSheet {"resources/images/slowAOE.png", 96, 96};
 };
 
+/*
+ *  Effect ->MissileExplosion 
+ */
 class MissileExplosion: public Effect
 {
     public:
@@ -71,7 +74,7 @@ class MissileExplosion: public Effect
     void changeSprite();
     
     private:
-    Spritesheet effectSheet {"resources/images/MissileExplosionSheet", 32, 32};
+    Spritesheet effectSheet {"resources/images/MissileExplosionSheet.png", 32, 32};
     int currSpriteCol {0}; // Current column used in effectSheet
 };
 #endif

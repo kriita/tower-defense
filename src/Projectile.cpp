@@ -333,22 +333,20 @@ void MissileProjectile::dealDamage(shptr<Monster> &aMonster)
 
 void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
 {
-   if (currSprite > 0)
+    if (explodeEffect) // checking if projectile is exploding
     {
-        if (currSprite > 3)
+        explodeAnim();
+        explodeEffect->update();
+        if(explodeEffect->checkRemove())
         {
-            //projectileSprite = missileSheet.get_sprite(0, currSprite);
-            removeProjectile();
-            return void();
+            removeProjectile(); // Removes the projectile (and indirectly the effect)
         }
-        
-        
-            currSprite = currSprite + 1;
-            return void();
-        
-    }       // return getBounds().contains( aMonster->getX(), aMonster->getY() );
+    
+        return void();
+    }
 
     move();
+
     for (shptr<Monster> aMonster : allMonsters)
     {
         if (checkHit(aMonster))
@@ -357,23 +355,29 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
             {
                 dealDamage(anotherMonster);
             }
-            currSprite = currSprite + 1;
+            // Make an effect for the explosion
+            explodeEffect = std::make_shared<MissileExplosion>(x, y);
             return void();
         }
     }
 }
 
+void MissileProjectile::render(sf::RenderTarget &window)
+{
+    if (explodeEffect)
+    {
+        explodeEffect->render(window);
+    }
+    else window.draw(projectileSprite);
+}
+
 void MissileProjectile::explodeAnim()
 {
-    if (ExplodeEffect)
+    if (explodeEffect)
     {
-        ExplodeEffect->changeSprite(); // Updates effectSprite if enough
-        ExplodeEffect->update();       // time has passed
-    }
-    else
-    {
-    ExplodeEffect = std::make_shared<MissileExplosion>(x, y);
-    }
+        explodeEffect->changeSprite(); // Updates effectSprite if enough
+        explodeEffect->update();       // time has passed
+    }                                                         
 }
 
 

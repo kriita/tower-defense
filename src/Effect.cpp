@@ -82,12 +82,12 @@ Slow::Slow(float x, float y, float radius)
 }
 
 /*
-*   Effect -> MissileExplosion
-*/
+ *   Effect -> MissileExplosion
+ */
 MissileExplosion::MissileExplosion(float x, float y)
 : Effect {x, y}
 {
-    duration = 1;
+    duration = 0.5;
     effectSprite = effectSheet.get_sprite(0,0);
     effectSprite.setOrigin(tileWidth/2, tileWidth/2);
     effectSprite.setRotation(rand() % 360);
@@ -103,7 +103,11 @@ void MissileExplosion::changeSprite()
     }
     else
     {
-        currSpriteCol += 1;
-        effectSprite = effectSheet.get_sprite(0, currSpriteCol);
+        if (elapsed > ((1 + currSpriteCol) * duration / 3))
+        {
+            currSpriteCol += 1;
+            effectSprite = effectSheet.get_sprite(0, currSpriteCol);
+            effectSprite.setOrigin(tileWidth/2, tileWidth/2);
+        }
     }
 }

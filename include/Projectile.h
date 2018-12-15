@@ -102,11 +102,12 @@ class MissileProjectile : public Projectile
     void dealDamage(shptr<Monster> &aMonster) override;
     void update(std::vector<shptr<Monster>> &allMonsters) override;
     void explodeAnim() override;
+    void render(sf::RenderTarget &window);
 
 
     private:
-    int currSprite {0}; // Where in the spriteSheet should we read
-    shptr<MissileExplosion> ExplodeEffect {}; 
+    //int currSprite {0}; // Where in the spriteSheet should we read
+    shptr<MissileExplosion> explodeEffect {}; 
 
 };
 

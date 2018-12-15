@@ -12,11 +12,11 @@
  */
 
 
-Projectile::Projectile(double x, double y, double xDir, double yDir)
-: x {x}, y {y}, xDir {xDir}, yDir {yDir} {}
+Projectile::Projectile(double x, double y, double xDir, double yDir, double attackPower)
+: x {x}, y {y}, xDir {xDir}, yDir {yDir}, damage {attackPower} {}
 
-Projectile::Projectile(double x, double y, double dirByRadians)
-: x {x}, y {y}, xDir {cos(dirByRadians)}, yDir {sin(dirByRadians)} {}
+Projectile::Projectile(double x, double y, double dirByRadians, double attackPower)
+: x {x}, y {y}, xDir {cos(dirByRadians)}, yDir {sin(dirByRadians)}, damage {attackPower} {}
 
 void Projectile::setx(double new_x)
 {
@@ -48,10 +48,12 @@ void Projectile::setyDir(double new_yDir)
     yDir = new_yDir;
 }
 
-void Projectile::setDirByRadians(double angle)
+void Projectile::setDirByRadians(double newAngle)
 {
+    angle = newAngle;
     xDir = cos(angle);
     yDir = sin(angle);
+    projectileSprite.setRotation(angle * 360 / (2 * 3.1415));
 }
 
 double Projectile::getxDir()
@@ -120,7 +122,7 @@ void Projectile::move()
         x += xDir * speed / abs(PMx);
         y += yDir * speed / abs(PMy);
         */
-        projectileSprite.setRotation(getDirByRadians() * 360 / (2 * 3.1415));
+       // projectileSprite.setRotation(getDirByRadians() * 360 / (2 * 3.1415));
         setAngle();
     }
     x += xDir * speed;
@@ -158,7 +160,7 @@ void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
 
 void Projectile::dealDamage(shptr<Monster> &aMonster)
 {
-    aMonster->takePushBackDmg(damage, 10, true);
+    aMonster->takeDamage(damage);
 }
 
 // Set the projectile's cordinates to outside of the map so that
@@ -167,7 +169,7 @@ void Projectile::removeProjectile()
 {
     speed = 0;
     projectileSprite.setPosition(-100,-100);
-    y = -100;
+    projectileSprite.setRotation(0);
 }
 
 void Projectile::render(sf::RenderTarget &window)
@@ -180,7 +182,7 @@ void Projectile::targetHit()
 {
     if (getTarget())
     {
-        target->takePushBackDmg(damage, 10, true);
+        target->takeDamage(damage);
     }
 }
 
@@ -254,32 +256,30 @@ Anvil::Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &targe
     setTarget(target);
 }
 
-minigunProjectile::minigunProjectile(double x, double y, double xDir, double yDir)
-: Projectile(x, y, xDir, yDir)
+minigunProjectile::minigunProjectile(double x, double y, double xDir, double yDir, double attackPower)
+: Projectile(x, y, xDir, yDir, attackPower)
 {
     projectileTexture.loadFromFile("resources/images/minigunProjectile.png");
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     speed = 4;
-    damage = 4;
     radius = 2.5;
 }
 
-minigunProjectile::minigunProjectile(double x, double y, double dirByRadians)
-: Projectile(x, y, dirByRadians)
+minigunProjectile::minigunProjectile(double x, double y, double dirByRadians, double attackPower)
+: Projectile(x, y, dirByRadians, attackPower)
 {
     projectileTexture.loadFromFile("resources/images/minigunProjectile.png");
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     speed = 4;
-    damage = 4;
     radius = 2.5;
 }
 
-MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> Monstertarget)
-: Projectile(x, y, dirByRadians)
+MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget)
+: Projectile(x, y, dirByRadians, attackPower)
 {
     target = Monstertarget;
     projectileTexture.loadFromFile("resources/images/missileProjectile.png");
@@ -289,13 +289,12 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, sh
     projectileSprite.setPosition(x,y);
     projectileSprite.setRotation(+ dirByRadians * 360 / (2 * 3.1415));
     speed = 4;
-    damage = 30;
     radius = 8;
 }
 
 
-MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDir)
-:Projectile(x, y , xDir, yDir)
+MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDir, double attackPower)
+:Projectile(x, y , xDir, yDir, attackPower)
 {
     projectileTexture.loadFromFile("resources/images/missileProjectile.png");
     projectileSprite.setTexture(projectileTexture);
@@ -304,12 +303,11 @@ MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDi
     projectileSprite.setPosition(x,y);
     projectileSprite.setRotation(atan2(yDir,xDir));
     speed = 4;
-    damage = 30;
     radius = 8;
 }
 
-MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
-:Projectile(x, y, dirByRadians)
+MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, double attackPower)
+:Projectile(x, y, dirByRadians, attackPower)
 {
     projectileTexture.loadFromFile("resources/images/missileProjectile.png");
     projectileSprite.setTexture(projectileTexture);
@@ -318,7 +316,6 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians)
     projectileSprite.setPosition(x,y);
     projectileSprite.setRotation(dirByRadians * 360 / (2 * 3.1415));
     speed = 4;
-    damage = 30;
     radius = 8;
 }
 
@@ -346,7 +343,8 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
             currSprite = currSprite + 1;
             return void();
         
-    }
+    }       // return getBounds().contains( aMonster->getX(), aMonster->getY() );
+
     move();
     for (shptr<Monster> aMonster : allMonsters)
     {
@@ -360,4 +358,78 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
             return void();
         }
     }
+}
+
+// LaserProjectile
+
+LaserProjectile::LaserProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget, double newduration)
+:Projectile(x, y, dirByRadians, attackPower), duration{newduration}
+{
+    target = Monstertarget;
+    projectileTexture.loadFromFile("resources/images/laserBeam.png");
+    projectileSprite.setTexture(projectileTexture);
+    projectileSprite.setPosition(x,y);
+    projectileSprite.setOrigin(0,5);
+  //  setAngle();
+    speed = 0;
+    damage = attackPower;
+}
+
+void LaserProjectile::update(std::vector<shptr<Monster>> &allMonsters)
+{
+    if (laserClock.getElapsedTime().asSeconds() > duration) { removeProjectile(); }
+    
+/*
+    for (shptr<Monster> aMonster : allMonsters)
+    {
+        if (checkHit(aMonster))
+        {
+            for (shptr<Monster> anotherMonster : allMonsters)
+            {
+                dealDamage(anotherMonster);
+            }
+        }
+    }*/
+    
+    laserDamage(allMonsters);
+}
+
+void LaserProjectile::laserDamage(std::vector<shptr<Monster>> &allMonsters)
+{
+    for (shptr<Monster> aMonster : allMonsters)
+    {
+        if (checkHit(aMonster)) {aMonster->takeDamage(damage);}
+    }
+}
+
+
+bool LaserProjectile::checkHit(shptr<Monster> &aMonster)
+{
+    if (getBounds().intersects( aMonster->getBounds() ))
+    {   
+        double xTest{x};
+        double yTest{y};
+        double testRadius{5};
+        double monsterRadius{aMonster->getRadius()};
+        double monsterX{aMonster->getX()};
+        double monsterY{aMonster->getY()};
+
+  
+        while (0 < xTest && xTest < 32*20 && 0 < yTest && yTest < 32*20)
+        {
+            if ( pow((monsterX - xTest),2) + pow((monsterY - yTest),2) <= pow(testRadius + monsterRadius,2))
+                return true;
+            xTest += cos(angle) * testRadius;
+            yTest += sin(angle) * testRadius;
+        }
+        return false;
+    }
+    return false;
+}
+
+void LaserProjectile::render(sf::RenderTarget &window)
+{
+    window.draw(projectileSprite);
+  /*  sf::FloatRect rect1(projectileSprite.getGlobalBounds());
+    window.draw( sf::Rect{rect1.left(), rect1.top(), rect1.width(), rect1.height()} );*/
 }

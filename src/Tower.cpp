@@ -203,7 +203,7 @@ MinigunTower::MinigunTower(shptr<Tile> tile)
 
 void MinigunTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-    projectiles.push_back(std::make_shared<minigunProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle));
+    projectiles.push_back(std::make_shared<minigunProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle, attackPower.front()));
 }
 
 int MinigunTower::getPrice() {return 50;}
@@ -242,7 +242,7 @@ MissileTower::MissileTower(shptr<Tile> tile)
 
 void MissileTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-    projectiles.push_back(std::make_shared<MissileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle, target));
+    projectiles.push_back(std::make_shared<MissileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle, attackPower.front(), target));
 }
 
 int MissileTower::getPrice() {return 42;}
@@ -307,9 +307,9 @@ LaserTower::LaserTower(double x, double y)
     laserSprite.setColor(sf::Color(255, 255, 255, 0));
     fireRate = {2.5, 2, 1.5, 1.0, 0.5};   //Time in seconds between each attack.
     fireRatePrice = {100, 200, 300, 400};
-    attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
+    attackPower = {15, 1.5, 2.0, 2.5, 3.0};
     attackPowerPrice = {100, 200, 300, 400};
-    range = {70.0, 130.0, 180.0, 230.0, 270.0};
+    range = {400, 130.0, 180.0, 230.0, 270.0};
     rangePrice = {100, 200, 300, 400};
 } 
 
@@ -319,15 +319,17 @@ LaserTower::LaserTower(shptr<Tile> tile)
 
 void LaserTower::attack(std::vector<shptr<Projectile>> & projectiles) 
 {
-    target->takePureDmg(attackPower.front());
+    laserBeam = std::make_shared<LaserProjectile> (xPos, yPos, angle, attackPower.front(), target, duration);
+    projectiles.push_back(laserBeam);
+
 }
 
 int LaserTower::getPrice() {return 100;}
-
+/*
 void LaserTower::render(sf::RenderTarget &target)
 {
     target.draw(towerSprite);
-    target.draw(laserSprite);
+  //  target.draw(laserSprite);
 }
 
 void LaserTower::setAngle()
@@ -339,9 +341,13 @@ void LaserTower::setAngle()
         laserSprite.setRotation(towerSprite.getRotation());        
 }
 
+*/
 void LaserTower::update(std::vector<shptr<Monster>> & monstervector, 
                    std::vector<shptr<Projectile>> & projectiles)
 {
+    if (laserBeam != nullptr) { laserBeam->setDirByRadians(angle); }
+
+
     if (target == nullptr)
     {
         towerSprite.setRotation(towerSprite.getRotation() + 0);
@@ -371,3 +377,4 @@ void LaserTower::update(std::vector<shptr<Monster>> & monstervector,
     else
         target = nullptr;
 }
+

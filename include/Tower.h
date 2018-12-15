@@ -47,7 +47,7 @@ protected:
     double yPos{};
     double angle{}; //radians
     shptr<Monster> target{};
-    std::vector<double> fireRate = {0.1, 0.08, 0.06, 0.04, 0.02};   //Time in seconds between each attack.
+    std::vector<double> fireRate = {3, 0.08, 0.06, 0.04, 0.02};   //Time in seconds between each attack.
     std::vector<double> fireRatePrice = {100, 200, 300, 400};
     std::vector<double> attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
     std::vector<double> attackPowerPrice = {100, 200, 300, 400};
@@ -135,18 +135,14 @@ public:
     LaserTower(shptr<Tile> tile);
     void update(std::vector<shptr<Monster>> & monstervector, 
                 std::vector<shptr<Projectile>> & projectiles) override;
-    void render(sf::RenderTarget &target) override;
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
     int getPrice() override;  
-    void setAngle() override;
     sf::Sprite laserSprite{};
     sf::Texture laserTexture{};
 
 private:
-    double transparency{0};
-    void setTransparency(double newTransparency) {transparency = newTransparency;};
     shptr<Projectile> laserBeam{};
-
+    double duration{1};
 };
 
 #endif

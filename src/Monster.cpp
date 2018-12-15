@@ -225,7 +225,11 @@ void Monster::update()
 
 sf::FloatRect Monster::getBounds()
 {
-    return monsterSprite.getGlobalBounds();     // Verkar inte fungera
+    sf::Vector2i position(x - radius, y - radius);
+    sf::Vector2i size(2.0 * radius, 2.0 * radius);
+
+
+    return sf::FloatRect{x - radius, y - radius, 2 * radius, 2 * radius};     // Verkar inte fungera
 }
 
 void Monster::setDir()

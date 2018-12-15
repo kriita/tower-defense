@@ -25,8 +25,8 @@ class Projectile
 {
     public:
     Projectile() = default;
-    Projectile(double x, double y, double xDir, double yDir);
-    Projectile(double x, double y, double dirByRadians);    // OBS! positive radians clockwise
+    Projectile(double x, double y, double xDir, double yDir, double attackPower);
+    Projectile(double x, double y, double dirByRadians, double attackPower);    // OBS! positive radians clockwise
     virtual ~Projectile() = default;
     virtual void targetHit();   // Checks if the target has been hit, deals damgae if true
     virtual void explodeAnim() {}; // renders the explode animation
@@ -46,28 +46,30 @@ class Projectile
     double getDirByRadians();
     void setxDir(double new_xDir);
     void setyDir(double new_yDir);
-    void setDirByRadians(double angle);
+    void setDirByRadians(double newAngle);
     double getSpeed();
     void setSpeed(double newSpeed);
-    void render(sf::RenderTarget &window);
+    virtual void render(sf::RenderTarget &window);
     sf::FloatRect getBounds();
-    bool checkHit (shptr<Monster> &aMonster);
+    virtual bool checkHit (shptr<Monster> &aMonster);
     double getRadius();
 
 
     protected:
-    double damage {};
     shptr<Monster> target {};
     double x {}; // Coordinates in pixels
     double y {};
     double speed {};
     double xDir {};
-    double yDir {};
+    double yDir {};    
+    double damage {};
+
     //Spritesheet projectileSpritesheet {};
     sf::Sprite projectileSprite {};
     sf::Texture projectileTexture {};
     double radius {}; // radius in pixels
-    virtual void setAngle();
+    void setAngle();
+    
     double angle {};
 
 };
@@ -85,16 +87,16 @@ class Anvil : public Projectile
 class minigunProjectile : public Projectile
 {
     public:
-    minigunProjectile(double x, double y, double xDir, double yDir);
-    minigunProjectile(double x, double y, double dirByRadians);
+    minigunProjectile(double x, double y, double xDir, double yDir, double attackPower);
+    minigunProjectile(double x, double y, double dirByRadians, double attackPower);
 };
 
 class MissileProjectile : public Projectile
 {
     public:
-    MissileProjectile(double x, double y, double dirByRadians, shptr<Monster> Monstertarget); // Sätt vinkel
-    MissileProjectile(double x, double y, double xDir, double yDir); // Sätt vinkel
-    MissileProjectile(double x, double y, double dirByRadians);
+    MissileProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget); // Sätt vinkel
+    MissileProjectile(double x, double y, double xDir, double yDir, double attackPower); // Sätt vinkel
+    MissileProjectile(double x, double y, double dirByRadians, double attackPower);
     Spritesheet missileSheet {"resources/images/MissileProjectileSheet.png", 32, 32};
     void dealDamage(shptr<Monster> &aMonster) override;
     void update(std::vector<shptr<Monster>> &allMonsters) override;
@@ -104,4 +106,20 @@ class MissileProjectile : public Projectile
     int currSprite {0}; // Where in the spriteSheet should we read
 
 };
+
+class LaserProjectile : public Projectile
+{
+    public:
+    LaserProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget, double duration); // Sätt vinkel
+    void update(std::vector<shptr<Monster>> &allMonsters) override;
+    protected:
+    void laserDamage(std::vector<shptr<Monster>> &allMonsters);
+    double duration{};
+    bool checkHit(shptr<Monster> &aMonster) override;
+    sf::Clock laserClock{};
+    void render(sf::RenderTarget &window);
+ };
+
+
+
 #endif

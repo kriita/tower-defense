@@ -227,6 +227,12 @@ void Game_State :: render (RenderTarget & target)
         }
     }
 
+    // Render monsters
+    for (auto & m : monsters)
+    {
+        m->render(target);
+    }
+
     // Render projectiles
     for (auto & p : projectiles)
     {
@@ -237,12 +243,6 @@ void Game_State :: render (RenderTarget & target)
     for (auto & t : towers)
     {
         t->render(target);
-    }
-
-    // Render monsters
-    for (auto & m : monsters)
-    {
-        m->render(target);
     }
 
     target.draw(gameOverlay);

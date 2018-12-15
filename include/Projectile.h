@@ -119,7 +119,7 @@ class LaserProjectile : public Projectile
     sf::Clock laserClock{};
     void render(sf::RenderTarget &window);
     double transparency{0};
-    bool transparencyState{0};  
+    int transparencyState{0};  
  };
 
 

@@ -370,7 +370,7 @@ LaserProjectile::LaserProjectile(double x, double y, double dirByRadians, double
     projectileSprite.setTexture(projectileTexture);
     projectileSprite.setPosition(x,y);
     projectileSprite.setOrigin(0,5);
-  //  setAngle();
+    setDirByRadians(dirByRadians);
     speed = 0;
     damage = attackPower;
 }

@@ -307,7 +307,7 @@ LaserTower::LaserTower(double x, double y)
     laserSprite.setColor(sf::Color(255, 255, 255, 0));
     fireRate = {2.5, 2, 1.5, 1.0, 0.5};   //Time in seconds between each attack.
     fireRatePrice = {100, 200, 300, 400};
-    attackPower = {15, 1.5, 2.0, 2.5, 3.0};
+    attackPower = {1, 1.5, 2.0, 2.5, 3.0};
     attackPowerPrice = {100, 200, 300, 400};
     range = {400, 130.0, 180.0, 230.0, 270.0};
     rangePrice = {100, 200, 300, 400};

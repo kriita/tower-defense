@@ -29,8 +29,12 @@ Menu_State :: Menu_State ()
 {
     maps.push_back(make_unique<Map> ("Forest"));
     maps.push_back(make_unique<Map> ("Gauntlet"));
+    maps.push_back(make_unique<Map> ("Coast"));
+    maps.push_back(make_unique<Map> ("River"));
     maps[0]->makePreview(250, 200, 0.2);
-    maps[1]->makePreview(250 + xOffset, 200, 0.2);
+    maps[1]->makePreview(250 + offset, 200, 0.2);
+    maps[2]->makePreview(250 + 2*offset, 200, 0.2);
+    maps[3]->makePreview(250 , offset + 200, 0.2);
 
     std::stringstream ss;
 
@@ -82,13 +86,31 @@ void Menu_State :: handle_event (Event event)
                 level = "Forest";
                 play = true;
             }
-            else if (mouse.x > firstMapX + xOffset 
-                    && mouse.x < firstMapX + xOffset + mapSize
+            else if (mouse.x > firstMapX + offset 
+                    && mouse.x < firstMapX + offset + mapSize
                     && mouse.y > firstMapY 
                     && mouse.y < firstMapY + mapSize
                     && showMaps)
             {
                 level = "Gauntlet";
+                play = true;
+            }
+            else if (mouse.x > firstMapX + 2 * offset 
+                    && mouse.x < firstMapX + 2 * offset + mapSize
+                    && mouse.y > firstMapY 
+                    && mouse.y < firstMapY + mapSize
+                    && showMaps)
+            {
+                level = "Coast";
+                play = true;
+            }
+            else if (mouse.x > firstMapX
+                    && mouse.x < firstMapX + mapSize
+                    && mouse.y > firstMapY + offset
+                    && mouse.y < firstMapY + mapSize + offset
+                    && showMaps)
+            {
+                level = "River";
                 play = true;
             }
             showMaps = true;
@@ -137,6 +159,8 @@ void Menu_State :: render (RenderTarget & target)
         target.draw (menuOverlay);
         maps[0]->render(target);
         maps[1]->render(target);
+        maps[2]->render(target);
+        maps[3]->render(target);
     }
     target.draw (text);
 }

@@ -13,8 +13,6 @@
 
 class Monster
 {
-protected:
-    double radius{};
 public:
     Monster(shptr<Tile> tile);     //provide spawnpoint and level
     Monster(Monster const&) = default;
@@ -44,7 +42,7 @@ public:
     bool isDead() const {return dead;};
     unsigned slowTime {};
     sf::FloatRect getBounds();
-    double getRadius() const {return radius;};
+    float getRadius() const {return radius;};
     bool shallLoseHP() const {return loseHP;};
     std::string getType() const {return monsterType;};
     void setLevel(unsigned const& lvl) {level = lvl;};
@@ -56,22 +54,21 @@ protected:
     sf::Texture frozenTexture{};
     sf::Sprite frozenSprite {};
     std::string monsterType{};
-    unsigned level{};
-    int xDir{};
-    int yDir{};
+    float radius{};
     double y{};                     // Position in pixels
     double x{};
     double stunDuration{};
-    bool dead{false};
     double health{};
     double armour{};
     double refSpeed{};
     double slow{};          // current slowEffect
     double speed{};
-    int HPLoss{1};
     double bounty{1};
+    int HPLoss{1};
+    int xDir{};
+    int yDir{};
+    unsigned level{};
     unsigned xOffset {};
-    bool firstStep {true};
     unsigned yOffset {};
     unsigned extraXOffset{};
     unsigned extraYOffset{};
@@ -79,6 +76,8 @@ protected:
     sf::Clock slowClock {};             // Time for sloweffect
     sf::Clock stunClock {};
     sf::Clock bleedingClock {};
+    bool dead{false};
+    bool firstStep {true};
     bool loseHP{false};             // Decrase HP with lifeLoss when true
     bool bleeding{false};
 };

@@ -38,7 +38,7 @@ Menu_State :: Menu_State ()
 
     std::stringstream ss;
 
-    ss << "Welcome to Totally Awesome Tower Defence" << endl
+    ss << "Welcome to Puppy Piercer Tower Defence" << endl
        << "The game for people who like to kill cute animals" << endl
        << "Click the rabbit to select map!";
 

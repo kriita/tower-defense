@@ -59,7 +59,7 @@ private:
     int firstMapX = 190;
     int firstMapY = 140;
     int mapSize = 112;
-    int xOffset = 150;
+    int offset = 150;
     // Holds maps able for New game
     std::vector<ptr<Map>> maps {};
 };

@@ -47,9 +47,9 @@ protected:
     double yPos{};
     double angle{}; //radians
     shptr<Monster> target{};
-    std::vector<double> fireRate = {3, 0.08, 0.06, 0.04, 0.02};   //Time in seconds between each attack.
+    std::vector<double> fireRate = {1, 0.08, 0.06, 0.04, 0.02};   //Time in seconds between each attack.
     std::vector<double> fireRatePrice = {100, 200, 300, 400};
-    std::vector<double> attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
+    std::vector<double> attackPower = {0, 1.5, 2.0, 2.5, 3.0};
     std::vector<double> attackPowerPrice = {100, 200, 300, 400};
     std::vector<double> range = {70.0, 130.0, 180.0, 230.0, 270.0};
     std::vector<double> rangePrice = {100, 200, 300, 400};
@@ -116,15 +116,19 @@ public:
     SlowTower(int x, int y);
     SlowTower(double x, double y);
     SlowTower(shptr<Tile> tile);
+    void slowAttack(std::vector<shptr<Monster>> & monstervector);
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
+    void update(std::vector<shptr<Monster>> & monstervector, 
+            std::vector<shptr<Projectile>> & projectiles) override;
+    void render(sf::RenderTarget &target) override;
     int getPrice() override;
     void upgradeDuration(int & cash);
     void upgradeSlow(int & cash);
-    std::vector<double> duration{3.0, 5.0, 7.0};
+    std::vector<double> duration{1.0, 5.0, 7.0};
     std::vector<double> durationPrice{100, 1000};
-    std::vector<double> slow{0.7, 0.4, 0.2};
+    std::vector<double> slow{0.4, 0.4, 0.2};
     std::vector<double> slowPrice{100, 1000};
-
+    //Slow slowEffect{xPos, yPos, range.front()};
 };
 
 

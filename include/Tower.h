@@ -120,6 +120,7 @@ public:
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
     void update(std::vector<shptr<Monster>> & monstervector, 
             std::vector<shptr<Projectile>> & projectiles) override;
+    void render(sf::RenderTarget &target) override;
     int getPrice() override;
     void upgradeDuration(int & cash);
     void upgradeSlow(int & cash);
@@ -127,7 +128,7 @@ public:
     std::vector<double> durationPrice{100, 1000};
     std::vector<double> slow{0.4, 0.4, 0.2};
     std::vector<double> slowPrice{100, 1000};
-    
+    //Slow slowEffect{xPos, yPos, range.front()};
 };
 
 

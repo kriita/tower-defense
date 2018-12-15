@@ -5,6 +5,7 @@
 #include <memory>
 #include "defs.h"
 #include <vector>
+#include "Effect.h"
 
 void Tower::render(sf::RenderTarget &target)
 {
@@ -265,10 +266,7 @@ SlowTower::SlowTower(int x, int y)
 SlowTower::SlowTower(shptr<Tile> tile)
     :   SlowTower{tile->getX(), tile->getY()} {}
 
-void SlowTower::attack(std::vector<shptr<Projectile>> & projectiles) 
-{
-    target->takeSlowDmg(attackPower.front(),attackPower.front(),1,true);
-}
+
 
 int SlowTower::getPrice() {return 5;}
 
@@ -297,6 +295,7 @@ void SlowTower::update(std::vector<shptr<Monster>> & monstervector,
                    std::vector<shptr<Projectile>> & projectiles)
 {
    slowAttack(monstervector);
+   //slowEffect.update();
 }
 
 void SlowTower::slowAttack(std::vector<shptr<Monster>> & monstervector)
@@ -308,6 +307,12 @@ void SlowTower::slowAttack(std::vector<shptr<Monster>> & monstervector)
             monster->takeSlowDmg(attackPower.front(), slow.front(), duration.front(), true);
         }
     }
+}
+
+void SlowTower::render(sf::RenderTarget &target)
+{    
+    //slowEffect.render(target);
+    target.draw(towerSprite);
 }
 
 // Lasertower

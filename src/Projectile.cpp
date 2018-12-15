@@ -378,7 +378,16 @@ LaserProjectile::LaserProjectile(double x, double y, double dirByRadians, double
 void LaserProjectile::update(std::vector<shptr<Monster>> &allMonsters)
 {
     if (laserClock.getElapsedTime().asSeconds() > duration) { removeProjectile(); }
-    
+/*
+    if (transparencyBool == 0)
+        transparency -= 255 / duration / 30;
+    else if (transparencyBool == 2)
+    {
+        transparency += 255 / duration / 30;
+        if (transparency >= 255) {transparencyBool = true;}
+    }
+    projectileSprite.setColor(sf::Color(255, 255, 255, transparency)); */
+
 /*
     for (shptr<Monster> aMonster : allMonsters)
     {

@@ -118,6 +118,8 @@ class LaserProjectile : public Projectile
     bool checkHit(shptr<Monster> &aMonster) override;
     sf::Clock laserClock{};
     void render(sf::RenderTarget &window);
+    double transparency{0};
+    bool transparencyState{0};  
  };
 
 

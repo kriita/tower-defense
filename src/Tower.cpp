@@ -188,7 +188,7 @@ MinigunTower::MinigunTower(double x, double y)
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
     fireRate = {0.1, 0.08, 0.06, 0.04, 0.02};   //Time in seconds between each attack.
     fireRatePrice = {100, 200, 300, 400};
-    attackPower = {1.0, 1.5, 2.0, 2.5, 3.0};
+    attackPower = {50, 1.5, 2.0, 2.5, 3.0};
     attackPowerPrice = {100, 200, 300, 400};
     range = {70.0, 130.0, 180.0, 230.0, 270.0};
     rangePrice = {100, 200, 300, 400};

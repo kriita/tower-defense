@@ -59,7 +59,7 @@ protected:
 
     
 
-    sf::Texture texture;
+    sf::Texture texture {};
 
     Spritesheet towerSpriteSheet {"resources/images/spritesheet.png", 32, 32}; //temporär
     sf::Sprite towerSprite {};

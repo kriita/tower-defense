@@ -8,6 +8,13 @@
 
 /*
  *  Tile
+ * 
+ *  Responsible for one of the maps' tiles.
+ *  Has subclasses for different types of tiles which are:
+ *  path
+ *  grass
+ *  water
+ *  tree
  */
 class Tile
 {

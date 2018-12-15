@@ -37,7 +37,7 @@ Game_State::Game_State(string level)
     	make_shared<LaserTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
     		static_cast<double>(156 + mapBorderOffset)));
                 availableTowers.push_back(
-    	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
+    	make_shared<SlowTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
     		static_cast<double>(156 + mapBorderOffset)));
     availableTowers.push_back(
     	make_shared<MissileTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),

@@ -252,7 +252,7 @@ int MissileTower::getPrice() {return 42;}
 SlowTower::SlowTower(double x, double y)
     : Tower{x,y} 
 {    
-    texture.loadFromFile("resources/images/minigunTowerTemp.png");
+    texture.loadFromFile("resources/images/snowman.png");
     towerSprite = sf::Sprite{texture};    
     towerSprite.setPosition (xPos,yPos);
     towerSprite.setOrigin (tileWidth/2, tileWidth/2);
@@ -270,7 +270,7 @@ void SlowTower::attack(std::vector<shptr<Projectile>> & projectiles)
     target->takeSlowDmg(attackPower.front(),attackPower.front(),1,true);
 }
 
-int SlowTower::getPrice() {return 500;}
+int SlowTower::getPrice() {return 5;}
 
 void SlowTower::upgradeSlow(int & cash)
 {
@@ -289,6 +289,24 @@ void SlowTower::upgradeDuration(int & cash)
         cash -= durationPrice.front();
         durationPrice.erase(durationPrice.begin());
         duration.erase(duration.begin());
+    }
+}
+
+
+void SlowTower::update(std::vector<shptr<Monster>> & monstervector, 
+                   std::vector<shptr<Projectile>> & projectiles)
+{
+   slowAttack(monstervector);
+}
+
+void SlowTower::slowAttack(std::vector<shptr<Monster>> & monstervector)
+{
+    for (auto & monster : monstervector)
+    {
+        if (inRange(monster))
+        {
+            monster->takeSlowDmg(attackPower.front(), slow.front(), duration.front(), true);
+        }
     }
 }
 
@@ -324,24 +342,11 @@ void LaserTower::attack(std::vector<shptr<Projectile>> & projectiles)
 
 }
 
+
+
+
 int LaserTower::getPrice() {return 100;}
-/*
-void LaserTower::render(sf::RenderTarget &target)
-{
-    target.draw(towerSprite);
-  //  target.draw(laserSprite);
-}
 
-void LaserTower::setAngle()
-{
-        double x{target->getX() - xPos};
-        double y{target->getY() - yPos};
-        angle = atan2(y,x);         
-        towerSprite.setRotation(angle / (2 * 3.1415926535897) * 360);
-        laserSprite.setRotation(towerSprite.getRotation());        
-}
-
-*/
 void LaserTower::update(std::vector<shptr<Monster>> & monstervector, 
                    std::vector<shptr<Projectile>> & projectiles)
 {

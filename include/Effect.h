@@ -64,4 +64,14 @@ private:
     Spritesheet effectSheet {"resources/images/slowAOE.png", 96, 96};
 };
 
+class MissileExplosion: public Effect
+{
+    public:
+    MissileExplosion(float x, float y);
+    void changeSprite();
+    
+    private:
+    Spritesheet effectSheet {"resources/images/MissileExplosionSheet", 32, 32};
+    int currSpriteCol {0}; // Current column used in effectSheet
+};
 #endif

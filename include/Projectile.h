@@ -6,6 +6,7 @@
 #include "defs.h"
 #include "Monster.h"
 #include "Spritesheet.h"
+#include "Effect.h"
 #include <vector>
 
 // Note: Not using reference to vector with all monsters! But it works anyway...
@@ -97,13 +98,15 @@ class MissileProjectile : public Projectile
     MissileProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget); // Sätt vinkel
     MissileProjectile(double x, double y, double xDir, double yDir, double attackPower); // Sätt vinkel
     MissileProjectile(double x, double y, double dirByRadians, double attackPower);
-    Spritesheet missileSheet {"resources/images/MissileProjectileSheet.png", 32, 32};
+    //Spritesheet missileSheet {"resources/images/MissileProjectileSheet.png", 32, 32};
     void dealDamage(shptr<Monster> &aMonster) override;
     void update(std::vector<shptr<Monster>> &allMonsters) override;
+    void explodeAnim() override;
 
 
     private:
     int currSprite {0}; // Where in the spriteSheet should we read
+    shptr<MissileExplosion> ExplodeEffect {}; 
 
 };
 

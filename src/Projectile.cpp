@@ -1,6 +1,7 @@
 #include "Projectile.h"
 #include "defs.h"
 #include "Monster.h"
+#include "Effect.h"
 #include <cmath>
 #include <vector>
 #include "constants.h"
@@ -278,6 +279,8 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians, do
     radius = 2.5;
 }
 
+//  MissileProjectil
+
 MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget)
 : Projectile(x, y, dirByRadians, attackPower)
 {
@@ -294,7 +297,7 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, do
 
 
 MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDir, double attackPower)
-:Projectile(x, y , xDir, yDir, attackPower)
+:Projectile(x, y, xDir, yDir, attackPower)
 {
     projectileTexture.loadFromFile("resources/images/missileProjectile.png");
     projectileSprite.setTexture(projectileTexture);
@@ -359,6 +362,20 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
         }
     }
 }
+
+void MissileProjectile::explodeAnim()
+{
+    if (ExplodeEffect)
+    {
+        ExplodeEffect->changeSprite(); // Updates effectSprite if enough
+        ExplodeEffect->update();       // time has passed
+    }
+    else
+    {
+    ExplodeEffect = std::make_shared<MissileExplosion>(x, y);
+    }
+}
+
 
 // LaserProjectile
 

@@ -80,3 +80,30 @@ Slow::Slow(float x, float y, float radius)
     effectSprite.setColor(sf::Color(255, 255, 255, startAlpha));
     effectSprite.setScale(radius / 96, radius / 96);
 }
+
+/*
+*   Effect -> MissileExplosion
+*/
+MissileExplosion::MissileExplosion(float x, float y)
+: Effect {x, y}
+{
+    duration = 1;
+    effectSprite = effectSheet.get_sprite(0,0);
+    effectSprite.setOrigin(tileWidth/2, tileWidth/2);
+    effectSprite.setRotation(rand() % 360);
+}
+
+void MissileExplosion::changeSprite()
+{
+    float elapsed {(durationClock.getElapsedTime()).asSeconds()};
+
+    if (elapsed > duration)
+    {
+        return void();
+    }
+    else
+    {
+        currSpriteCol += 1;
+        effectSprite = effectSheet.get_sprite(0, currSpriteCol);
+    }
+}

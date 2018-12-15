@@ -17,6 +17,8 @@ using std::string;
 
 
 Game_State::Game_State(string level)
+    : text { "", Font_Manager::load ("resources/fonts/font.ttf"), 24},
+  menuText {"Main menu", Font_Manager::load ("resources/fonts/font.ttf"), 24}
 {
     if(!gameOverlayTexture.loadFromFile("resources/images/overlay.png"))
     {
@@ -48,7 +50,7 @@ Game_State::Game_State(string level)
     gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX, availableTowers);
-    wavePump = make_unique<WavePump>();
+    wavePump = make_unique<WavePump>(0.1f, 3.f);
 
     shptr<Tile> tempTile = gameMap->getSpawnPoint();
     Monster * tempMonster{};
@@ -60,6 +62,15 @@ Game_State::Game_State(string level)
     wavePump->addMonsterType(*tempMonster);
     tempMonster = new WhiteRabbit(tempTile, 0);
     wavePump->addMonsterType(*tempMonster);
+    tempMonster = new Hamster(tempTile, 0);
+    wavePump->addMonsterType(*tempMonster);
+    tempMonster = new GrayRacoon(tempTile, 0);
+    wavePump->addMonsterType(*tempMonster);
+    tempMonster = new Hedgehog(tempTile, 0);
+    wavePump->addMonsterType(*tempMonster);
+    tempMonster = new BrownRacoon(tempTile, 0);
+    wavePump->addMonsterType(*tempMonster);
+
     tempMonster = nullptr;
 
     wavePump->readFromFile("test3");
@@ -79,18 +90,15 @@ void Game_State :: handle_event (Event event)
         	{
         		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources, availableTowers);
         	}
-            else if (pause)
-            {
-                // Go back to main menu
-                go_back = true;
-            }
             else if (mapScreen.contains(mouse.x, mouse.y))
             {
                 // Click on map
                 gameMap->handle(event, monsters, towers, gameResources);
             }
         }
-        if (gameOver)
+        if ((gameOver || pause) 
+        && (mouse.x > 240) && (mouse.x < 240 + 140)
+        && (mouse.y > 310) && (mouse.y < 310 + 40))
         {
             go_back = true;
         }
@@ -168,20 +176,37 @@ Game_Event Game_State :: update ()
         }
 
 	//Update wavePump
-	wavePump->update(monsters);
+	    wavePump->update(monsters, gameResources);
     }
 
-    cleanup();
-    /*
+    if (pause)
+    {
+        text.setString("Paused");
+        text.setPosition (255, 250);
+    }
+
     if (gameOver)
     {
-        gameOver = false;
-        return Game_Event::create<Switch_State> (
-            move (std::make_unique<Menu_State>));
+        text.setString("Game over");
+        text.setPosition (235, 250);
     }
+
+    text.setFillColor(Color::White);
+    text.setOutlineColor(Color::Black);
+    text.setOutlineThickness(3);
     
-    // Let the base class perform it's update
-    */
+    rectangle.setSize(sf::Vector2f(139, 40));
+    rectangle.setOutlineColor(sf::Color::Black);
+    rectangle.setFillColor(Color::Red);
+    rectangle.setOutlineThickness(2);
+    rectangle.setPosition(230, 310);
+
+    menuText.setPosition (235, 313);
+    menuText.setFillColor(Color::White);
+    menuText.setOutlineColor(Color::Black);
+    menuText.setOutlineThickness(3);
+
+    cleanup();
     return Go_Back_State::update ();
 }
 
@@ -225,36 +250,16 @@ void Game_State :: render (RenderTarget & target)
     // Render pause-screen <-- temporär pause-text
     if (pause)
     {
-        Text text { "Paused",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             30 };
-        Text text2 { "Paused",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             30 };
-
-        text.setPosition (250, 300);
-        text2.setPosition (252, 302);
-        text2.setFillColor(Color::Black);
-    
-        target.draw (text2);
-        target.draw (text);
+        target.draw(rectangle);
+        target.draw(text);
+        target.draw(menuText);
     }
 
     if (gameOver)
     {
-        Text text { "Game over",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             30 };
-        Text text2 { "Game over",
-             Font_Manager::load ("resources/fonts/font.ttf"),
-             30 };
-
-        text.setPosition (250, 300);
-        text2.setPosition (252, 302);
-        text2.setFillColor(Color::Black);
-    
-        target.draw (text2);
-        target.draw (text);
+        target.draw(rectangle);
+        target.draw(text);
+        target.draw(menuText);
     }
 }
 

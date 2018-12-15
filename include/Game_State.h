@@ -67,7 +67,9 @@ private:
 
     sf::Texture gameOverlayTexture {};
     sf::Sprite gameOverlay {};
-
+    sf::RectangleShape rectangle{};
+    sf::Text text;
+    sf::Text menuText;
     sf::FloatRect mapScreen { mapBorderOffset, mapBorderOffset,
                               xTilesMax * tileWidth,
                               yTilesMax * tileWidth};

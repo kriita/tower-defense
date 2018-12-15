@@ -72,7 +72,7 @@ void Resources::changeHP(int const diff)
 
 void Resources::changeCurrentWave(int const diff)
 {
-	currentWave = currentWave + diff;
+	currentWave = diff;
 }
 
 void Resources::switchBuildMode()

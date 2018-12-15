@@ -154,12 +154,12 @@ void Game :: handle_events (State & state)
             }
             else if ( Keyboard::isKeyPressed (Keyboard::Key::M) )
             {
+                music = !music;
+                
                 if (music)
                     backgroundMusic.play();
                 else
                     backgroundMusic.stop();
-
-                music = !music;
             }
         }
 

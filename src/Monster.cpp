@@ -28,10 +28,10 @@ Monster::Monster(shptr<Tile> tile)
     x = tile->getX();
     y = tile->getY();
     radius = 8;
-    frozenTexture.loadFromFile("resources/images/frozen.png");
-    frozenSprite.setTexture(frozenTexture);
-    frozenSprite.setPosition(x, y);
-    frozenSprite.setOrigin(10, 10);
+    monsterSprite = monsterSheet.get_sprite(0, 0);
+    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+    frozenSprite = frozenSheet.get_sprite(0, 0);
+    frozenSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
@@ -45,9 +45,6 @@ BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     extraXOffset = 6;
     monsterType = "BrownRabbit";
-
-    monsterSprite = monsterSheet.get_sprite(0, 0);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 
@@ -62,8 +59,6 @@ Squirrel::Squirrel(shptr<Tile> tile, unsigned lvl)
     refSpeed = speeds[level];
     bounty = bountys[level];
     monsterType = "Squirrel";
-    monsterSprite = monsterSheet.get_sprite(0, 0);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 
@@ -80,9 +75,6 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     extraXOffset = 9;
     extraYOffset = 4;
     monsterType = "Fox";
-
-    monsterSprite = monsterSheet.get_sprite(0, 0);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 
@@ -100,9 +92,6 @@ WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
     extraXOffset = 9;
     monsterType = "WhiteRabbit";
     HPLoss = 5;
-
-    monsterSprite = monsterSheet.get_sprite(0, 0);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
@@ -117,9 +106,6 @@ Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     extraXOffset = 3;
     monsterType = "Hamster";
-
-    monsterSprite = monsterSheet.get_sprite(0, 0);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 GrayRacoon::GrayRacoon(shptr<Tile> tile, unsigned lvl)
@@ -135,9 +121,6 @@ GrayRacoon::GrayRacoon(shptr<Tile> tile, unsigned lvl)
     extraXOffset = 3;
     extraYOffset = 4;
     monsterType = "GrayRaccon";
-
-    monsterSprite = monsterSheet.get_sprite(0, 0);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 
@@ -153,9 +136,6 @@ Hedgehog::Hedgehog(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     extraYOffset = 4;
     monsterType = "Hedgehog";
-
-    monsterSprite = monsterSheet.get_sprite(0, 0);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
@@ -172,14 +152,20 @@ BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
     extraYOffset = 4;
     monsterType = "BrownRaccon";
     HPLoss = 2;
-    monsterSprite = monsterSheet.get_sprite(0, 0);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
 }
 
 void Monster::setSprite()
 {
-    monsterSprite.setPosition(x, y);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+    if (speed < refSpeed && speed != 0)
+    {
+        frozenSprite.setPosition(x, y);
+        frozenSprite.setOrigin(tileWidth/2, tileWidth/2);
+    }
+    else 
+    {
+        monsterSprite.setPosition(x, y);
+        monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+    }
     if (xDir == 0)
     {
         if (yDir == 1)
@@ -212,9 +198,10 @@ void Monster::setSprite()
 
 void Monster::render(sf::RenderTarget &target)
 { 
-    target.draw(monsterSprite);
     if (speed < refSpeed && speed != 0)
         target.draw(frozenSprite);
+    else 
+        target.draw(monsterSprite);
 }
 
 void Monster::update()
@@ -223,10 +210,18 @@ void Monster::update()
     setSprite();
     monsterSprite = monsterSheet.get_sprite(yOffset + extraYOffset,
                                             xOffset + extraXOffset);
-    monsterSprite.setPosition(x, y);
-    monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
-    frozenSprite.setPosition(x, y);
-    frozenSprite.setOrigin(8, 8);
+    frozenSprite = frozenSheet.get_sprite(yOffset + extraYOffset,
+                                            xOffset + extraXOffset);
+    if (speed < refSpeed && speed != 0)
+    {
+        frozenSprite.setPosition(x, y);
+        frozenSprite.setOrigin(tileWidth/2, tileWidth/2);
+    }
+    else
+    {
+        monsterSprite.setPosition(x, y);
+        monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
+    }
 }
 
 

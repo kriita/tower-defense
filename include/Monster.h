@@ -51,8 +51,8 @@ protected:
     shptr<Tile> nextTile{};
     sf::Sprite monsterSprite{};
     Spritesheet monsterSheet{"resources/images/monsters.png", 32, 32};
-    sf::Texture frozenTexture{};
     sf::Sprite frozenSprite {};
+    Spritesheet frozenSheet{"resources/images/frozenMonsters.png", 32, 32};
     std::string monsterType{};
     float radius{};
     double y{};                     // Position in pixels

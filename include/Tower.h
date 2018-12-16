@@ -128,7 +128,7 @@ public:
     std::vector<double> durationPrice{100, 1000};
     std::vector<double> slow{0.4, 0.4, 0.2};
     std::vector<double> slowPrice{100, 1000};
-    //Slow slowEffect{xPos, yPos, range.front()};
+    Slow slowEffect{static_cast<float>(xPos), static_cast<float>(yPos), static_cast<float>(range.front() * 2)};
 };
 
 

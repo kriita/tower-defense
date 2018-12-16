@@ -50,7 +50,7 @@ Game_State::Game_State(string level)
     gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX, availableTowers);
-    wavePump = make_unique<WavePump>(0.1f, 3.f);
+    wavePump = make_unique<WavePump>(2.f, 3.f);
 
     shptr<Tile> tempTile = gameMap->getSpawnPoint();
     Monster * tempMonster{};

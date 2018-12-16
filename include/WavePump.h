@@ -21,7 +21,7 @@ class WavePumpError: public std::logic_error
 class WavePump
 {
 public:
-    WavePump(float _spawnCooldown = 0.2f, float _intermissionSpan = 7.f);
+    WavePump(float _spawnCooldown = 0.f, float _intermissionSpan = 7.f);
     ~WavePump() = default;
     bool readyToSpawn();
     bool isIntermission();

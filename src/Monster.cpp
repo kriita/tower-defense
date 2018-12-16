@@ -193,9 +193,6 @@ void Monster::setSprite()
     }
 }
 
-
-
-
 void Monster::render(sf::RenderTarget &target)
 { 
     if (speed < refSpeed && speed != 0)

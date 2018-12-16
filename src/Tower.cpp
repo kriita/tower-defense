@@ -295,7 +295,7 @@ void SlowTower::update(std::vector<shptr<Monster>> & monstervector,
                    std::vector<shptr<Projectile>> & projectiles)
 {
    slowAttack(monstervector);
-   slowEffect.update();
+   //slowEffect.update();
 }
 
 void SlowTower::slowAttack(std::vector<shptr<Monster>> & monstervector)
@@ -311,7 +311,7 @@ void SlowTower::slowAttack(std::vector<shptr<Monster>> & monstervector)
 
 void SlowTower::render(sf::RenderTarget &target)
 {    
-    slowEffect.render(target);
+    //slowEffect.render(target);
     target.draw(towerSprite);
 }
 

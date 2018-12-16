@@ -7,6 +7,8 @@
 #include <vector>
 #include "Effect.h"
 
+#include <iostream>
+
 void Tower::render(sf::RenderTarget &target)
 {
     target.draw(towerSprite);
@@ -294,24 +296,45 @@ void SlowTower::upgradeDuration(int & cash)
 void SlowTower::update(std::vector<shptr<Monster>> & monstervector, 
                    std::vector<shptr<Projectile>> & projectiles)
 {
-   slowAttack(monstervector);
-   //slowEffect.update();
+    if (slowAttack(monstervector))
+    {
+        if (slowEffect == nullptr)
+            slowEffect = std::make_unique<Slow> (static_cast<float>(xPos), static_cast<float>(yPos), static_cast<float>(range.front()));
+    }
+    else if (slowEffect != nullptr)
+    {
+        if (slowEffect->checkRemove())
+            slowEffect.reset();
+        else
+            slowEffect->update();
+    }
+
+    //else if (target == nullptr && slowEffect != nullptr)
+    //    slowEffect->update();
+    //else if (slowEffect != nullptr && slowEffect->checkRemove())
+    //    slowEffect.reset();
 }
 
-void SlowTower::slowAttack(std::vector<shptr<Monster>> & monstervector)
+bool SlowTower::slowAttack(std::vector<shptr<Monster>> & monstervector)
 {
+    bool active {false};
+
     for (auto & monster : monstervector)
     {
         if (inRange(monster))
         {
+            active = true;
             monster->takeSlowDmg(attackPower.front(), slow.front(), duration.front(), true);
         }
     }
+
+    return active;
 }
 
 void SlowTower::render(sf::RenderTarget &target)
 {    
-    //slowEffect.render(target);
+    if (slowEffect != nullptr)
+        slowEffect->render(target);
     target.draw(towerSprite);
 }
 

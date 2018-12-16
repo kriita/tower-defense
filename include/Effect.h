@@ -26,6 +26,7 @@ protected:
     bool remove {false};        // Flag for removal
     sf::Clock durationClock {};
     sf::Sprite effectSprite {};
+    bool clockStart {false};
 };
 
 /*

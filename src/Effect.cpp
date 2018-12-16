@@ -17,6 +17,12 @@ void Effect::render(sf::RenderTarget &target)
 
 void Effect::update()
 {
+    if (!clockStart)
+    {
+        clockStart = true;
+        durationClock.restart();
+    }
+
     float elapsed {(durationClock.getElapsedTime()).asSeconds()};
 
     if (elapsed > duration)
@@ -71,8 +77,8 @@ Bleed::Bleed(float x, float y)
 Slow::Slow(float x, float y, float radius)
 : Effect {x, y}
 {
-    duration = 3;
-    fadeDuration = 3;
+    duration = 1.5;
+    fadeDuration = 1.5;
     startAlpha = 150;
     effectSprite = effectSheet.get_sprite(0, 0);
     effectSprite.setPosition(x, y);

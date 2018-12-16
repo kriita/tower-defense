@@ -116,7 +116,7 @@ public:
     SlowTower(int x, int y);
     SlowTower(double x, double y);
     SlowTower(shptr<Tile> tile);
-    void slowAttack(std::vector<shptr<Monster>> & monstervector);
+    bool slowAttack(std::vector<shptr<Monster>> & monstervector);
     void attack(std::vector<shptr<Projectile>> & projectiles) override;
     void update(std::vector<shptr<Monster>> & monstervector, 
             std::vector<shptr<Projectile>> & projectiles) override;
@@ -128,7 +128,7 @@ public:
     std::vector<double> durationPrice{100, 1000};
     std::vector<double> slow{0.4, 0.4, 0.2};
     std::vector<double> slowPrice{100, 1000};
-    Slow slowEffect{static_cast<float>(xPos), static_cast<float>(yPos), static_cast<float>(range.front() * 2)};
+    ptr<Slow> slowEffect {};
 };
 
 

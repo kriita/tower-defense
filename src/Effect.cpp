@@ -71,14 +71,14 @@ Bleed::Bleed(float x, float y)
 Slow::Slow(float x, float y, float radius)
 : Effect {x, y}
 {
-    duration = 5;
+    duration = 3;
     fadeDuration = 3;
     startAlpha = 150;
     effectSprite = effectSheet.get_sprite(0, 0);
     effectSprite.setPosition(x, y);
     effectSprite.setOrigin(48, 48);
     effectSprite.setColor(sf::Color(255, 255, 255, startAlpha));
-    effectSprite.setScale(radius / 96, radius / 96);
+    effectSprite.setScale(2 * radius / 96, 2 * radius / 96);
 }
 
 /*

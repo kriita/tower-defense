@@ -21,7 +21,6 @@ public:
     void update(); 
     void render(sf::RenderTarget &target);   
     void takeDamage(double const& damage);
-    void takePureDmg(double const& damage);
     // slow between 0 and 1. new speed = slow * speed    
     void takeSlowDmg(double const& damage, double const& slow, 
                      double const& duration, bool pureDmg);
@@ -45,7 +44,8 @@ public:
     void setLevel(unsigned const& lvl);
     bool isBleeding() {return bleeding;};
 protected:
-    void helpDamage(double const& dmg, bool pureDmg);
+    void helpDamage(double const& dmg, bool pureDmg);   // these are helpfunktions
+    void takePureDmg(double const& damage);             // for other takeDamage functions
     virtual void walk();  
     void setSprite();
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
@@ -82,7 +82,7 @@ protected:
     sf::Clock animClock {};         // Clock for animation
     sf::Clock slowClock {};         // Clock for sloweffect
     sf::Clock stunClock {};         // Clock for stuneffect
-    sf::Clock bleedingClock {};
+    sf::Clock bleedingClock {};     // Clock for bleedrendering
     bool stunned {false};
     bool slowed {false};    
     bool dead{false};

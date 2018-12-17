@@ -31,9 +31,9 @@ Map::Map(string mapFileName)
 
 void Map::render(sf::RenderTarget &target)
 {
-    for (int y {0}; y < yTilesMax; ++y)
+    for (unsigned y {0}; y < mapTiles.size(); ++y)
     {
-        for (int x {0}; x < xTilesMax; ++x)
+        for (unsigned x {0}; x < mapTiles[y].size(); ++x)
         {
             getTile(x, y)->render(target);
         }

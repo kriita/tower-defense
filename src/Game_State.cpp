@@ -116,6 +116,10 @@ void Game_State :: handle_event (Event event)
             blood = !blood;
             bloodButtonPressed = true;
         }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+        {
+	    wavePump->skipIntermission();
+        }
         /*
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {

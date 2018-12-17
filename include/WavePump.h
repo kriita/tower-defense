@@ -24,7 +24,7 @@ public:
     WavePump(float _spawnCooldown = 0.f, float _intermissionSpan = 7.f);
     ~WavePump() = default;
     bool readyToSpawn();
-    bool isIntermission();
+    void updateIntermission();
     void addMonsterType(Monster);
     void update(std::vector<shptr<Monster>> &, ptr<Resources> &);
     void intermission();
@@ -35,6 +35,8 @@ public:
     void updateActive(std::vector<shptr<Monster>> const &);
     std::string getMonsterTypes(); //test function
     int getWave();
+    bool empty();
+    void skipIntermission();
 private:
     std::map<std::string, Monster> monsterTypes{};
     std::queue<std::queue<shptr<Monster>>> waves{};
@@ -43,8 +45,9 @@ private:
     sf::Clock intermissionClock{};
     float spawnCooldown{};
     float intermissionSpan{};
-    int totalWaveAmount{}; //not used yeet
+    int totalWaveAmount{};
     bool active{}; //no monster on the playing feild.
+    bool activeIntermission{};
 };
 
 #endif

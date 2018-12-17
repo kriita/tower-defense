@@ -6,4 +6,3 @@ Hamster*3
 GrayRacoon*3
 Hedgehog*3
 BrownRacoon*3
-

@@ -7,7 +7,7 @@
 WavePump::WavePump(float _spawnCooldown, float _intermissionSpan)
     :monsterTypes{}, clock{}, intermissionClock{},
     spawnCooldown{_spawnCooldown}, intermissionSpan{_intermissionSpan}, 
-    totalWaveAmount{0}, active{false}
+    totalWaveAmount{0}, active{false}, activeIntermission{true}
 {}
 
 
@@ -16,9 +16,10 @@ bool WavePump::readyToSpawn()
     return clock.getElapsedTime().asSeconds() > spawnCooldown;
 }
 
-bool WavePump::isIntermission()
+void WavePump::updateIntermission()
 {
-    return intermissionClock.getElapsedTime().asSeconds() < intermissionSpan;
+    activeIntermission =
+	intermissionClock.getElapsedTime().asSeconds() < intermissionSpan;
 }
 
 void WavePump::addMonsterType(Monster monster)
@@ -30,7 +31,12 @@ void WavePump::addMonsterType(Monster monster)
 void WavePump::update(std::vector<shptr<Monster>> & monsters,
 		      ptr<Resources> & resources)
 {
-    if ( readyToSpawn() && !isIntermission() )
+    if (activeIntermission)
+    {
+	updateIntermission();
+    }
+
+    if ( readyToSpawn() && !activeIntermission )
     {
 	updateActive(monsters);
 	resources->changeCurrentWave(getWave());
@@ -42,7 +48,6 @@ void WavePump::update(std::vector<shptr<Monster>> & monsters,
 	else if(waves.front().empty())
 	{
 	    intermission();
-	    
 	}
 	else
 	{
@@ -71,6 +76,7 @@ void WavePump::intermission()
     {
 	waves.pop();
 	intermissionClock.restart();
+	activeIntermission = true;
     }
 }
 
@@ -141,4 +147,14 @@ std::string WavePump::getMonsterTypes()
 int WavePump::getWave()
 {
     return 1 + totalWaveAmount - waves.size();
+}
+
+bool WavePump::empty()
+{
+    return waves.empty();
+}
+
+void WavePump::skipIntermission()
+{
+    activeIntermission = false;
 }

@@ -1,9 +1,5 @@
-BrownRabbit*10
-Fox*3 nop*3 Fox*3 nop*3 Fox*3
-Squirrel*13
-whiteRabbit*7
-Hamster*3
-GrayRacoon*3
-Hedgehog*3
-BrownRacoon*3
-
+BrownRabbit*25
+BrownRabbit*15 Fox*10 BorwnRabbit*10 Fox*15
+BrownRabbit*20 Squirrel*10 WhiteRabbit*1
+Squirrel*50
+Fox*15 Hamster*15 Fox*15 WhiteRabbit*5

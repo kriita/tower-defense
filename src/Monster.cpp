@@ -37,7 +37,7 @@ Monster::Monster(shptr<Tile> tile)
 BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    double healths [10] = {500, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
     double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
     double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
     double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
@@ -313,6 +313,7 @@ void Monster::takeSlowDmg(double const& dmg, double const& slowing, double const
     slowClock.restart();
     slowTime = duration;
     slow = slowing;
+    slowed = true;
 }
 
 void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg)
@@ -329,14 +330,16 @@ void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bo
     }
 }
 
-void Monster::takePushBackDmg(double const& damage, int const& duration, bool pureDmg)     // pushBack percentage to push back
+void Monster::takeStunDmg(double const& damage, int const& duration, 
+                          double const& percentage, bool pureDmg)    
 {
     helpDamage(damage, pureDmg);
-    if ((rand() % 100) > (100 - 0.95))
+    if ((rand() % 100) > percentage)
     {
         speed = 0;
         stunClock.restart();
         stunDuration = duration;
+        stunned = true;
     }
 }
 
@@ -355,16 +358,18 @@ void Monster::walk()
     if ((bleedingClock.getElapsedTime()).asSeconds() > 3)
         bleeding = false;
     
-    if (((stunClock.getElapsedTime()).asSeconds() > stunDuration) && 
-        ((slowClock.getElapsedTime()).asSeconds() > slowTime))
-    {
+    if ((stunClock.getElapsedTime()).asSeconds() > stunDuration)
+        stunned = false;
+
+    if ((slowClock.getElapsedTime()).asSeconds() > slowTime)
+        slowed = false;
+
+    if (!slowed && !stunned)
         speed = refSpeed;
-    }
-
-    if (((slowClock.getElapsedTime()).asSeconds() > slowTime) &&
-        !((stunClock.getElapsedTime()).asSeconds() > stunDuration))
+    
+    if (slowed && !stunned)
         speed = slow;
-
+    
     x += speed * xDir;
     y += speed * yDir;
 }

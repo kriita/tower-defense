@@ -21,11 +21,14 @@ public:
     virtual ~Monster() = default;
     virtual void update();    
     void takeDamage(double const& damage);
-    void takePureDmg(double const& damage);    
-    void takeSlowDmg(double const& damage, double const& slow, double const& duration, bool pureDmg);
+    void takePureDmg(double const& damage);
+    // slow between 0 and 1. new speed = slow * speed    
+    void takeSlowDmg(double const& damage, double const& slow, 
+                     double const& duration, bool pureDmg);
     void takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg);
     void helpDamage(double const& dmg, bool pureDmg);
-    void takePushBackDmg(double const& damage, int const& duration, bool pureDmg);
+    void takeStunDmg(double const& damage, int const& duration, 
+                     double const& percentage, bool pureDmg);
     void walk();  
     void render(sf::RenderTarget &target);
     double getHealth() const {return health;};
@@ -58,8 +61,8 @@ protected:
     double y{};                     // Position in pixels
     double x{};
     double stunDuration{};
-    double refSpeed{};
-    double slow{};          // current slowEffect
+    double refSpeed{};              // Uneffected monster speed
+    double slow{};                  // current slowEffectSpeed
     double healths [10] {};
     double armours [10] {};
     double speeds [10] {};
@@ -68,18 +71,20 @@ protected:
     double armour{};
     double speed{};
     double bounty{};
-    int HPLoss{1};
-    int xDir{};
-    int yDir{};
+    int HPLoss{1};                  // how much HP player losses when monster reaches goal
+    int xDir{};                     // direction -1/1 pos right
+    int yDir{};                     // direction -1/1 pos down
     unsigned level{};
-    unsigned xOffset {};
+    unsigned xOffset {};            // offset for animation
     unsigned yOffset {};
-    unsigned extraXOffset{};
+    unsigned extraXOffset{};        // offset to select monster
     unsigned extraYOffset{};
     sf::Clock animClock {};         // Clock for animation
-    sf::Clock slowClock {};             // Time for sloweffect
-    sf::Clock stunClock {};
+    sf::Clock slowClock {};         // Clock for sloweffect
+    sf::Clock stunClock {};         // Clock for stuneffect
     sf::Clock bleedingClock {};
+    bool stunned {false};
+    bool slowed {false};    
     bool dead{false};
     bool firstStep {true};
     bool loseHP{false};             // Decrase HP with lifeLoss when true

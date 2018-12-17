@@ -149,6 +149,16 @@ int WavePump::getWave()
     return 1 + totalWaveAmount - waves.size();
 }
 
+int WavePump::getIntermissionCountdown()
+{
+    return intermissionSpan - intermissionClock.getElapsedTime().asSeconds();
+}
+
+float WavePump::getSpawnCooldown()
+{
+    return spawnCooldown;
+}
+
 bool WavePump::empty()
 {
     return waves.empty();
@@ -158,3 +168,9 @@ void WavePump::skipIntermission()
 {
     activeIntermission = false;
 }
+
+void WavePump::setSpawnCooldown(float val)
+{
+    spawnCooldown = val;
+}
+

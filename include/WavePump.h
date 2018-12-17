@@ -35,8 +35,12 @@ public:
     void updateActive(std::vector<shptr<Monster>> const &);
     std::string getMonsterTypes(); //test function
     int getWave();
+    int getIntermissionCountdown();
+    float getSpawnCooldown();
     bool empty();
     void skipIntermission();
+    void setSpawnCooldown(float);
+    
 private:
     std::map<std::string, Monster> monsterTypes{};
     std::queue<std::queue<shptr<Monster>>> waves{};

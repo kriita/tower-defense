@@ -17,20 +17,17 @@ public:
     Monster(shptr<Tile> tile);     //provide spawnpoint and level
     Monster(Monster const&) = default;
     Monster& operator=(Monster const& other) = default;
-    virtual void setSprite();
     virtual ~Monster() = default;
-    virtual void update();    
+    void update(); 
+    void render(sf::RenderTarget &target);   
     void takeDamage(double const& damage);
     void takePureDmg(double const& damage);
     // slow between 0 and 1. new speed = slow * speed    
     void takeSlowDmg(double const& damage, double const& slow, 
                      double const& duration, bool pureDmg);
     void takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg);
-    void helpDamage(double const& dmg, bool pureDmg);
     void takeStunDmg(double const& damage, int const& duration, 
                      double const& percentage, bool pureDmg);
-    void walk();  
-    void render(sf::RenderTarget &target);
     double getHealth() const {return health;};
     double getSpeed() const {return speed;};
     int getXDir() const {return xDir;};
@@ -39,11 +36,8 @@ public:
     double getY() const {return y;};
     double getBounty() const {return bounty;};
     double getHPLoss() const {return HPLoss;};
-    void setDir();                 // -1/1 positiv riktning till höger och nedåt
     bool onCheckpoint() const;
-    void setNextTile();
     bool isDead() const {return dead;};
-    unsigned slowTime {};
     sf::FloatRect getBounds();
     float getRadius() const {return radius;};
     bool shallLoseHP() const {return loseHP;};
@@ -51,6 +45,11 @@ public:
     void setLevel(unsigned const& lvl);
     bool isBleeding() {return bleeding;};
 protected:
+    void helpDamage(double const& dmg, bool pureDmg);
+    virtual void walk();  
+    void setSprite();
+    void setDir();                 // -1/1 positiv riktning till höger och nedåt
+    void setNextTile();
     shptr<Tile> nextTile{};
     sf::Sprite monsterSprite{};
     Spritesheet monsterSheet{"resources/images/monsters.png", 32, 32};
@@ -79,6 +78,7 @@ protected:
     unsigned yOffset {};
     unsigned extraXOffset{};        // offset to select monster
     unsigned extraYOffset{};
+    unsigned slowTime {};
     sf::Clock animClock {};         // Clock for animation
     sf::Clock slowClock {};         // Clock for sloweffect
     sf::Clock stunClock {};         // Clock for stuneffect
@@ -109,12 +109,14 @@ public:
     Fox(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 };
 
-class WhiteRabbit : public Monster              // Boss
+class WhiteRabbit : public Monster              // a Boss can regenerate
 {
 public:
     WhiteRabbit(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 private:
-
+    void walk() override;  
+    void regenerate();
+    double regeneration [10];
 };
 
 class Hamster : public Monster
@@ -127,7 +129,6 @@ class GrayRacoon : public Monster
 {
 public:
     GrayRacoon(shptr<Tile>, unsigned level);          //provide spawnpoint and level
-private:
 
 };
 

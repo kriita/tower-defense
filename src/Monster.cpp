@@ -37,7 +37,7 @@ Monster::Monster(shptr<Tile> tile)
 BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 {
-    double healths [10] = {500, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
     double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
     double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
     double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
@@ -92,15 +92,16 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
 
 
 WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
-    : Monster{tile} 
+    : Monster{tile}
 
 {
     double healths [10] = {500, 1000, 3000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000};
     double armours [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     double speeds [10] = {1, 1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5};
     double bountys [10] = {200, 500, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000};
+    double regeneration [10] {1, 3, 5, 10, 20, 50, 100, 250, 500, 1000}; 
     level = lvl;
-    health = healths[level];
+    health = healths[level] + regeneration[level];
     armour = armours[level];
     speed = speeds[level];
     refSpeed = speeds[level];
@@ -108,6 +109,11 @@ WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
     extraXOffset = 9;
     monsterType = "WhiteRabbit";
     HPLoss = 5;
+}
+
+void WhiteRabbit::regenerate()
+{
+    health += regeneration [level];
 }
 
 Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
@@ -351,8 +357,8 @@ void Monster::walk()
     {
         x = nextTile->getX();
         y = nextTile->getY();
-        Monster::setNextTile();
-        Monster::setDir();
+        setNextTile();
+        setDir();
     }
 
     if ((bleedingClock.getElapsedTime()).asSeconds() > 3)
@@ -373,6 +379,13 @@ void Monster::walk()
     x += speed * xDir;
     y += speed * yDir;
 }
+
+void WhiteRabbit::walk()
+{
+    Monster::walk();
+    regenerate();
+}
+
 
 void Monster::setNextTile()
 {

@@ -73,7 +73,7 @@ Game_State::Game_State(string level)
 
     tempMonster = nullptr;
 
-    wavePump->readFromFile("test3");
+    wavePump->readFromFile(level);
 
 
 

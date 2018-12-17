@@ -29,31 +29,30 @@ class Projectile
     Projectile(double x, double y, double xDir, double yDir, double attackPower);
     Projectile(double x, double y, double dirByRadians, double attackPower);    // OBS! positive radians clockwise
     virtual ~Projectile() = default;
-    virtual void targetHit();   // Checks if the target has been hit, deals damgae if true
-    virtual void explodeAnim() {}; // renders the explode animation
+    virtual void targetHit() const;   // Checks if the target has been hit, deals damgae if true
+    virtual void explodeAnim() const {}; // renders the explode animation
     virtual void move();
     virtual void update(std::vector<shptr<Monster>> &allMonsters);
-    virtual void dealDamage (shptr<Monster> &aMonster);
+    virtual void dealDamage (shptr<Monster> &aMonster) const;
     virtual void removeProjectile();
-    bool isOutsideMap();
-    shptr<Monster> getTarget(); // Returns nullptr (false) if Projectile has no target
-    void setTarget(shptr<Monster> newTarget);
-    double getX(); // Coordinates in pixels
-    double getY();
-    void setx(double new_x);
-    void sety(double new_y);
-    double getxDir();
-    double getyDir();
-    double getDirByRadians();
-    void setxDir(double new_xDir);
-    void setyDir(double new_yDir);
-    void setDirByRadians(double newAngle);
-    double getSpeed();
-    void setSpeed(double newSpeed);
-    virtual void render(sf::RenderTarget &window);
-    sf::FloatRect getBounds();
-    virtual bool checkHit (shptr<Monster> &aMonster);
-    double getRadius();
+    shptr<Monster> getTarget() const; // Returns nullptr (false) if Projectile has no target
+    void setTarget(shptr<Monster> const &newTarget);
+    double getX() const; // Coordinates in pixels
+    double getY() const;
+    void setx(double const new_x);
+    void sety(double const new_y);
+    double getxDir() const;
+    double getyDir() const;
+    double getDirByRadians() const;
+    void setxDir(double const new_xDir);
+    void setyDir(double const new_yDir);
+    void setDirByRadians(double const newAngle);
+    double getSpeed() const;
+    void setSpeed(double const newSpeed);
+    virtual void render(sf::RenderTarget &window) const;
+    sf::FloatRect getBounds() const;
+    virtual bool checkHit (shptr<Monster> const &aMonster) const;
+    double getRadius() const;
 
 
     protected:
@@ -99,11 +98,10 @@ class MissileProjectile : public Projectile
     MissileProjectile(double x, double y, double xDir, double yDir, double attackPower); // Sätt vinkel
     MissileProjectile(double x, double y, double dirByRadians, double attackPower);
     //Spritesheet missileSheet {"resources/images/MissileProjectileSheet.png", 32, 32};
-    void dealDamage(shptr<Monster> &aMonster) override;
+    void dealDamage(shptr<Monster> &aMonster) const override;
     void update(std::vector<shptr<Monster>> &allMonsters) override;
-    void explodeAnim() override;
-    void render(sf::RenderTarget &window);
-
+    void explodeAnim() const override;
+    void render(sf::RenderTarget &window) const;
 
     private:
     //int currSprite {0}; // Where in the spriteSheet should we read
@@ -117,11 +115,11 @@ class LaserProjectile : public Projectile
     LaserProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget, double duration); // Sätt vinkel
     void update(std::vector<shptr<Monster>> &allMonsters) override;
     protected:
-    void laserDamage(std::vector<shptr<Monster>> &allMonsters);
+    void laserDamage(std::vector<shptr<Monster>> &allMonsters) const;
     double duration{};
-    bool checkHit(shptr<Monster> &aMonster) override;
+    bool checkHit(shptr<Monster> const &aMonster) const override;
     sf::Clock laserClock{};
-    void render(sf::RenderTarget &window);
+    void render(sf::RenderTarget &window) const;
     double transparency{0};
     int transparencyState{0};  
  };

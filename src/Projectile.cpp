@@ -19,37 +19,37 @@ Projectile::Projectile(double x, double y, double xDir, double yDir, double atta
 Projectile::Projectile(double x, double y, double dirByRadians, double attackPower)
 : x {x}, y {y}, xDir {cos(dirByRadians)}, yDir {sin(dirByRadians)}, damage {attackPower} {}
 
-void Projectile::setx(double new_x)
+void Projectile::setx(double const new_x)
 {
     x = new_x;
 }
 
-void Projectile::sety(double new_y)
+void Projectile::sety(double const new_y)
 {
     y = new_y;
 }
 
-double Projectile::getX() // Coordinates in pixels
+double Projectile::getX() const// Coordinates in pixels
 {
     return x;
 }
 
-double Projectile::getY()
+double Projectile::getY() const
 {
     return y;
 }
 
-void Projectile::setxDir(double new_xDir)
+void Projectile::setxDir(double const new_xDir)
 {
     xDir = new_xDir;
 }
 
-void Projectile::setyDir(double new_yDir)
+void Projectile::setyDir(double const new_yDir)
 {
     yDir = new_yDir;
 }
 
-void Projectile::setDirByRadians(double newAngle)
+void Projectile::setDirByRadians(double const newAngle)
 {
     angle = newAngle;
     xDir = cos(angle);
@@ -57,17 +57,17 @@ void Projectile::setDirByRadians(double newAngle)
     projectileSprite.setRotation(angle * 360 / (2 * 3.1415));
 }
 
-double Projectile::getxDir()
+double Projectile::getxDir() const
 {
     return xDir;
 }
 
-double Projectile::getyDir()
+double Projectile::getyDir() const
 {
     return yDir;
 }
 
-double Projectile::getDirByRadians()
+double Projectile::getDirByRadians() const
 {
     if (xDir == 0)
     {
@@ -80,24 +80,24 @@ double Projectile::getDirByRadians()
     else return atan2(yDir, xDir);
 }
 
-double Projectile::getSpeed()
+double Projectile::getSpeed() const
 {
     return speed;
 }
 
-void Projectile::setSpeed(double newSpeed)
+void Projectile::setSpeed(double const newSpeed)
 {
     speed = newSpeed;
 }
 
 // Returns nullptr (false) if Projectile has no target
-shptr<Monster> Projectile::getTarget() 
+shptr<Monster> Projectile::getTarget() const
 {
    return target;
 
 }
 
-void Projectile::setTarget(shptr<Monster> newTarget)
+void Projectile::setTarget(shptr<Monster> const &newTarget)
 {
     target = newTarget;
 }
@@ -159,7 +159,7 @@ void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
     }
 }
 
-void Projectile::dealDamage(shptr<Monster> &aMonster)
+void Projectile::dealDamage(shptr<Monster> &aMonster) const
 {
     aMonster->takeDamage(damage);
 }
@@ -173,13 +173,13 @@ void Projectile::removeProjectile()
     projectileSprite.setRotation(0);
 }
 
-void Projectile::render(sf::RenderTarget &window)
+void Projectile::render(sf::RenderTarget &window) const
 {
     window.draw(projectileSprite);
 }
 
 
-void Projectile::targetHit()
+void Projectile::targetHit() const
 {
     if (getTarget())
     {
@@ -187,12 +187,12 @@ void Projectile::targetHit()
     }
 }
 
-sf::FloatRect Projectile::getBounds()
+sf::FloatRect Projectile::getBounds() const
 {
     return projectileSprite.getGlobalBounds();
 }
 
-bool Projectile::checkHit(shptr<Monster> &aMonster)
+bool Projectile::checkHit(shptr<Monster> const &aMonster) const
 {
     if (sqrt( pow( aMonster->getX() - x, 2 ) + pow( aMonster->getY() - y, 2 ) ) -
         (aMonster->getRadius() + radius) < 0)
@@ -202,7 +202,7 @@ bool Projectile::checkHit(shptr<Monster> &aMonster)
     else return false;
 }
 
-double Projectile::getRadius()
+double Projectile::getRadius() const
 {
     return radius;
 }
@@ -323,7 +323,7 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, do
 }
 
 // Deals damage too all Monsters within a circle of 20 pixels of the missile when it hits
-void MissileProjectile::dealDamage(shptr<Monster> &aMonster)
+void MissileProjectile::dealDamage(shptr<Monster> &aMonster) const
 {
     if (pow(aMonster->getX() - getX(), 2) + pow(aMonster->getY() - getY(), 2) < 400)
     {
@@ -365,7 +365,7 @@ void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)
     }
 }
 
-void MissileProjectile::render(sf::RenderTarget &window)
+void MissileProjectile::render(sf::RenderTarget &window) const
 {
     if (explodeEffect)
     {
@@ -374,7 +374,7 @@ void MissileProjectile::render(sf::RenderTarget &window)
     else window.draw(projectileSprite);
 }
 
-void MissileProjectile::explodeAnim()
+void MissileProjectile::explodeAnim() const
 {
     if (explodeEffect)
     {
@@ -431,7 +431,7 @@ void LaserProjectile::update(std::vector<shptr<Monster>> &allMonsters)
     laserDamage(allMonsters);
 }
 
-void LaserProjectile::laserDamage(std::vector<shptr<Monster>> &allMonsters)
+void LaserProjectile::laserDamage(std::vector<shptr<Monster>> &allMonsters) const
 {
     for (shptr<Monster> aMonster : allMonsters)
     {
@@ -440,7 +440,7 @@ void LaserProjectile::laserDamage(std::vector<shptr<Monster>> &allMonsters)
 }
 
 
-bool LaserProjectile::checkHit(shptr<Monster> &aMonster)
+bool LaserProjectile::checkHit(shptr<Monster> const &aMonster) const
 {
     if (getBounds().intersects( aMonster->getBounds() ))
     {   
@@ -464,7 +464,7 @@ bool LaserProjectile::checkHit(shptr<Monster> &aMonster)
     return false;
 }
 
-void LaserProjectile::render(sf::RenderTarget &window)
+void LaserProjectile::render(sf::RenderTarget &window) const
 {
     window.draw(projectileSprite);
   /*  sf::FloatRect rect1(projectileSprite.getGlobalBounds());

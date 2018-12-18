@@ -9,12 +9,9 @@
 #include "Effect.h"
 #include <vector>
 
-// Note: Not using reference to vector with all monsters! But it works anyway...
-// ...because of pointers? Hmmm... Yeah that makes sense! :)
-
 /* The purpose of a Projectile is to be ceated by a Tower and damage a Monster
  * if the Monster is hit, thus Projectile needs knowledge of the class Monster
- * but not of Tower.
+ * but not of Tower. Some Projectiles have an Effect when exploading.
  */
 
 class ProjectileError : public std::logic_error
@@ -29,7 +26,7 @@ class Projectile
     Projectile(double x, double y, double xDir, double yDir, double attackPower);
     Projectile(double x, double y, double dirByRadians, double attackPower);    // OBS! positive radians clockwise
     virtual ~Projectile() = default;
-    virtual void targetHit() const;   // Checks if the target has been hit, deals damgae if true
+    virtual void targetHit() const;   // Checks if the target has been hit, deals damage if true
     virtual void explodeAnim() const {}; // renders the explode animation
     virtual void move();
     virtual void update(std::vector<shptr<Monster>> &allMonsters);
@@ -64,7 +61,6 @@ class Projectile
     double yDir {};    
     double damage {};
 
-    //Spritesheet projectileSpritesheet {};
     sf::Sprite projectileSprite {};
     sf::Texture projectileTexture {};
     double radius {}; // radius in pixels
@@ -91,22 +87,20 @@ class minigunProjectile : public Projectile
     minigunProjectile(double x, double y, double dirByRadians, double attackPower);
 };
 
+// MissileProjectile is a guided projectile
 class MissileProjectile : public Projectile
 {
     public:
     MissileProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget); // Sätt vinkel
-    MissileProjectile(double x, double y, double xDir, double yDir, double attackPower); // Sätt vinkel
+    MissileProjectile(double x, double y, double xDir, double yDir, double attackPower);
     MissileProjectile(double x, double y, double dirByRadians, double attackPower);
-    //Spritesheet missileSheet {"resources/images/MissileProjectileSheet.png", 32, 32};
     void dealDamage(shptr<Monster> &aMonster) const override;
     void update(std::vector<shptr<Monster>> &allMonsters) override;
     void explodeAnim() const override;
     void render(sf::RenderTarget &window) const;
 
     private:
-    //int currSprite {0}; // Where in the spriteSheet should we read
     shptr<MissileExplosion> explodeEffect {}; 
-
 };
 
 class LaserProjectile : public Projectile

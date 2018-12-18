@@ -4,13 +4,8 @@
 #include "Effect.h"
 #include <cmath>
 #include <vector>
-#include "constants.h"
+#include <memory>
 
-#include <iostream>
-/*
- *  Funktioner kvar att definiera:
-    virtual void explodeAnim() // renders the explode animation
- */
 
 
 Projectile::Projectile(double x, double y, double xDir, double yDir, double attackPower)
@@ -29,7 +24,7 @@ void Projectile::sety(double const new_y)
     y = new_y;
 }
 
-double Projectile::getX() const// Coordinates in pixels
+double Projectile::getX() const // Coordinates in pixels
 {
     return x;
 }
@@ -104,38 +99,19 @@ void Projectile::setTarget(shptr<Monster> const &newTarget)
 
 void Projectile::move()
 {
-    if (getTarget() != nullptr)    // Update coords. if Projectile has target
+    if (getTarget() != nullptr)     // Update coordinates.
+                                    // If Projectile has target, then setAngle()
     {
-/*
-        double PMx = -(x*x - (target->getX() * target->getX()));
-        double PMy = -(y*y - (target->getY() * target->getY()));
-
-        xDir = PMx/abs(PMx);
-        yDir = PMy/abs(PMy);
-        
-        double PMx = -(x*x - (target->getX() * target->getX()));
-
-        
-        double PMy = -(y*y - (target->getY() * target->getY()));
-        
-        xDir = PMx/abs(PMx);
-        yDir = PMx/abs(PMy);
-        x += xDir * speed / abs(PMx);
-        y += yDir * speed / abs(PMy);
-        */
-       // projectileSprite.setRotation(getDirByRadians() * 360 / (2 * 3.1415));
         setAngle();
     }
     x += xDir * speed;
     y += yDir * speed;
     projectileSprite.setPosition(x, y);
-    
 }
 
 void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
 {
     move();
-
 
     if (getTarget())
     {
@@ -146,7 +122,6 @@ void Projectile::update(std::vector<shptr<Monster>> &allMonsters)
             return void();
         }
     }
-
 
     for (shptr<Monster> aMonster : allMonsters)
     {
@@ -287,7 +262,6 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, do
     target = Monstertarget;
     projectileTexture.loadFromFile("resources/images/missileProjectile.png");
     projectileSprite.setTexture(projectileTexture);
-    //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     projectileSprite.setRotation(+ dirByRadians * 360 / (2 * 3.1415));
@@ -301,7 +275,6 @@ MissileProjectile::MissileProjectile(double x, double y, double xDir, double yDi
 {
     projectileTexture.loadFromFile("resources/images/missileProjectile.png");
     projectileSprite.setTexture(projectileTexture);
-    //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     projectileSprite.setRotation(atan2(yDir,xDir));
@@ -314,7 +287,6 @@ MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, do
 {
     projectileTexture.loadFromFile("resources/images/missileProjectile.png");
     projectileSprite.setTexture(projectileTexture);
-    //projectileSprite = missileSheet.get_sprite(0, 0);
     projectileSprite.setOrigin(16, 16);
     projectileSprite.setPosition(x,y);
     projectileSprite.setRotation(dirByRadians * 360 / (2 * 3.1415));
@@ -378,7 +350,7 @@ void MissileProjectile::explodeAnim() const
 {
     if (explodeEffect)
     {
-        explodeEffect->changeSprite(); // Updates effectSprite if enough
+        explodeEffect->changeSprite(); // changeSprite() updates effectSprite if enough
         explodeEffect->update();       // time has passed
     }                                                         
 }

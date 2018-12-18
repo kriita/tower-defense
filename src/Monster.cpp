@@ -12,15 +12,12 @@
 #include <SFML/Graphics/Export.hpp>
 
 using std::string;
-using std::vector;
 using sf::Clock;
 
 
 /* 
  *  Monster
  */
-
-
 
 Monster::Monster(shptr<Tile> tile)
 {
@@ -51,7 +48,6 @@ BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
     monsterType = "BrownRabbit";
 }
 
-
 Squirrel::Squirrel(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
@@ -68,7 +64,6 @@ Squirrel::Squirrel(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     monsterType = "Squirrel";
 }
-
 
 Fox::Fox(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
@@ -88,8 +83,6 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     extraYOffset = 4;
     monsterType = "Fox";
 }
-
-
 
 WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
@@ -152,7 +145,6 @@ GrayRacoon::GrayRacoon(shptr<Tile> tile, unsigned lvl)
     extraYOffset = 4;
     monsterType = "GrayRaccon";
 }
-
 
 Hedgehog::Hedgehog(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
@@ -228,16 +220,19 @@ void Monster::setSprite()
         else 
             yOffset = 1;
     }
-    if (animClock.getElapsedTime().asMilliseconds() > 100)
-    {
-        if (xOffset == 0 || xOffset == 2)
-            xOffset = 1;
-        else
-            if (firstStep)
-                xOffset = 0;
+    if (speed != 0)
+    { 
+        if (animClock.getElapsedTime().asMilliseconds() > 240 / speed)
+        {
+            if (xOffset == 0 || xOffset == 2)
+                xOffset = 1;
             else
-                xOffset = 2;
-        animClock.restart();
+                if (firstStep)
+                    xOffset = 0;
+                else
+                    xOffset = 2;
+            animClock.restart();
+        }
     }
 }
 
@@ -268,8 +263,6 @@ void Monster::update()
         monsterSprite.setOrigin(tileWidth/2, tileWidth/2);
     }
 }
-
-
 
 sf::FloatRect Monster::getBounds()
 {
@@ -385,7 +378,6 @@ void WhiteRabbit::walk()
     Monster::walk();
     regenerate();
 }
-
 
 void Monster::setNextTile()
 {

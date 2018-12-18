@@ -1,6 +1,5 @@
 #ifndef MONSTER_H
 #define MONSTER_H
-
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "Tile.h"
@@ -24,36 +23,37 @@ public:
     // slow between 0 and 1. new speed = slow * speed    
     void takeSlowDmg(double const& damage, double const& slow, 
                      double const& duration, bool pureDmg);
-    void takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg);
+    void takeCritDamge(double const& damage, unsigned const& critChance,
+                        bool pureDmg);
     void takeStunDmg(double const& damage, int const& duration, 
                      double const& percentage, bool pureDmg);
-    double getHealth() const {return health;};
-    double getSpeed() const {return speed;};
+    void setLevel(unsigned const& lvl);
     int getXDir() const {return xDir;};
     int getYDIr() const {return yDir;};
+    double getHealth() const {return health;};
+    double getSpeed() const {return speed;};
     double getX() const {return x;};
     double getY() const {return y;};
     double getBounty() const {return bounty;};
     double getHPLoss() const {return HPLoss;};
-    bool onCheckpoint() const;
-    bool isDead() const {return dead;};
-    sf::FloatRect getBounds();
     float getRadius() const {return radius;};
     bool shallLoseHP() const {return loseHP;};
-    std::string getType() const {return monsterType;};
-    void setLevel(unsigned const& lvl);
+    bool onCheckpoint() const;
+    bool isDead() const {return dead;};
     bool isBleeding() {return bleeding;};
+    sf::FloatRect getBounds();
+    std::string getType() const {return monsterType;};
 protected:
+    virtual void walk(); 
     void helpDamage(double const& dmg, bool pureDmg);   // these are helpfunktions
     void takePureDmg(double const& damage);             // for other takeDamage functions
-    virtual void walk();  
     void setSprite();
     void setDir();                 // -1/1 positiv riktning till höger och nedåt
     void setNextTile();
     shptr<Tile> nextTile{};
     sf::Sprite monsterSprite{};
-    Spritesheet monsterSheet{"resources/images/monsters.png", 32, 32};
     sf::Sprite frozenSprite {};
+    Spritesheet monsterSheet{"resources/images/monsters.png", 32, 32};
     Spritesheet frozenSheet{"resources/images/frozenMonsters.png", 32, 32};
     std::string monsterType{};
     float radius{};

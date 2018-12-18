@@ -189,8 +189,8 @@ void Monster::setLevel(unsigned const& lvl)
     level = lvl;
     health = healths[level];
     armour = armours[level];
-    speed = speeds[level];
-    refSpeed = speeds[level];
+//    speed = speeds[level];
+//    refSpeed = speeds[level];
     bounty = bountys[level];
 }
 
@@ -247,6 +247,7 @@ void Monster::render(sf::RenderTarget &target)
 void Monster::update()
 {
     walk();
+    setLevel(10);
     setSprite();
     monsterSprite = monsterSheet.get_sprite(yOffset + extraYOffset,
                                             xOffset + extraXOffset);

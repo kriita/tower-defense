@@ -281,7 +281,7 @@ vector<bool> Map::getSpriteNeighbors(int xTile, int yTile)
                 y < 0 || y == yTilesMax)
                 bin[n] = 1;
 
-            if (x != xTile && y != yTile)
+            if (x != xTile || y != yTile)
                 ++n;
         }
     }

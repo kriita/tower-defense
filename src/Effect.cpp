@@ -17,6 +17,7 @@ void Effect::render(sf::RenderTarget &target)
 
 void Effect::update()
 {
+    // Start counting
     if (!clockStart)
     {
         clockStart = true;
@@ -24,6 +25,8 @@ void Effect::update()
     }
 
     float elapsed {(durationClock.getElapsedTime()).asSeconds()};
+
+    if (startAlpha > 255) startAlpha = 255;
 
     if (elapsed > duration)
     {

@@ -13,7 +13,7 @@ Tile::Tile(int x, int y, char type)
 : xTile{x}, yTile{y}, tileType{type}
 {}
 
-void Tile::render(sf::RenderTarget &target)
+void Tile::render(sf::RenderTarget &target) const
 {
     target.draw(tileSprite);
 }
@@ -70,7 +70,7 @@ void Tile::setNextTile(shptr<Tile> const tile)
     nextTile = tile;
 }
 
-shptr<Tile> Tile::getNextTile()
+shptr<Tile> Tile::getNextTile() const
 {
     return nextTile;
 }

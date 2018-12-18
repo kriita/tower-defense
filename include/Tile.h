@@ -23,7 +23,7 @@ public:
     Tile(Tile const&) = delete;
     virtual ~Tile() = default;
 
-    void render(sf::RenderTarget &target);
+    void render(sf::RenderTarget &target) const;
     void virtual update() = 0;
     void resize(float xNew, float yNew, float scale);
     int getTileX() const;
@@ -35,7 +35,7 @@ public:
     bool checkAnimated() const;
     void switchPlaceable();
     void setNextTile(shptr<Tile> const tile);
-    shptr<Tile> getNextTile();
+    shptr<Tile> getNextTile() const;
     void setSheetOffset(std::vector<bool> bin);
     void setPathSheetOffset(std::vector<bool> bin);
     void setTileSprite(sf::Sprite sprite);

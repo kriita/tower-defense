@@ -29,7 +29,7 @@ Map::Map(string mapFileName)
     setTileSprites();
 }
 
-void Map::render(sf::RenderTarget &target)
+void Map::render(sf::RenderTarget &target) const
 {
     for (unsigned y {0}; y < mapTiles.size(); ++y)
     {
@@ -131,12 +131,13 @@ void Map::readMapData()
 {
     mapTiles.resize(xTilesMax, vector<shptr<Tile>>(yTilesMax, nullptr));
 
+    // Get handle for file
     string mapFolder {"resources/maps/"};
-
     ifstream mapFile((mapFolder + fileName + ".map").c_str());
     if (!mapFile)
         throw MapError{"Cannot open map file"};
 
+    // Read characters from file
     string line {};
     char typeChar {};
     for (int y {0}; y < yTilesMax; ++y)
@@ -151,6 +152,7 @@ void Map::readMapData()
         {
             iss >> typeChar;
 
+            // Identify character and create Tile
             if (typeChar == startChar)
             {
                 if (spawnPoint != nullptr)
@@ -196,6 +198,7 @@ void Map::readMapData()
     }
     mapFile.close();
 
+    // Check that we have spawn/end points
     if (spawnPoint == nullptr)
         throw MapError{"No spawn point in map file"};
 
@@ -205,6 +208,7 @@ void Map::readMapData()
 
 void Map::findPath()
 {
+    // Set initial Tile and mvoe direction
     int x {spawnPoint->getTileX()};
     int y {spawnPoint->getTileY()};
     int xDir {(x == 0 ? 1 : (x == xTilesMax-1 ? -1 : 0))};
@@ -214,6 +218,7 @@ void Map::findPath()
 
     while (getTile(x, y) != endPoint)
     {
+        // Find next Tile
         if (getTile(x + xDir, y + yDir)->getType() == pathChar ||
             getTile(x + xDir, y + yDir)->getType() == endChar)
         {
@@ -256,6 +261,7 @@ void Map::setTileSprites()
 
 vector<bool> Map::getSpriteNeighbors(int xTile, int yTile)
 {
+    // Check if surrounding tiles are of same type or out of bounds
     vector<bool> bin {};
     bin.resize(8, false);
     char tileType {getTile(xTile, yTile)->getType()};
@@ -275,7 +281,7 @@ vector<bool> Map::getSpriteNeighbors(int xTile, int yTile)
                 y < 0 || y == yTilesMax)
                 bin[n] = 1;
 
-            if (!(x == xTile && y == yTile))
+            if (x != xTile && y != yTile)
                 ++n;
         }
     }
@@ -283,7 +289,7 @@ vector<bool> Map::getSpriteNeighbors(int xTile, int yTile)
     return bin;
 }
 
-shptr<Tile> Map::getTile(int x, int y)
+shptr<Tile> Map::getTile(int x, int y) const
 {
     if (x < 0 || y < 0 || x >= xTilesMax || y >= yTilesMax)
         throw MapError{"GetTile() coordinates out of bounds"};
@@ -291,12 +297,12 @@ shptr<Tile> Map::getTile(int x, int y)
     return mapTiles[x][y];
 }
 
-shptr<Tile> Map::getSpawnPoint()
+shptr<Tile> Map::getSpawnPoint() const
 {
     return spawnPoint;
 }
 
-shptr<Tile> Map::getEndPoint()
+shptr<Tile> Map::getEndPoint() const
 {
     return endPoint;
 }

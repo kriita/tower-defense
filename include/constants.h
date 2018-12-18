@@ -13,7 +13,7 @@
  * the entire execution of the program.
  */
 
-std::string const gameTitle {"Poppy piercer"};
+std::string const gameTitle {"Animal Annihalation"};
 
 /*
  * define the size of the window.

@@ -32,7 +32,7 @@ public:
 	
 	void update(ptr<Resources> & gameResources, std::vector<shptr<Tower>>(& availableTowers));
 	void render(sf::RenderTarget &target, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(& availableTowers));
-	void handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(&availableTowers));
+	void handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(&availableTowers), ptr<WavePump>(&wavePump));
 
 	int getX();
 	int getY();
@@ -45,4 +45,6 @@ private:
 	ptr<Shop_Window> sidebarShop {};
 	std::vector<shptr<Tower>> availableTowers{};
 	//shptr<Info_Window> sidebarInfo {};
+	
+	sf::RectangleShape background {sf::Vector2f(screen_width - sidebarPosX, screen_height)};
 };

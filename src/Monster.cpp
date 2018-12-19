@@ -75,6 +75,7 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
+    health = healths[level];
     armour = armours[level];
     speed = speeds[level];
     refSpeed = speeds[level];
@@ -82,6 +83,7 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     extraXOffset = 9;
     extraYOffset = 4;
     monsterType = "Fox";
+    setLevel(5);
 }
 
 WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
@@ -187,11 +189,11 @@ BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
 void Monster::setLevel(unsigned const& lvl)
 {
     level = lvl;
-    health = healths[level];
-    armour = armours[level];
+//    health = healths[lvl];
+//    armour = armours[lvl];
 //    speed = speeds[level];
 //    refSpeed = speeds[level];
-    bounty = bountys[level];
+    bounty = bountys[lvl];
 }
 
 void Monster::setSprite()
@@ -247,7 +249,6 @@ void Monster::render(sf::RenderTarget &target)
 void Monster::update()
 {
     walk();
-    setLevel(10);
     setSprite();
     monsterSprite = monsterSheet.get_sprite(yOffset + extraYOffset,
                                             xOffset + extraXOffset);

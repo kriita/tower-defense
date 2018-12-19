@@ -20,9 +20,15 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+#include <iostream>
+
 Resource_Window::Resource_Window(int xPos)
 : x {xPos + static_cast<int>(mapBorderOffset)}, y {static_cast<int>(mapBorderOffset)}
 {
+	nextWaveBtn = std::make_shared<sf::Rect<int>> (static_cast<int>(sidebarPosX + mapBorderOffset + 120),
+    						       static_cast<int>(y + 5.5 * mapBorderOffset),
+						       48, 48);
+
 	if(!HPTexture.loadFromFile("resources/images/bottle_t.png"))
     	{
         	throw Resource_Window_Error{"Couldn't load bottle texture"};
@@ -46,6 +52,15 @@ Resource_Window::Resource_Window(int xPos)
 
 	waveText.setPosition(	x + static_cast<int>(0.5*mapBorderOffset),
 				y + 8 * mapBorderOffset);
+
+	if(!nextWaveTexture.loadFromFile("resources/images/nextWaveButton.png"))
+    	{
+        	throw Resource_Window_Error{"Couldn't load next wave button texture"};
+    	}
+	nextWaveSprite.setTexture(nextWaveTexture);
+	nextWaveSprite.setPosition(static_cast<int>(x + 120),
+    				   static_cast<int>(y + 6 * mapBorderOffset));
+	
 }
 
 void Resource_Window::update(ptr<Resources> (& gameResources))
@@ -62,4 +77,13 @@ void Resource_Window::render(sf::RenderTarget &target)
 	target.draw(moneySprite);
 	target.draw(moneyText);
 	target.draw(waveText);
+	target.draw(nextWaveSprite);
+}
+
+void Resource_Window::handle_event(int mousePosX, int mousePosY, ptr<WavePump>(&wavePump), ptr<Resources>(&gameResources))
+{
+	if (nextWaveBtn -> contains(mousePosX, mousePosY))
+	{
+		wavePump -> skipIntermission();
+	}
 }

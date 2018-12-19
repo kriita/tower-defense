@@ -15,6 +15,7 @@
 #include "defs.h"
 #include "Map.h"
 #include "Resources.h"
+#include "WavePump.h"
 
 #include <memory>
 #include <SFML/Graphics.hpp>
@@ -35,6 +36,7 @@ public:
 	
 	void update(ptr<Resources> (& gameResources));
 	void render(sf::RenderTarget &target);
+	void handle_event(int mousePosX, int mousePosY, ptr<WavePump>(&wavePump), ptr<Resources>(&gameResources));
 
 private:
 	int x;
@@ -52,4 +54,9 @@ private:
 
 	sf::Text waveText {"", Font_Manager::load("resources/fonts/font.ttf"),
 			H4};
+
+	shptr<sf::Rect<int>> nextWaveBtn {};
+
+	sf::Texture nextWaveTexture {};
+	sf::Sprite nextWaveSprite {};
 };

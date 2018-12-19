@@ -35,35 +35,41 @@ void WavePump::update(std::vector<shptr<Monster>> & monsters,
     {
 	updateIntermission();
     }
-
-    if ( readyToSpawn() && !activeIntermission )
+    else
     {
-	updateActive(monsters);
-	resources->changeCurrentWave(getWave());
-	
-	if (waves.empty())
+
+	if ( readyToSpawn() )
 	{
-	    return;
-	}
-	else if(waves.front().empty())
-	{
-	    intermission();
+	    updateActive(monsters);
+	    resources->changeCurrentWave(getWave());
+	    
+	    if (waves.empty())
+	    {
+		return;
+	    }
+	    else if(waves.front().empty())
+	    {
+		intermission();
+	    }
+	    else
+	    {
+		//spawn monster to container
+		clock.restart();
+		shptr<Monster> tempMonster = waves.front().front();
+		if(tempMonster != nullptr)
+		{
+		    tempMonster->setLevel(monsterLevel);
+		    monsters.push_back(std::make_shared<Monster>(*tempMonster));
+		}
+		waves.front().pop();
+	    }
 	}
 	else
 	{
-	    clock.restart();
-	    shptr<Monster> tempMonster = waves.front().front();
-	    if(tempMonster != nullptr)
-	    {
-		monsters.push_back(std::make_shared<Monster>(*tempMonster));
-	    }
-	    waves.front().pop();
+	    return;
 	}
     }
-    else
-    {
-	return;
-    }
+	
 }
 
 void WavePump::intermission()

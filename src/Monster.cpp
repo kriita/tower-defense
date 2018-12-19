@@ -182,7 +182,7 @@ BrownRaccoon::BrownRaccoon(shptr<Tile> tile, unsigned lvl)
 
 void WhiteRabbit::regenerate()
 {
-    if ((bleedingClock.getElapsedTime()).asSeconds() >= 1)
+    if ((regenerateClock.getElapsedTime()).asSeconds() >= 1)
     {
         health += regeneration [level];
         bleedingClock.restart();
@@ -330,7 +330,7 @@ void Monster::takeCritDamage(double const& damage,
         {
             helpDamage(damage, pureDmg);
             bleeding = true;
-            bleedingClock.restart();
+            bleedingClock.restart();        // If tower crits the monster will bleed
         }
     }
     helpDamage(damage, pureDmg);

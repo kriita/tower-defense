@@ -42,7 +42,7 @@ Game_State::Game_State(string level)
 
     // Create game managing objects
     gameMap = make_unique<Map>(level);
-    gameResources = make_unique<Resources>(100, 100);
+    gameResources = make_unique<Resources>(100, 150);
     gameSidebar = make_unique<Sidebar>(sidebarPosX, availableTowers);
     wavePump = make_unique<WavePump>();
 
@@ -59,11 +59,11 @@ Game_State::Game_State(string level)
     wavePump->addMonsterType(*tempMonster);
     tempMonster = new Hamster(tempTile, 0);
     wavePump->addMonsterType(*tempMonster);
-    tempMonster = new GrayRacoon(tempTile, 0);
+    tempMonster = new GrayRaccoon(tempTile, 0);
     wavePump->addMonsterType(*tempMonster);
     tempMonster = new Hedgehog(tempTile, 0);
     wavePump->addMonsterType(*tempMonster);
-    tempMonster = new BrownRacoon(tempTile, 0);
+    tempMonster = new BrownRaccoon(tempTile, 0);
     wavePump->addMonsterType(*tempMonster);
     tempMonster = nullptr;
 

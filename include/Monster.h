@@ -126,10 +126,10 @@ public:
     Hamster(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 };
 
-class GrayRacoon : public Monster
+class GrayRaccoon : public Monster
 {
 public:
-    GrayRacoon(shptr<Tile>, unsigned level);          //provide spawnpoint and level
+    GrayRaccoon(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 
 };
 
@@ -139,10 +139,10 @@ public:
     Hedgehog(shptr<Tile>, unsigned level);          //provide spawnpoint and level
 };
 
-class BrownRacoon : public Monster
+class BrownRaccoon : public Monster
 {
 public:
-    BrownRacoon(shptr<Tile>, unsigned level);        //provide spawnpoint and level
+    BrownRaccoon(shptr<Tile>, unsigned level);        //provide spawnpoint and level
 };
 
 #endif

@@ -135,51 +135,6 @@ Tower::Tower(int x, int y)
 Tower::Tower(shptr<Tile> tile)
     :   Tower{tile->getX(), tile->getY()} {}
 
-// Tower1
-/*
-Tower1::Tower1(double x, double y)
-    : Tower{x,y} 
-{
-    towerSprite = towerSpriteSheet.get_sprite(11, 0);
-    towerSprite.setPosition (xPos,yPos);
-    towerSprite.setOrigin (tileWidth/2, tileWidth/2);
-} 
-
-Tower1::Tower1(int x, int y)
-    : Tower1 {mapBorderOffset + tileWidth / 2 + tileWidth * x, 
-              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
-
-Tower1::Tower1(shptr<Tile> tile)
-    :   Tower1{tile->getX(), tile->getY()} {}
-
-void Tower1::attack(std::vector<shptr<Projectile>> & projectiles) 
-{
-    target->takeDamage(attackPower.front());
-}
-
-int Tower1::getPrice() {return 420;}
-
-// AnvilTower
-
-AnvilTower::AnvilTower(double x, double y)
-    : Tower{x,y} 
-{
-    towerSprite = towerSpriteSheet.get_sprite(11, 0);
-    towerSprite.setPosition (xPos,yPos);
-    towerSprite.setOrigin (tileWidth/2, tileWidth/2);
-} 
-
-AnvilTower::AnvilTower(int x, int y)
-    : AnvilTower{mapBorderOffset + tileWidth / 2 + tileWidth * x, 
-              mapBorderOffset + tileWidth / 2 + tileWidth * y} {}
-
-AnvilTower::AnvilTower(shptr<Tile> tile)
-    :   AnvilTower{tile->getX(), tile->getY()} {}
-
-void AnvilTower::attack(std::vector<shptr<Projectile>> & projectiles) {}
-
-int AnvilTower::getPrice() {return 9000;}
-*/
 // MinigunTower
 
 MinigunTower::MinigunTower(double x, double y)
@@ -308,11 +263,6 @@ void SlowTower::update(std::vector<shptr<Monster>> & monstervector,
         else
             slowEffect->update();
     }
-
-    //else if (target == nullptr && slowEffect != nullptr)
-    //    slowEffect->update();
-    //else if (slowEffect != nullptr && slowEffect->checkRemove())
-    //    slowEffect.reset();
 }
 
 bool SlowTower::slowAttack(std::vector<shptr<Monster>> & monstervector)

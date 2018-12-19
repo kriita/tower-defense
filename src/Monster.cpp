@@ -35,9 +35,9 @@ BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 {
     healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    armours = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     speeds = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
+    bountys = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10};    
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -52,10 +52,10 @@ Squirrel::Squirrel(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    healths = {20, 50, 75, 100, 200, 250, 400, 500, 750, 1000};
+    healths = {50, 50, 75, 100, 200, 250, 400, 500, 750, 1000};
     armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    speeds = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
+    speeds = {1.3, 1.5, 2, 2, 2, 2.5, 2.5, 2.5, 2.5, 3};
+    bountys = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10};    
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -69,10 +69,10 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    healths = {100, 150, 200, 250, 300, 400, 800, 2000, 3000, 5000};
     armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
     speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    bountys = {5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
     level = lvl;
     health = healths[level];
     health = healths[level];

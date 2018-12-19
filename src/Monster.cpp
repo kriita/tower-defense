@@ -89,7 +89,7 @@ WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 
 {
-    healths = {1, 1000, 3000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000};
+    healths = {200, 1000, 3000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000};
     armours = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     speeds = {1, 1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5};
     bountys = {70, 100, 100, 100, 100, 100, 100, 100, 100, 100};
@@ -105,14 +105,6 @@ WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
     HPLoss = 5;
 }
 
-void WhiteRabbit::regenerate()
-{
-    if ((bleedingClock.getElapsedTime()).asSeconds() >= 1)
-    {
-        health += regeneration [level];
-        bleedingClock.restart();
-    }
-}
 
 Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
@@ -186,6 +178,15 @@ BrownRaccoon::BrownRaccoon(shptr<Tile> tile, unsigned lvl)
     extraYOffset = 4;
     monsterType = "BrownRaccoon";
     HPLoss = 2;
+}
+
+void WhiteRabbit::regenerate()
+{
+    if ((regenerateClock.getElapsedTime()).asSeconds() >= 1)
+    {
+        health += regeneration [level];
+        bleedingClock.restart();
+    }
 }
 
 void Monster::setLevel(unsigned const& lvl)
@@ -329,7 +330,7 @@ void Monster::takeCritDamage(double const& damage,
         {
             helpDamage(damage, pureDmg);
             bleeding = true;
-            bleedingClock.restart();
+            bleedingClock.restart();        // If tower crits the monster will bleed
         }
     }
     helpDamage(damage, pureDmg);

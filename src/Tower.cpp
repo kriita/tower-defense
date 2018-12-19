@@ -88,33 +88,57 @@ bool Tower::inRange(shptr<Monster> monster)
     return pow((monster->getX() - xPos),2) + pow((monster->getY() - yPos),2) <= pow(range.front(),2);
 }
 
-void Tower::upgradeFireRate(int & cash)
+void Tower::upgradeFireRate()
 {
-    if (!fireRatePrice.empty() && cash >= fireRatePrice.front())
+    fireRatePrice.erase(fireRatePrice.begin());
+    fireRate.erase(fireRate.begin());
+}
+
+void Tower::upgradeRange()
+{
+    rangePrice.erase(rangePrice.begin());
+    range.erase(range.begin());
+}
+
+void Tower::upgradeAttackPower()
+{
+    attackPowerPrice.erase(attackPowerPrice.begin());
+    fireRate.erase(fireRate.begin());
+}
+
+int Tower::getRangeUpgradePrice()
+{
+    if (rangePrice.empty())
     {
-        cash -= fireRatePrice.front();
-        fireRatePrice.erase(fireRatePrice.begin());
-        fireRate.erase(fireRate.begin());
+        return 0;
+    }
+    else
+    {
+        return rangePrice.front();
     }
 }
 
-void Tower::upgradeRange(int & cash)
+int Tower::getAttackPowerUpgradePrice()
 {
-    if (!rangePrice.empty() && cash >= rangePrice.front())
+    if (attackPowerPrice.empty())
     {
-        cash -= rangePrice.front();
-        rangePrice.erase(rangePrice.begin());
-        range.erase(range.begin());
+        return 0;
+    }
+    else
+    {
+        return attackPowerPrice.front();
     }
 }
 
-void Tower::upgradeAttackPower(int & cash)
+int Tower::getFireRateUpgradePrice()
 {
-    if (!attackPowerPrice.empty() && cash >= attackPowerPrice.front())
+    if (fireRatePrice.empty())
     {
-        cash -= attackPowerPrice.front();
-        attackPowerPrice.erase(attackPowerPrice.begin());
-        fireRate.erase(fireRate.begin());
+        return 0;
+    }
+    else
+    {
+        return fireRatePrice.front();
     }
 }
 

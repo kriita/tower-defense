@@ -35,9 +35,12 @@ public:
     double getRange() const;
     void setTarget(shptr<Monster> newTarget);
     bool inRange(shptr<Monster> monster);
-    void upgradeRange(int & cash);                      //Takes the player's cash as argument to subtract the upgrade price if there's sufficient funds to upgrade.
-    void upgradeAttackPower(int & cash);
-    void upgradeFireRate(int & cash);
+    void upgradeRange();
+    void upgradeAttackPower();
+    void upgradeFireRate();
+    int getRangeUpgradePrice();
+    int getAttackPowerUpgradePrice();
+    int getFireRateUpgradePrice();
     void setPosition(double x, double y);
     
  

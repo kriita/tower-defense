@@ -2,18 +2,9 @@
 
 #include <string>
 
-/*
- * In this file we define some global constants.
- *
- * Please note that the problem with global variables
- * is that anyone can change them whenever which makes
- * it extremely hard to reason about your code. But for
- * constants, this is not a problem since we cannot
- * change them, and therefore they stay the same during
- * the entire execution of the program.
- */
+using std::string;
 
-std::string const gameTitle {"Animal Annihilation"};
+string const gameTitle {"Animal Annihilation"};
 
 /*
  * define the size of the window.

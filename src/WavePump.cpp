@@ -7,11 +7,11 @@
 WavePump::WavePump(float _spawnCooldown, float _intermissionSpan)
     :monsterTypes{}, clock{}, intermissionClock{},
     spawnCooldown{_spawnCooldown}, intermissionSpan{_intermissionSpan}, 
-    totalWaveAmount{0}, active{false}, activeIntermission{true}
+    totalWaveAmount{0}, active{false}, activeIntermission{true}, monsterLevel{0}
 {}
 
 
-bool WavePump::readyToSpawn()
+bool WavePump::readyToSpawn() const
 {
     return clock.getElapsedTime().asSeconds() > spawnCooldown;
 }
@@ -77,6 +77,10 @@ void WavePump::intermission()
 	waves.pop();
 	intermissionClock.restart();
 	activeIntermission = true;
+	if (getWave() % 5 == 0 && getWave() != 0 && monsterLevel < 10)
+	{
+	    monsterLevel++;
+	}
     }
 }
 
@@ -131,35 +135,19 @@ void WavePump::readFromFile(std::string name,
 void WavePump::updateActive(std::vector<shptr<Monster>> const &  monsters)
 {
     active = !monsters.empty();
-    //std::cout << "active: " << active <<  std::endl;
 }
 
-std::string WavePump::getMonsterTypes()
-{
-    std::string temp{};
-    for (auto it = monsterTypes.begin(); it != monsterTypes.end(); ++it)
-    {
-	temp += it->first + " ";
-    }
-    return "monsterTypes: " + temp;
-}
-
-int WavePump::getWave()
+int WavePump::getWave() const
 {
     return 1 + totalWaveAmount - waves.size();
 }
 
-int WavePump::getIntermissionCountdown()
+int WavePump::getIntermissionCountdown() const
 {
     return intermissionSpan - intermissionClock.getElapsedTime().asSeconds();
 }
 
-float WavePump::getSpawnCooldown()
-{
-    return spawnCooldown;
-}
-
-bool WavePump::empty()
+bool WavePump::empty() const
 {
     return waves.empty();
 }
@@ -167,10 +155,5 @@ bool WavePump::empty()
 void WavePump::skipIntermission()
 {
     activeIntermission = false;
-}
-
-void WavePump::setSpawnCooldown(float val)
-{
-    spawnCooldown = val;
 }
 

@@ -259,7 +259,7 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians, do
 
 void minigunProjectile::dealDamage(shptr<Monster> &aMonster) const
 {
-    aMonster->takeCritDamage(damage, 5, 0);  // The 10 is critchance, the 0 is for no pure damage
+    aMonster->takeCritDamage(damage, 2, 0);  // The 10 is critchance, the 0 is for no pure damage
 }
 
 //  MissileProjectile

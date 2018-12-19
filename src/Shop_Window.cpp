@@ -29,7 +29,7 @@ Shop_Window::Shop_Window(int xPos, std::vector<shptr<Tower>> (&availableTowers1)
 
 	// Gör om till for-loop i = 0; i < 181; i += 90
 	
-	for (unsigned int i = 0; i < 141; i += 70)
+	for (unsigned int i = 0; i < 71; i += 70)
 	{
 		availableTowers[i / 35] -> setPosition(
 			static_cast<double>(x + 36), 

@@ -28,8 +28,8 @@ public:
 
     virtual void attack(std::vector<shptr<Projectile>> & projectiles) = 0;
     virtual int getPrice() = 0;
-    double getX() const;       //behövs dessa ens?
-    double getY() const;       //
+    double getX() const;      
+    double getY() const;       
     double getFireRate() const;
     double getAttackPower() const;
     double getRange() const;
@@ -61,33 +61,10 @@ protected:
 
     sf::Texture texture {};
 
-    Spritesheet towerSpriteSheet {"resources/images/spritesheet.png", 32, 32}; //temporär
+    Spritesheet towerSpriteSheet {"resources/images/spritesheet.png", 32, 32}; 
     sf::Sprite towerSprite {};
 };
 
-/*
- *  Tower 1
- */
-
-class Tower1 : public Tower
-{
-public:
-    Tower1(int x, int y);
-    Tower1(double x, double y);
-    Tower1(shptr<Tile> tile);
-    void attack(std::vector<shptr<Projectile>> & projectiles) override;
-    int getPrice() override;
-};
-
-class AnvilTower : public Tower
-{
-public:
-    AnvilTower(int x, int y);
-    AnvilTower(double x, double y);
-    AnvilTower(shptr<Tile> tile);
-    void attack(std::vector<shptr<Projectile>> & projectiles) override;
-    int getPrice() override;
-};
 
 class MinigunTower : public Tower
 {

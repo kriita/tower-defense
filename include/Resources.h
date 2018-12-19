@@ -43,6 +43,6 @@ protected:
 	int currentWave{0};
 	bool buildMode{false};
 
-	shptr<Tower> focusTower {};
-	shptr<Monster> focusMonster {};
+	shptr<Tower> focusTower {nullptr};
+	shptr<Monster> focusMonster {nullptr};
 };

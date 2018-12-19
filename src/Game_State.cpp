@@ -160,7 +160,7 @@ Game_Event Game_State :: update ()
         {
             m->update();
 
-            if (m->isBleeding() && (rand() % 100) <= 50)
+            if (m->isBleeding() && (rand() % 100) <= 10)
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
         }
 

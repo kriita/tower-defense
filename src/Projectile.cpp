@@ -259,7 +259,7 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians, do
 
 void minigunProjectile::dealDamage(shptr<Monster> &aMonster) const
 {
-    aMonster->takeCritDamage(damage, 5, 0);  // The 10 is critchance, the 0 is for no pure damage
+    aMonster->takeCritDamage(damage, 2, 0);  // The 10 is critchance, the 0 is for no pure damage
 }
 
 //  MissileProjectile
@@ -307,7 +307,7 @@ void MissileProjectile::dealDamage(shptr<Monster> &aMonster) const
 {
     if (pow(aMonster->getX() - getX(), 2) + pow(aMonster->getY() - getY(), 2) < 400)
     {
-        aMonster->takeStunDmg(damage, 0.5, 10, false);
+        aMonster->takeStunDmg(damage, 1, 20, false);
     }                           // 0.5 sec stun with 10 % change
 }
 

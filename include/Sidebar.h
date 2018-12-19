@@ -15,7 +15,7 @@
 #include "Resource_Window.h"
 #include "Resources.h"
 #include "Shop_Window.h"
-//#include "Info_Window.h"
+#include "Focus_Window.h"
 #include "Tower.h"
 #include <memory>
 
@@ -44,7 +44,7 @@ private:
 	ptr<Resource_Window> sidebarResources {};
 	ptr<Shop_Window> sidebarShop {};
 	std::vector<shptr<Tower>> availableTowers{};
-	//shptr<Info_Window> sidebarInfo {};
+	shptr<Focus_Window> sidebarInfo {};
 	
 	sf::RectangleShape background {sf::Vector2f(screen_width - sidebarPosX, screen_height)};
 };

@@ -1,5 +1,5 @@
 /**
- * Shop_Window.h
+ * Shop_Window.cpp
  * *
  * Defines the behavior of the in-game shop in the sidebar.
  * Height: 216
@@ -31,7 +31,6 @@ Shop_Window::Shop_Window(int xPos, std::vector<shptr<Tower>> (&availableTowers1)
 	
 	for (unsigned int i = 0; i < 141; i += 70)
 	{
-
 		availableTowers[i / 35] -> setPosition(
 			static_cast<double>(x + 36), 
 			static_cast<double>(y + 28 + i));
@@ -89,8 +88,8 @@ void Shop_Window::handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gam
 {
 	for (unsigned int i = 0; i < items.size(); ++i)
 	{
-		if (items[i] -> contains(mousePosX, mousePosY)) //&&
-			//(availableTowers[i] -> getPrice()) <= (gameResources -> getMoney()))
+		if ((items[i] -> contains(mousePosX, mousePosY)) &&
+		    (availableTowers[i] -> getPrice()) <= (gameResources -> getMoney()))
 		{
 			gameResources -> setFocus(availableTowers[i]);
 			gameResources -> switchBuildMode();

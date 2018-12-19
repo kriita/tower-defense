@@ -39,6 +39,9 @@ Sidebar::Sidebar(int xPos, std::vector<shptr<Tower>>(&availableTowers1))
 {
 	sidebarResources = make_unique<Resource_Window>(xPos);
 	sidebarShop = make_unique<Shop_Window>(xPos, availableTowers);
+
+	background.setFillColor(sf::Color(135, 105, 70));
+	background.setPosition(x,0);
 }
 
 void Sidebar::update(ptr<Resources> (& gameResources),
@@ -51,13 +54,16 @@ void Sidebar::update(ptr<Resources> (& gameResources),
 
 void Sidebar::render(sf::RenderTarget &target, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(& availableTowers))
 {
+	target.draw(background);
 	sidebarResources -> render(target);
 	sidebarShop -> render(target, gameResources, availableTowers);
 //	sidebarInfo.render();
 }
 
-void Sidebar::handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(&availableTowers))
+void Sidebar::handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources),
+	std::vector<shptr<Tower>>(&availableTowers), ptr<WavePump>(&wavePump))
 {
+	sidebarResources -> handle_event(mousePosX, mousePosY, wavePump, gameResources);
 	sidebarShop -> handle_event(mousePosX, mousePosY, gameResources, availableTowers);
 }
 

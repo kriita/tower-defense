@@ -88,7 +88,7 @@ void Game_State :: handle_event (Event event)
         {
         	if (mouse.x > sidebarPosX)
         	{
-        		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources, availableTowers);
+        		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources, availableTowers, wavePump);
         	}
             else if (mapScreen.contains(mouse.x, mouse.y))
             {
@@ -219,9 +219,6 @@ void Game_State :: render (RenderTarget & target)
     // Render map
     gameMap->render(target);
 
-    // Render sidebar
-    gameSidebar->render(target, gameResources, availableTowers);
-
     // Render blood
     if (blood)
     {
@@ -248,6 +245,9 @@ void Game_State :: render (RenderTarget & target)
     {
         t->render(target);
     }
+
+    // Render sidebar
+    gameSidebar->render(target, gameResources, availableTowers);
 
     target.draw(gameOverlay);
 

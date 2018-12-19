@@ -23,7 +23,7 @@ public:
     // slow between 0 and 1. new speed = slow * speed    
     void takeSlowDmg(double const& damage, double const& slow, 
                      double const& duration, bool pureDmg);
-    void takeCritDamge(double const& damage, unsigned const& critChance,
+    void takeCritDamage(double const& damage, unsigned const& critChance,
                         bool pureDmg);
     void takeStunDmg(double const& damage, int const& duration, 
                      double const& percentage, bool pureDmg);

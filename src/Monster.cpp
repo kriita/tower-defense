@@ -321,10 +321,10 @@ void Monster::takeSlowDmg(double const& dmg, double const& slowing,
     slowed = true;
 }
 
-void Monster::takeCritDamge(double const& damage, 
+void Monster::takeCritDamage(double const& damage, 
                 unsigned const& critChance, bool pureDmg)
 {
-    for (unsigned i = 1; i>= critChance; i++)
+    for (unsigned i = 1; i<= critChance; i++)
     {
         if ((rand() % 100) > 95)
         {
@@ -332,8 +332,8 @@ void Monster::takeCritDamge(double const& damage,
             bleeding = true;
             bleedingClock.restart();
         }
-        helpDamage(damage, pureDmg);
     }
+    helpDamage(damage, pureDmg);
 }
 
 void Monster::takeStunDmg(double const& damage, int const& duration, 

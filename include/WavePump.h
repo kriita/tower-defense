@@ -21,27 +21,25 @@ class WavePumpError: public std::logic_error
 class WavePump
 {
 public:
-    WavePump(float _spawnCooldown = 0.f, float _intermissionSpan = 7.f);
+    WavePump(float _spawnCooldown = .5f, float _intermissionSpan = 7.f);
     ~WavePump() = default;
-    bool readyToSpawn();
-    void updateIntermission();
     void addMonsterType(Monster);
     void update(std::vector<shptr<Monster>> &, ptr<Resources> &);
-    void intermission();
-    void pushMonster(std::string word, int multiple = 1);
     void readFromFile(std::string name, 
 		      std::string path = "resources/waves/",
 		      std::string suffix = ".w");
-    void updateActive(std::vector<shptr<Monster>> const &);
-    std::string getMonsterTypes(); //test function
-    int getWave();
-    int getIntermissionCountdown();
-    float getSpawnCooldown();
-    bool empty();
+    int getWave() const;
+    int getIntermissionCountdown() const;
+    bool empty() const;
     void skipIntermission();
-    void setSpawnCooldown(float);
     
 private:
+    bool readyToSpawn() const;
+    void updateIntermission();
+    void intermission();
+    void updateActive(std::vector<shptr<Monster>> const &);
+    void pushMonster(std::string word, int multiple = 1);
+
     std::map<std::string, Monster> monsterTypes{};
     std::queue<std::queue<shptr<Monster>>> waves{};
     std::queue<int> waveMonsterAmount{};
@@ -52,6 +50,7 @@ private:
     int totalWaveAmount{};
     bool active{}; //no monster on the playing feild.
     bool activeIntermission{};
+    unsigned monsterLevel{};
 };
 
 #endif

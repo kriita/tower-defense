@@ -132,9 +132,8 @@ Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
     monsterType = "Hamster";
 }
 
-GrayRacoon::GrayRacoon(shptr<Tile> tile, unsigned lvl)
+GrayRaccoon::GrayRaccoon(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
-
 {
     healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
     armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
@@ -148,7 +147,7 @@ GrayRacoon::GrayRacoon(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     extraXOffset = 3;
     extraYOffset = 4;
-    monsterType = "GrayRaccon";
+    monsterType = "GrayRaccoon";
 }
 
 Hedgehog::Hedgehog(shptr<Tile> tile, unsigned lvl)
@@ -169,7 +168,7 @@ Hedgehog::Hedgehog(shptr<Tile> tile, unsigned lvl)
     monsterType = "Hedgehog";
 }
 
-BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
+BrownRaccoon::BrownRaccoon(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
@@ -185,7 +184,7 @@ BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
     bounty = bountys[level];
     extraXOffset = 6;
     extraYOffset = 4;
-    monsterType = "BrownRaccon";
+    monsterType = "BrownRaccoon";
     HPLoss = 2;
 }
 

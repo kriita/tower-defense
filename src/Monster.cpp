@@ -34,10 +34,10 @@ Monster::Monster(shptr<Tile> tile)
 BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -52,10 +52,10 @@ Squirrel::Squirrel(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {20, 50, 75, 100, 200, 250, 400, 500, 750, 1000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
+    healths = {20, 50, 75, 100, 200, 250, 400, 500, 750, 1000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -69,10 +69,10 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     health = healths[level];
@@ -83,17 +83,16 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     extraXOffset = 9;
     extraYOffset = 4;
     monsterType = "Fox";
-    setLevel(5);
 }
 
 WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 
 {
-    double healths [10] = {500, 1000, 3000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000};
-    double armours [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
-    double speeds [10] = {1, 1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5};
-    double bountys [10] = {200, 500, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000};
+    healths = {500, 1000, 3000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000};
+    armours = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    speeds = {1, 1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5};
+    bountys = {200, 500, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000};
     double regeneration [10] {1, 3, 5, 10, 20, 50, 100, 250, 500, 1000}; 
     level = lvl;
     health = healths[level] + regeneration[level];
@@ -108,17 +107,21 @@ WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
 
 void WhiteRabbit::regenerate()
 {
-    health += regeneration [level];
+    if ((bleedingClock.getElapsedTime()).asSeconds() >= 1)
+    {
+        health += regeneration [level];
+        bleedingClock.restart();
+    }
 }
 
 Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -133,10 +136,10 @@ GrayRacoon::GrayRacoon(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -152,10 +155,10 @@ Hedgehog::Hedgehog(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -170,10 +173,10 @@ BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -189,10 +192,10 @@ BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
 void Monster::setLevel(unsigned const& lvl)
 {
     level = lvl;
-//    health = healths[lvl];
-//    armour = armours[lvl];
-//    speed = speeds[level];
-//    refSpeed = speeds[level];
+    health = healths[lvl];
+    armour = armours[lvl];
+    speed = speeds[lvl];
+    refSpeed = speeds[lvl];
     bounty = bountys[lvl];
 }
 
@@ -224,7 +227,7 @@ void Monster::setSprite()
     }
     if (speed != 0)
     { 
-        if (animClock.getElapsedTime().asMilliseconds() > 240 / speed)
+        if (animClock.getElapsedTime().asMilliseconds() > 300/speed)
         {
             if (xOffset == 0 || xOffset == 2)
                 xOffset = 1;
@@ -268,7 +271,7 @@ void Monster::update()
 
 sf::FloatRect Monster::getBounds()
 {
-    return monsterSprite.getGlobalBounds();    // Verkar inte fungera
+    return monsterSprite.getGlobalBounds();
 }
 
 void Monster::setDir()
@@ -307,7 +310,8 @@ void Monster::takePureDmg(double const& damage)
         dead = true;
     }
 }
-void Monster::takeSlowDmg(double const& dmg, double const& slowing, double const& duration, bool pureDmg) // takes in 0-1 slow part
+void Monster::takeSlowDmg(double const& dmg, double const& slowing, 
+                          double const& duration, bool pureDmg) // takes in 0-1 slow part
 {
     helpDamage(dmg, pureDmg);
     speed = refSpeed*slow;
@@ -317,9 +321,10 @@ void Monster::takeSlowDmg(double const& dmg, double const& slowing, double const
     slowed = true;
 }
 
-void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg)
+void Monster::takeCritDamage(double const& damage, 
+                unsigned const& critChance, bool pureDmg)
 {
-    for (unsigned i = 1; i>= critChance; i++)
+    for (unsigned i = 1; i<= critChance; i++)
     {
         if ((rand() % 100) > 95)
         {
@@ -327,8 +332,8 @@ void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bo
             bleeding = true;
             bleedingClock.restart();
         }
-        helpDamage(damage, pureDmg);
     }
+    helpDamage(damage, pureDmg);
 }
 
 void Monster::takeStunDmg(double const& damage, int const& duration, 

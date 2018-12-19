@@ -85,6 +85,7 @@ class minigunProjectile : public Projectile
     public:
     minigunProjectile(double x, double y, double xDir, double yDir, double attackPower);
     minigunProjectile(double x, double y, double dirByRadians, double attackPower);
+    void dealDamage(shptr<Monster> &aMonster) const override;
 };
 
 // MissileProjectile is a guided projectile

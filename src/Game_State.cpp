@@ -26,7 +26,7 @@ Game_State::Game_State(string level)
     }
     gameOverlay.setTexture(gameOverlayTexture);
 
-
+    // Available towers for shop
     availableTowers.push_back(
     	make_shared<MinigunTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
     		static_cast<double>(156 + mapBorderOffset)));
@@ -40,12 +40,13 @@ Game_State::Game_State(string level)
     	make_shared<SlowTower>(static_cast<double>(sidebarPosX + 3 * mapBorderOffset),
     		static_cast<double>(156 + mapBorderOffset)));
 
-
+    // Create game managing objects
     gameMap = make_unique<Map>(level);
     gameResources = make_unique<Resources>(100, 100);
     gameSidebar = make_unique<Sidebar>(sidebarPosX, availableTowers);
-    wavePump = make_unique<WavePump>(1.f, 3.f);
+    wavePump = make_unique<WavePump>();
 
+    // Monster origins for wave
     shptr<Tile> tempTile = gameMap->getSpawnPoint();
     Monster * tempMonster{};
     tempMonster = new BrownRabbit(tempTile, 0);    
@@ -64,13 +65,9 @@ Game_State::Game_State(string level)
     wavePump->addMonsterType(*tempMonster);
     tempMonster = new BrownRacoon(tempTile, 0);
     wavePump->addMonsterType(*tempMonster);
-
     tempMonster = nullptr;
 
     wavePump->readFromFile(level);
-
-
-
 }
 
 void Game_State :: handle_event (Event event)
@@ -82,6 +79,7 @@ void Game_State :: handle_event (Event event)
         {
         	if (mouse.x > sidebarPosX)
         	{
+                // Click on sidebar
         		gameSidebar -> handle_event(mouse.x, mouse.y, gameResources, availableTowers, wavePump);
         	}
             else if (mapScreen.contains(mouse.x, mouse.y))
@@ -91,8 +89,8 @@ void Game_State :: handle_event (Event event)
             }
         }
         if ((gameOver || pause) 
-        && (mouse.x > 240) && (mouse.x < 240 + 140)
-        && (mouse.y > 310) && (mouse.y < 310 + 40))
+            && (mouse.x > 240) && (mouse.x < 240 + 140)
+            && (mouse.y > 310) && (mouse.y < 310 + 40))
         {
             go_back = true;
         }
@@ -114,12 +112,6 @@ void Game_State :: handle_event (Event event)
         {
 	    wavePump->skipIntermission();
         }
-        /*
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        {
-            projectiles.push_back(make_shared<Anvil>(sf::Mouse::getPosition().x,0, 0, 1));
-        }
-        */
     }
     else if (event.type == sf::Event::KeyReleased)
     {
@@ -127,13 +119,12 @@ void Game_State :: handle_event (Event event)
         bloodButtonPressed = false;
     }
 
-    // Send the event to the base class (see Go_Back_State.h)
     Go_Back_State::handle_event (event);
 }
 
 Game_Event Game_State :: update ()
 {
-    // Only update when game not paused
+    // Update only when game not paused
     if (!pause && !gameOver)
     {
         // Update map
@@ -169,7 +160,7 @@ Game_Event Game_State :: update ()
         {
             m->update();
 
-            if (m->isBleeding() && (rand() % 100) <= 50)
+            if (m->isBleeding() && (rand() % 100) <= 10)
                 bloodFX.push_back(make_unique<Bleed> (m->getX(), m->getY()));
         }
 
@@ -177,13 +168,13 @@ Game_Event Game_State :: update ()
 	    wavePump->update(monsters, gameResources);
     }
 
+    // Pause/game over text
     if (pause)
     {
         text.setString("Paused");
         text.setPosition (255, 250);
     }
-
-    if (gameOver)
+    else if (gameOver)
     {
         text.setString("Game over");
         text.setPosition (235, 250);
@@ -205,6 +196,7 @@ Game_Event Game_State :: update ()
     menuText.setOutlineThickness(3);
 
     cleanup();
+
     return Go_Back_State::update ();
 }
 
@@ -243,17 +235,17 @@ void Game_State :: render (RenderTarget & target)
     // Render sidebar
     gameSidebar->render(target, gameResources, availableTowers);
 
+    // Render overlay
     target.draw(gameOverlay);
 
-    // Render pause-screen <-- temporär pause-text
+    // Render pause/game over screen
     if (pause)
     {
         target.draw(rectangle);
         target.draw(text);
         target.draw(menuText);
     }
-
-    if (gameOver)
+    else if (gameOver)
     {
         target.draw(rectangle);
         target.draw(text);
@@ -301,19 +293,4 @@ void Game_State :: cleanup ()
         else
             i++;
     }
-/*
-    for ( auto it { std::begin (projectiles) }; it != std::end (projectiles); )
-    {
-        // get the global bounds of our current ball
-        
-	auto bounds { it -> getBounds () };
-        // get a rectangle representing the screen
-	FloatRect screen { mapBorderOffset, mapBorderOffset, mapBorderOffset + xTilesMax * tileWidth,
-                                                         mapBorderOffset + yTilesMax * tileWidth };
-	if ( !screen.intersects (bounds) )
-	    it = projectiles.erase (it);
-	else
-	    ++it;
-    }
-    */
 }

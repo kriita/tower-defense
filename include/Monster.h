@@ -62,10 +62,10 @@ protected:
     double stunDuration{};
     double refSpeed{};              // Uneffected monster speed
     double slow{};                  // current slowEffectSpeed
-    double healths [10] {};
-    double armours [10] {};
-    double speeds [10] {};
-    double bountys [10] {};
+    std::vector<double> healths {};
+    std::vector<double> armours {};
+    std::vector<double> speeds {};
+    std::vector<double> bountys {};
     double health{};
     double armour{};
     double speed{};

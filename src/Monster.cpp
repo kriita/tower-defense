@@ -34,10 +34,10 @@ Monster::Monster(shptr<Tile> tile)
 BrownRabbit::BrownRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -52,10 +52,10 @@ Squirrel::Squirrel(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {20, 50, 75, 100, 200, 250, 400, 500, 750, 1000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
+    healths = {20, 50, 75, 100, 200, 250, 400, 500, 750, 1000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};    
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -69,10 +69,10 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     health = healths[level];
@@ -83,17 +83,16 @@ Fox::Fox(shptr<Tile> tile, unsigned lvl)
     extraXOffset = 9;
     extraYOffset = 4;
     monsterType = "Fox";
-    setLevel(5);
 }
 
 WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
     : Monster{tile}
 
 {
-    double healths [10] = {500, 1000, 3000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000};
-    double armours [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
-    double speeds [10] = {1, 1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5};
-    double bountys [10] = {200, 500, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000};
+    healths = {500, 1000, 3000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000};
+    armours = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    speeds = {1, 1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5};
+    bountys = {200, 500, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000};
     double regeneration [10] {1, 3, 5, 10, 20, 50, 100, 250, 500, 1000}; 
     level = lvl;
     health = healths[level] + regeneration[level];
@@ -115,10 +114,10 @@ Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -133,10 +132,10 @@ GrayRacoon::GrayRacoon(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -152,10 +151,10 @@ Hedgehog::Hedgehog(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -170,10 +169,10 @@ BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
     : Monster{tile} 
 
 {
-    double healths [10] = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
-    double armours [10] = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
-    double speeds [10]  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
-    double bountys [10] = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
+    healths = {50, 100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000};
+    armours = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6};
+    speeds  = {1, 1, 1.5, 1.5, 2, 2, 2, 2, 2, 2};
+    bountys = {20, 50, 100, 250, 500, 750, 1000, 2000, 3000, 5000};
     level = lvl;
     health = healths[level];
     armour = armours[level];
@@ -189,10 +188,10 @@ BrownRacoon::BrownRacoon(shptr<Tile> tile, unsigned lvl)
 void Monster::setLevel(unsigned const& lvl)
 {
     level = lvl;
-//    health = healths[lvl];
-//    armour = armours[lvl];
-//    speed = speeds[level];
-//    refSpeed = speeds[level];
+    health = healths[lvl];
+    armour = armours[lvl];
+    speed = speeds[lvl];
+    refSpeed = speeds[lvl];
     bounty = bountys[lvl];
 }
 
@@ -224,7 +223,7 @@ void Monster::setSprite()
     }
     if (speed != 0)
     { 
-        if (animClock.getElapsedTime().asMilliseconds() > 240 / speed)
+        if (animClock.getElapsedTime().asMilliseconds() > 400/speed)
         {
             if (xOffset == 0 || xOffset == 2)
                 xOffset = 1;

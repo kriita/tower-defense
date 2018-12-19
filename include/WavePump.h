@@ -13,6 +13,17 @@
 #include <queue>
 #include <string>
 
+/*/
+ *WavePump
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+/*/
+
 class WavePumpError: public std::logic_error
 {
     using std::logic_error::logic_error;
@@ -48,7 +59,7 @@ private:
     float spawnCooldown{};
     float intermissionSpan{};
     int totalWaveAmount{};
-    bool active{}; //no monster on the playing feild.
+    bool active{};
     bool activeIntermission{};
     unsigned monsterLevel{};
 };

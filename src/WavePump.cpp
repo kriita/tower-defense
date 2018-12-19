@@ -80,6 +80,7 @@ void WavePump::intermission()
 	if (getWave() % 5 == 0 && getWave() != 0 && monsterLevel < 10)
 	{
 	    monsterLevel++;
+	    std::cout << "oppsie doo: " << monsterLevel << std::endl;
 	}
     }
 }
@@ -135,7 +136,6 @@ void WavePump::readFromFile(std::string name,
 void WavePump::updateActive(std::vector<shptr<Monster>> const &  monsters)
 {
     active = !monsters.empty();
-    //std::cout << "active: " << active <<  std::endl;
 }
 
 int WavePump::getWave() const

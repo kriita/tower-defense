@@ -248,7 +248,7 @@ void MissileTower::attack(std::vector<shptr<Projectile>> & projectiles)
     projectiles.push_back(std::make_shared<MissileProjectile> (xPos + cos(angle) * 16, yPos + sin(angle) * 16, angle, attackPower.front(), target));
 }
 
-int MissileTower::getPrice() {return 42;}
+int MissileTower::getPrice() {return 500;}
 
 // SlowTower
 
@@ -270,7 +270,7 @@ SlowTower::SlowTower(shptr<Tile> tile)
 
 
 
-int SlowTower::getPrice() {return 5;}
+int SlowTower::getPrice() {return 500;}
 
 void SlowTower::upgradeSlow(int & cash)
 {
@@ -377,7 +377,7 @@ void LaserTower::attack(std::vector<shptr<Projectile>> & projectiles)
 
 
 
-int LaserTower::getPrice() {return 100;}
+int LaserTower::getPrice() {return 1000;}
 
 void LaserTower::update(std::vector<shptr<Monster>> & monstervector, 
                    std::vector<shptr<Projectile>> & projectiles)

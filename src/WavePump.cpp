@@ -80,7 +80,6 @@ void WavePump::intermission()
 	if (getWave() % 5 == 0 && getWave() != 0 && monsterLevel < 10)
 	{
 	    monsterLevel++;
-	    std::cout << "oppsie doo: " << monsterLevel << std::endl;
 	}
     }
 }

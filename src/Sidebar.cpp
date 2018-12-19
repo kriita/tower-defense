@@ -36,7 +36,6 @@ void Sidebar::update(ptr<Resources> (& gameResources),
 {
 	sidebarResources -> update(gameResources);
 	sidebarShop -> update(availableTowers);
-	sidebarInfo -> update();
 }
 
 void Sidebar::render(sf::RenderTarget &target, ptr<Resources>(&gameResources), std::vector<shptr<Tower>>(& availableTowers))
@@ -44,7 +43,7 @@ void Sidebar::render(sf::RenderTarget &target, ptr<Resources>(&gameResources), s
 	target.draw(background);
 	sidebarResources -> render(target);
 	sidebarShop -> render(target, gameResources, availableTowers);
-	sidebarInfo -> render(target);
+	sidebarInfo -> render(target, gameResources);
 }
 
 void Sidebar::handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources),

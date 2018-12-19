@@ -1,3 +1,4 @@
+BorwnRabbit nop Fox nop Squirrel nop WhiteRabbit nop Hamster nop GrayRacoon*3 nop nop Headgehog nop nop BrownRacoon 
 BrownRabbit*8 nop*3 BrownRabbit*10
 BrownRabbit*5 nop*3 Fox*5 nop*3 BrownRabbit*5 Fox*3
 Squirrel*25

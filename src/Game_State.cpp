@@ -42,7 +42,7 @@ Game_State::Game_State(string level)
 
     // Create game managing objects
     gameMap = make_unique<Map>(level);
-    gameResources = make_unique<Resources>(100, 100);
+    gameResources = make_unique<Resources>(100, 150);
     gameSidebar = make_unique<Sidebar>(sidebarPosX, availableTowers);
     wavePump = make_unique<WavePump>();
 

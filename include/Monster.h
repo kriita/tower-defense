@@ -23,7 +23,7 @@ public:
     // slow between 0 and 1. new speed = slow * speed    
     void takeSlowDmg(double const& damage, double const& slow, 
                      double const& duration, bool pureDmg);
-    void takeCritDamge(double const& damage, unsigned const& critChance,
+    void takeCritDamage(double const& damage, unsigned const& critChance,
                         bool pureDmg);
     void takeStunDmg(double const& damage, int const& duration, 
                      double const& percentage, bool pureDmg);
@@ -62,10 +62,10 @@ protected:
     double stunDuration{};
     double refSpeed{};              // Uneffected monster speed
     double slow{};                  // current slowEffectSpeed
-    double healths [10] {};
-    double armours [10] {};
-    double speeds [10] {};
-    double bountys [10] {};
+    std::vector<double> healths {};
+    std::vector<double> armours {};
+    std::vector<double> speeds {};
+    std::vector<double> bountys {};
     double health{};
     double armour{};
     double speed{};

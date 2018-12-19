@@ -232,6 +232,8 @@ Anvil::Anvil(double x, double y, double xDir, double yDir, shptr<Monster> &targe
     setTarget(target);
 }
 
+//  minigunProjectile
+
 minigunProjectile::minigunProjectile(double x, double y, double xDir, double yDir, double attackPower)
 : Projectile(x, y, xDir, yDir, attackPower)
 {
@@ -252,9 +254,15 @@ minigunProjectile::minigunProjectile(double x, double y, double dirByRadians, do
     projectileSprite.setPosition(x,y);
     speed = 4;
     radius = 2.5;
+
 }
 
-//  MissileProjectil
+void minigunProjectile::dealDamage(shptr<Monster> &aMonster) const
+{
+    aMonster->takeCritDamage(damage, 5, 0);  // The 10 is critchance, the 0 is for no pure damage
+}
+
+//  MissileProjectile
 
 MissileProjectile::MissileProjectile(double x, double y, double dirByRadians, double attackPower, shptr<Monster> Monstertarget)
 : Projectile(x, y, dirByRadians, attackPower)
@@ -299,8 +307,8 @@ void MissileProjectile::dealDamage(shptr<Monster> &aMonster) const
 {
     if (pow(aMonster->getX() - getX(), 2) + pow(aMonster->getY() - getY(), 2) < 400)
     {
-        aMonster->takeStunDmg(damage, 3, 30, false);
-    }                           // 3 sec stun with 30 % change
+        aMonster->takeStunDmg(damage, 0.5, 10, false);
+    }                           // 0.5 sec stun with 10 % change
 }
 
 void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)

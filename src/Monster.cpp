@@ -107,7 +107,11 @@ WhiteRabbit::WhiteRabbit(shptr<Tile> tile, unsigned lvl)
 
 void WhiteRabbit::regenerate()
 {
-    health += regeneration [level];
+    if ((bleedingClock.getElapsedTime()).asSeconds() >= 1)
+    {
+        health += regeneration [level];
+        bleedingClock.restart();
+    }
 }
 
 Hamster::Hamster(shptr<Tile> tile, unsigned lvl)
@@ -223,7 +227,7 @@ void Monster::setSprite()
     }
     if (speed != 0)
     { 
-        if (animClock.getElapsedTime().asMilliseconds() > 400/speed)
+        if (animClock.getElapsedTime().asMilliseconds() > 300/speed)
         {
             if (xOffset == 0 || xOffset == 2)
                 xOffset = 1;
@@ -267,7 +271,7 @@ void Monster::update()
 
 sf::FloatRect Monster::getBounds()
 {
-    return monsterSprite.getGlobalBounds();    // Verkar inte fungera
+    return monsterSprite.getGlobalBounds();
 }
 
 void Monster::setDir()
@@ -306,7 +310,8 @@ void Monster::takePureDmg(double const& damage)
         dead = true;
     }
 }
-void Monster::takeSlowDmg(double const& dmg, double const& slowing, double const& duration, bool pureDmg) // takes in 0-1 slow part
+void Monster::takeSlowDmg(double const& dmg, double const& slowing, 
+                          double const& duration, bool pureDmg) // takes in 0-1 slow part
 {
     helpDamage(dmg, pureDmg);
     speed = refSpeed*slow;
@@ -316,7 +321,8 @@ void Monster::takeSlowDmg(double const& dmg, double const& slowing, double const
     slowed = true;
 }
 
-void Monster::takeCritDamge(double const& damage, unsigned const& critChance, bool pureDmg)
+void Monster::takeCritDamge(double const& damage, 
+                unsigned const& critChance, bool pureDmg)
 {
     for (unsigned i = 1; i>= critChance; i++)
     {

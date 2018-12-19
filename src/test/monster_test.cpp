@@ -1,4 +1,6 @@
 #include "Monster.h"
+#include "defs.h"
+#include "Tile.h"
 
 using namespace std;
 
@@ -6,5 +8,7 @@ using namespace std;
 
 TEST_CASE("asdfasdf")
 {
-    CHECK(123 == 123);
+    Map m {"test/map"};
+    shptr<Monster> testMonster = BrownRabbit(m->getSpawnPoint());
+    
 }

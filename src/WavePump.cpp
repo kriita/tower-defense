@@ -77,7 +77,7 @@ void WavePump::intermission()
 	waves.pop();
 	intermissionClock.restart();
 	activeIntermission = true;
-	if (getWave() % 5 == 0 && getWave() != 0 && monsterLevel < 10)
+	if (getWave() % 2 == 0 && getWave() != 0 && monsterLevel < 10)
 	{
 	    monsterLevel++;
 	}

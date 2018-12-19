@@ -73,7 +73,11 @@ sidebar_test: $(OBJS) $(SRC)/$(TEST_SRC)/sidebar_test.cpp $(ODIR)/$(SRC)/$(TEST_
 projectile_test: $(OBJS) $(SRC)/$(TEST_SRC)/projectile_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
 	@mkdir -p $(BIN)
 	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/projectile_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/projectile_test $(LIBS) $(FLAGS)
-	
+
+monster_test: $(OBJS) $(SRC)/$(TEST_SRC)/monster_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
+	@mkdir -p $(BIN)
+	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/monster_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/monster_test $(LIBS) $(FLAGS)
+
 # DEBUG TARGET
 debug: CXXFLAGS += -g -O0
 debug: all

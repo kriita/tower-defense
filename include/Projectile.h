@@ -98,7 +98,7 @@ class MissileProjectile : public Projectile
     void dealDamage(shptr<Monster> &aMonster) const override;
     void update(std::vector<shptr<Monster>> &allMonsters) override;
     void explodeAnim() const override;
-    void render(sf::RenderTarget &window) const;
+    void render(sf::RenderTarget &window) const override;
 
     private:
     shptr<MissileExplosion> explodeEffect {}; 
@@ -114,7 +114,7 @@ class LaserProjectile : public Projectile
     double duration{};
     bool checkHit(shptr<Monster> const &aMonster) const override;
     sf::Clock laserClock{};
-    void render(sf::RenderTarget &window) const;
+    void render(sf::RenderTarget &window) const override;
     double transparency{0};
     int transparencyState{0};  
  };

@@ -307,8 +307,8 @@ void MissileProjectile::dealDamage(shptr<Monster> &aMonster) const
 {
     if (pow(aMonster->getX() - getX(), 2) + pow(aMonster->getY() - getY(), 2) < 400)
     {
-        aMonster->takeStunDmg(damage, 1, 20, false);
-    }                           // 0.5 sec stun with 10 % change
+        aMonster->takeStunDmg(damage, 1, 10, false);
+    }                           // 0.5 sec stun with 10 % chance
 }
 
 void MissileProjectile::update(std::vector<shptr<Monster>> &allMonsters)

@@ -117,6 +117,7 @@ private:
     void walk() override;  
     void regenerate();
     double regeneration [10];
+    sf::Clock regenerateClock {};    
 };
 
 class Hamster : public Monster

@@ -225,7 +225,4 @@ void WavePump::update(std::vector<std::shared_ptr<Monster>> & monsters,
     if (intermissionMode)
 	intermission();
 
-    /*/  std::cout << empty() << " iM:" << intermissionMode 
-               << " pM:" << pumpMode << " pC:" << pumpCount <<  std::endl;
-/*/
 }

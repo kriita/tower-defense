@@ -5,7 +5,7 @@
 #include <sstream>
 
 WavePump::WavePump(float _intermissionSpan)
-    :intermissionSpan{_intermissionSpan}
+    :clock{}, intermissionSpan{_intermissionSpan}
 {}
 
 void WavePump::skipIntermission()
@@ -29,27 +29,32 @@ void WavePump::readFromFile(std::string name, std::string path,
 
     //each row in name.w will make wave 1, 2, ...
     std::string row{};
-    while ( getline(fileData, row) )
+    while ( getline(fileData, row, '\n') )
     {	
 	watingWaves.push( *(new std::pair< std::pair<float, sf::Clock>,
 		                     std::queue<shptr<Monster>> >) );
 	std::istringstream rowStream{row};
 	std::string word{};
 	//interprit every word on every row
+	int multi{};
+	std::vector<std::string> sequence{};
 	while ( getline(rowStream, word, ' ') )
 	{
-	    std::vector<std::string> sequence{};
-	    int multi{0};
+	    multi = 0;
+	    while( !sequence.empty() )
+	    {
+		sequence.pop_back();
+	    }
 	    //set length of short pause inbetween to spawning monsters
 	    //syntax: C= 'a floating point'
-	    if (word.find("L=") != std::string::npos)
+	    if (word.find("C=") != std::string::npos)
 	    {
 		std::istringstream subWordStream{word};
 		subWordStream.ignore(256, '=');
 		subWordStream >> spawnCooldown;
 	    }	    
 	    //set level of monsters, syntax L=0, 1, 2, ..., 9
-	    if (word.find("L=") != std::string::npos)
+	    else if (word.find("L=") != std::string::npos)
 	    {
 		std::istringstream subWordStream{word};
 		subWordStream.ignore(256, '=');
@@ -62,7 +67,7 @@ void WavePump::readFromFile(std::string name, std::string path,
 	    }
 	    //sequence format repeats a sequence N times.
 	    //syntax: {}type1,type2,type3,*N
-	    else if (word.find("()") != std::string::npos)
+	    if (word.find("{}") != std::string::npos)
 	    {
 		std::istringstream wordStream{word};
 		wordStream.ignore(256, '}');
@@ -88,11 +93,8 @@ void WavePump::readFromFile(std::string name, std::string path,
 		std::string type;
 		std::istringstream subWordStream{word};
 		getline(subWordStream, type, '*');
+		sequence.push_back(type);
 		subWordStream >> multi;
-		for (int i{0}; i < multi; i++)
-		{
-		    sequence.push_back(type);
-		}
 	    }
 	    //single type once, syntax: type1
 	    else if (monsterTypes.find(word) != monsterTypes.end())
@@ -108,8 +110,8 @@ void WavePump::readFromFile(std::string name, std::string path,
 		sequence.push_back("nop");
 	    }
 	    //push the wave
+	    watingWaves.back().first.first = spawnCooldown;
 	    pushMonsterSequence(sequence, multi);
-	    
 	}
     }
 }
@@ -128,7 +130,6 @@ void WavePump::pushMonster(std::string type)
     {
 	//push nullptr, will act as small pause in spawning
 	watingWaves.back().second.push(nullptr);
-	watingWaves.back().first.first = spawnCooldown;
     }
 }
 
@@ -140,7 +141,7 @@ void WavePump::pushMonsterSequence(std::vector<std::string> sequence, int multi)
 	{
 	    pushMonster(sequence[j]);
 	}
-    }
+    }   
 }
 
 void WavePump::prepare(ptr<Resources> & resources)
@@ -177,7 +178,6 @@ void WavePump::pump(std::vector<std::shared_ptr<Monster>> & monsters)
 {
     for (unsigned int i{0}; i < activeWaves.size(); i++)
     {
-	//std::cout << activeWaves[i].second.size() << std::endl;
         if (activeWaves[i].second.empty() )
 	{
 	    activeWaves.erase(activeWaves.begin() + i);
@@ -225,7 +225,7 @@ void WavePump::update(std::vector<std::shared_ptr<Monster>> & monsters,
     if (intermissionMode)
 	intermission();
 
-    // std::cout << empty() << " iM:" << intermissionMode 
-    //           << " pM:" << pumpMode << " pC:" << pumpCount <<  std::endl;
-
+    /*/  std::cout << empty() << " iM:" << intermissionMode 
+               << " pM:" << pumpMode << " pC:" << pumpCount <<  std::endl;
+/*/
 }

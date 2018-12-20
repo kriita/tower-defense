@@ -32,36 +32,50 @@ class WavePumpError: public std::logic_error
 class WavePump
 {
 public:
-    WavePump(float _spawnCooldown = .5f, float _intermissionSpan = 7.f);
+    WavePump(float _intermissionSpan = 14.f);
     ~WavePump() = default;
+    void skipIntermission();
     void addMonsterType(Monster);
-    void update(std::vector<shptr<Monster>> &, ptr<Resources> &);
     void readFromFile(std::string name, 
 		      std::string path = "resources/waves/",
 		      std::string suffix = ".w");
-    int getWave() const;
-    int getIntermissionCountdown() const;
-    bool empty() const;
-    void skipIntermission();
-    
-private:
-    bool readyToSpawn() const;
-    void updateIntermission();
+    void prepare(ptr<Resources> &);
     void intermission();
-    void updateActive(std::vector<shptr<Monster>> const &);
-    void pushMonster(std::string word, int multiple = 1);
+    void pump(std::vector<std::shared_ptr<Monster>> &);
+    void update(std::vector<shptr<Monster>> &, ptr<Resources> &);
 
+    int getWave() const {return currentWave; }
+    bool watingWavesEmpty() const {return watingWaves.empty(); }
+    bool activeWavesEmpty() const {return activeWaves.empty(); }
+    bool empty() const {return watingWavesEmpty() && activeWavesEmpty(); }
+
+private:
+    void pushMonster(std::string type);
+    void pushMonsterSequence(std::vector<std::string> sequence, int multi);
+    
+    //the containers sould probably have been their own classes,
+    //lots of "...fisrt().front().back()..." code now.
     std::map<std::string, Monster> monsterTypes{};
-    std::queue<std::queue<shptr<Monster>>> waves{};
-    std::queue<int> waveMonsterAmount{};
+    std::queue<std::pair< std::pair<float, sf::Clock>,
+			  std::queue<shptr<Monster>>>> watingWaves{};
+
+    std::vector<std::pair<std::pair<float, sf::Clock>,
+			  std::queue<shptr<Monster>>>> activeWaves{};
+
     sf::Clock clock{};
-    sf::Clock intermissionClock{};
-    float spawnCooldown{};
-    float intermissionSpan{};
-    int totalWaveAmount{};
-    bool active{};
-    bool activeIntermission{};
-    unsigned monsterLevel{};
+    float intermissionSpan{13.f};
+    
+    bool intermissionMode{true};
+    bool pumpMode{false};
+    bool prepareMode{false};
+
+    float spawnCooldown{0.5f};
+    int monsterLevel{0}; 
+    int currentWave{0};
+
+    int pumpCount{0};
+
+    
 };
 
 #endif

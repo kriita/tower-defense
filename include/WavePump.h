@@ -63,7 +63,7 @@ private:
 			  std::queue<shptr<Monster>>>> activeWaves{};
 
     sf::Clock clock{};
-    float intermissionSpan{10.f};
+    float intermissionSpan{7.f};
     
     bool intermissionMode{true};
     bool pumpMode{false};

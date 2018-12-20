@@ -204,7 +204,7 @@ void WavePump::pump(std::vector<std::shared_ptr<Monster>> & monsters)
 	    else {}
 	}
     }
-    if ( activeWavesEmpty() )
+    if ( activeWavesEmpty() && monsters.empty() )
     {
 	intermissionMode = true;
 	clock.restart();

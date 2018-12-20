@@ -9,7 +9,7 @@ LIBS := -lsfml-window -lsfml-graphics -lsfml-system -lsfml-audio
 CXXFLAGS := -std=c++17 $(WARN) -O3 -L${SFML_ROOT}/lib -I${SFML_ROOT}/include
 
 # name of executable
-OUT := run
+OUT := Game
 
 # this is the directory I will compile from (i.e. the argument to -I)
 IDIR := include

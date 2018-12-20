@@ -66,10 +66,6 @@ map_test: $(OBJS) $(SRC)/$(TEST_SRC)/map_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(T
 	@mkdir -p $(BIN)
 	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/map_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/map_test $(LIBS) $(FLAGS) 
 
-sidebar_test: $(OBJS) $(SRC)/$(TEST_SRC)/sidebar_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
-	@mkdir -p $(BIN)
-	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/sidebar_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/sidebar_test $(LIBS) $(FLAGS) 
-
 projectile_test: $(OBJS) $(SRC)/$(TEST_SRC)/projectile_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o
 	@mkdir -p $(BIN)
 	$(CXX) $(CXXFLAGS) -I$(IDIR) $(OBJS) $(SRC)/$(TEST_SRC)/projectile_test.cpp $(ODIR)/$(SRC)/$(TEST_SRC)/$(TEST_MAINFILE).o -o $(BIN)/projectile_test $(LIBS) $(FLAGS)

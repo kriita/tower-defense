@@ -233,9 +233,15 @@ void Monster::setSprite()
                 xOffset = 1;
             else
                 if (firstStep)
+                {
                     xOffset = 0;
+                    firstStep = false;
+                }
                 else
+                {
                     xOffset = 2;
+                    firstStep = true;
+                }
             animClock.restart();
         }
     }

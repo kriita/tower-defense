@@ -15,11 +15,18 @@
 #include <memory>
 #include <vector>
 
-#include <iostream>
-
 Focus_Window::Focus_Window(int xPos)
 : x {xPos}, y {356}
 {
+	// Generate text that will describe each upgrade button
+	// 
+	// The upgrade names could be made more modular if they were
+	// stored in the individual towers as a vector, so that the
+	// upgrade names would reflect the available upgrade for that
+	// specific tower. For example, see the slow tower's upgrades.
+	// This would result in a for-loop here. Similar mindset can be
+	// applied to the upgrade functions mentioned below.
+
 	prices.push_back(std::make_shared<sf::Text>
 		("Upgrade Range", Font_Manager::load("resources/fonts/font.ttf"), BODY*2/3));
 
@@ -38,6 +45,7 @@ Focus_Window::Focus_Window(int xPos)
         	throw Focus_Window_Error{"Couldn't load upgrade complete arrow texture"};
     	}
 
+    	// loop trough setting positions of upgrade objects, and generating buttons
 	for (unsigned int i = 0; i < 141; i += 70)
 	{
 		upgradeIcons.push_back(std::make_shared<sf::Sprite>(upgradeIconTexture));
@@ -64,6 +72,13 @@ void Focus_Window::render(sf::RenderTarget &target, ptr<Resources>(&gameResource
 {
 	if ((gameResources -> getFocusTower()) && !(gameResources -> getBuildMode()))
 	{
+		// Render different icons depending on if there are upgrades left.
+		// Doesn't visualize in-game due to the upgrade buttons
+		// being broken, but replacing upgradeIcons[i] with
+		// upgradeCompleteIcons[i] worked and proved the testing concept.
+		// The following 3 can if-clauses can also be made more modular
+		// by compiling the functions into a vector and running a for-loop.
+
 		if (gameResources -> getFocusTower() -> getRangeUpgradePrice() == 0)
 			target.draw(*(upgradeCompleteIcons[0]));
 		else
@@ -85,6 +100,7 @@ void Focus_Window::render(sf::RenderTarget &target, ptr<Resources>(&gameResource
 			target.draw(*(upgradeIcons[2]));
 		}
 		
+		// draw price texts
 		for (unsigned int i = 0; i < prices.size(); ++i)
 		{
 			target.draw(*(prices[i]));
@@ -92,32 +108,34 @@ void Focus_Window::render(sf::RenderTarget &target, ptr<Resources>(&gameResource
 	}
 }
 
+// Upgrades different aspects of the tower depending on which upgrade button is pushed.
+
 void Focus_Window::handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameResources))
 {
 	if (!((gameResources -> getFocusTower()) == nullptr))
 	{
-		if (upgrades[0] -> contains(mousePosX, mousePosY)) //&&
-		  //  !(gameResources -> getFocusTower() -> getRangeUpgradePrice() == 0) &&
-		    //gameResources -> getFocusTower() -> getRangeUpgradePrice() <= gameResources -> getMoney())
+		if (((upgrades[0] -> contains(mousePosX, mousePosY)) &&
+		    !(gameResources -> getFocusTower() -> getRangeUpgradePrice() == 0) &&
+		    (gameResources -> getFocusTower() -> getRangeUpgradePrice()) <= (gameResources -> getMoney())))
 		{
+			gameResources -> changeMoney(-(gameResources -> getFocusTower() -> getRangeUpgradePrice()));
 			gameResources -> getFocusTower() -> upgradeRange();
-			gameResources -> switchBuildMode();
 		}
 
 		if (upgrades[1] -> contains(mousePosX, mousePosY) &&
-		    !(gameResources -> getFocusTower() -> getAttackPowerUpgradePrice() == 0) &&
-		    gameResources -> getFocusTower() -> getAttackPowerUpgradePrice() <= gameResources -> getMoney())
+		    (!(gameResources -> getFocusTower() -> getAttackPowerUpgradePrice() == 0)) &&
+		    (gameResources -> getFocusTower() -> getAttackPowerUpgradePrice() <= gameResources -> getMoney()))
 		{
+			gameResources -> changeMoney(-(gameResources -> getFocusTower() -> getAttackPowerUpgradePrice()));
 			gameResources -> getFocusTower() -> upgradeAttackPower();
-			gameResources -> switchBuildMode();
 		}
 
-		if (upgrades[2] -> contains(mousePosX, mousePosY) &&
+		if ((upgrades[2] -> contains(mousePosX, mousePosY)) &&
 		    !(gameResources -> getFocusTower() -> getFireRateUpgradePrice() == 0) &&
-		    gameResources -> getFocusTower() -> getFireRateUpgradePrice() <= gameResources -> getMoney())
+		    (gameResources -> getFocusTower() -> getFireRateUpgradePrice() <= gameResources -> getMoney()))
 		{
+			gameResources -> changeMoney(-(gameResources -> getFocusTower() -> getFireRateUpgradePrice()));
 			gameResources -> getFocusTower() -> upgradeFireRate();
-			gameResources -> switchBuildMode();
 		}
 	}
 }

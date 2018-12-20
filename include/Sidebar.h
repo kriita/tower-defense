@@ -5,8 +5,6 @@
  **
  * Header file for Sidebar.cpp.
  *
- * WARNING: Commented out until Resource_Window, Shop_Window and Info_Window are finished.
- * 
  */
 
 #include <stdexcept>

@@ -1,7 +1,8 @@
 /**
  * Sidebar.cpp
  **
- * Description: Defines the behavior and rendering of the in-game sidebar.
+ * Description: Defines the behavior of the in-game sidebar.
+ * It mostly passes on commands to its sub-windows.
  * 
  */
 
@@ -23,10 +24,12 @@ using std::make_unique;
 Sidebar::Sidebar(int xPos, std::vector<shptr<Tower>>(&availableTowers1))
 : x {xPos}, availableTowers {availableTowers1}
 {
+	// Make sub-windows
 	sidebarResources = make_unique<Resource_Window>(xPos);
 	sidebarShop = make_unique<Shop_Window>(xPos, availableTowers);
 	sidebarInfo = make_unique<Focus_Window>(xPos);
 
+	// Set background object characteristics
 	background.setFillColor(sf::Color(135, 105, 70));
 	background.setPosition(x,0);
 }
@@ -51,6 +54,7 @@ void Sidebar::handle_event(int mousePosX, int mousePosY, ptr<Resources>(&gameRes
 {
 	sidebarResources -> handle_event(mousePosX, mousePosY, wavePump, gameResources);
 	sidebarShop -> handle_event(mousePosX, mousePosY, gameResources, availableTowers);
+	sidebarInfo -> handle_event(mousePosX, mousePosY, gameResources);
 }
 
 int Sidebar::getX()

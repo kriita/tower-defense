@@ -29,7 +29,7 @@ float const mapBorderOffset {12};
 float const sidebarPosX {mapBorderOffset*2 + xTilesMax*tileWidth};
 
 /**
- * Font Size
+ * Font Size, based off of HTML standard
  */
 
 int const EM {16};

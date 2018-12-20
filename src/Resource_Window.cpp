@@ -1,16 +1,10 @@
 /**
  * Resource_Window.h
  * *
- * Header file for Resource_Window.cpp.
- *
- * WARNING: Needs to be subclass to a pure virtual Sidebar_Window in order to
- * dynamic cast in the event handler)
- *
- * WARNING: gameResources is the placeholder name for the game resources
- * object.
- *
- * IDEA: Make errors subclass of SidebarWindowError?
- */
+ * Defines the behavior of the resource information window in the sidebar.
+ * Currently located at the top of the sidebar.
+ * 
+ * */
 
 #include "Resource_Window.h"
 #include "Resources.h"
@@ -20,11 +14,12 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-#include <iostream>
-
 Resource_Window::Resource_Window(int xPos)
 : x {xPos + static_cast<int>(mapBorderOffset)}, y {static_cast<int>(mapBorderOffset)}
 {
+	// Constructor generates button fo the next wave and
+	// sets position of graphic modules.
+
 	nextWaveBtn = std::make_shared<sf::Rect<int>> (static_cast<int>(sidebarPosX + mapBorderOffset + 120),
     						       static_cast<int>(y + 5.5 * mapBorderOffset),
 						       48, 48);
@@ -65,6 +60,7 @@ Resource_Window::Resource_Window(int xPos)
 
 void Resource_Window::update(ptr<Resources> (& gameResources))
 {
+	// Update text objects to reflect current state in resources.
 	HPText.setString(std::to_string(gameResources -> getHP()));
 	moneyText.setString(std::to_string(gameResources -> getMoney()));
 	waveText.setString("Wave " + std::to_string(gameResources -> getCurrentWave()));
@@ -82,6 +78,7 @@ void Resource_Window::render(sf::RenderTarget &target)
 
 void Resource_Window::handle_event(int mousePosX, int mousePosY, ptr<WavePump>(&wavePump), ptr<Resources>(&gameResources))
 {
+	// Skip intermission if next wave button is pressed
 	if (nextWaveBtn -> contains(mousePosX, mousePosY))
 	{
 		wavePump -> skipIntermission();

@@ -4,6 +4,7 @@
  * Shop_Window.h
  * *
  * Header file for Shop_Window.cpp.
+ * 
  */
 
 
@@ -38,7 +39,6 @@ private:
 	int x {};
 	int y {};
 
-//	sf::Text price1 {"", Font_Manager::load("resources/fonts/font.ttf"), H4};
 	std::vector<shptr<sf::Rect<int>>> items {};
 	std::vector<shptr<sf::Text>> prices {};
 	std::vector<shptr<Tower>> availableTowers{};

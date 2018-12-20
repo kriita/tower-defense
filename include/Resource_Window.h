@@ -4,11 +4,7 @@
  * Resource_Window.h
  * *
  * Header file for Resource_Window.cpp.
- *
- * WARNING: Needs to be subclass to a pure virtual Sidebar_Window in order to
- * dynamic cast in the event handler)
- *
- * IDEA: Make errors subclass of SidebarWindowError?
+ * 
  */
 
 #include "constants.h"

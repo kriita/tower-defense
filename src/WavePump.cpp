@@ -67,7 +67,7 @@ void WavePump::readFromFile(std::string name, std::string path,
 	    }
 	    //sequence format repeats a sequence N times.
 	    //syntax: {}type1,type2,type3,*N
-	    if (word.find("{}") != std::string::npos)
+	    else if (word.find("{}") != std::string::npos)
 	    {
 		std::istringstream wordStream{word};
 		wordStream.ignore(256, '}');
